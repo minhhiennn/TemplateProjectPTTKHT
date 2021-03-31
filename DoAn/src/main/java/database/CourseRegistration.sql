@@ -289,7 +289,7 @@ create table semester_Result
 	--
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 	--diem trung binh trong ki nay
-	gradeAv numeric(4,2),
+	gradeAv float,
 	creditGet smallint,
 	Primary key (ID_Semester,ID_Student))
 	insert into semester_Result values('1_2021',N'18130005',5.6,20)
@@ -301,7 +301,7 @@ create table semester_Result
 create table Final_Result
 (
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	gradeAv	numeric(4,2),
+	gradeAv	float,
 	creditGet smallint,
 	Primary key (ID_Student)
 )
