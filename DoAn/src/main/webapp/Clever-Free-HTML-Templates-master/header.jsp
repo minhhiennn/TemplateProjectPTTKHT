@@ -68,7 +68,7 @@
                                     </ul>
                                 </li> -->
 								<li><a href="courses.jsp">Courses register</a></li>
-								<li><a href="instructors.jsp">TimeTable</a></li>
+								<li><a href="table.jsp">TimeTable</a></li>
 								<li><a href="instructors.jsp">Examination Schedule</a></li>
 								<li><a href="instructors.jsp">View School Fee</a></li>
 								<li><a href="blog.jsp">Student Mark</a></li>

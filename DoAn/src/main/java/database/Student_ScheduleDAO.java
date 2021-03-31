@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class CourseDAO {
+public class Student_ScheduleDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
-	public CourseDAO() {
+	public Student_ScheduleDAO() {
 		conn = Connect.getConnection();
 	}
 }

@@ -1,29 +1,29 @@
 package beans;
 
-import java.util.Date;
 
 public class Schedule {
-	Course course;
-	Date startD,endD;
+	String iD_Schedule;
+	Course_Offering course_Offering;
 	Professor professor;
-	Subject subject;
-	public Course getCourse() {
-		return course;
+	int teaching_Day;
+	public Schedule(String iD_Schedule, Course_Offering course_Offering, Professor professor, int teaching_Day) {
+		super();
+		this.iD_Schedule = iD_Schedule;
+		this.course_Offering = course_Offering;
+		this.professor = professor;
+		this.teaching_Day = teaching_Day;
 	}
-	public void setCourse(Course course) {
-		this.course = course;
+	public String getiD_Schedule() {
+		return iD_Schedule;
 	}
-	public Date getStartD() {
-		return startD;
+	public void setiD_Schedule(String iD_Schedule) {
+		this.iD_Schedule = iD_Schedule;
 	}
-	public void setStartD(Date startD) {
-		this.startD = startD;
+	public Course_Offering getCourse_Offering() {
+		return course_Offering;
 	}
-	public Date getEndD() {
-		return endD;
-	}
-	public void setEndD(Date endD) {
-		this.endD = endD;
+	public void setCourse_Offering(Course_Offering course_Offering) {
+		this.course_Offering = course_Offering;
 	}
 	public Professor getProfessor() {
 		return professor;
@@ -31,17 +31,11 @@ public class Schedule {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-	public Subject getSubject() {
-		return subject;
+	public int getTeaching_Day() {
+		return teaching_Day;
 	}
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setTeaching_Day(int teaching_Day) {
+		this.teaching_Day = teaching_Day;
 	}
-	public Schedule(Course course, Date startD, Date endD, Professor professor, Subject subject) {
-		super();
-		this.course = course;
-		this.startD = startD;
-		this.endD = endD;
-		this.professor = professor;
-		this.subject = subject;
-	}}
+	
+	}

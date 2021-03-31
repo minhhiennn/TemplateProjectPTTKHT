@@ -11,26 +11,43 @@ go
 -- lúc đó tao quên để bảng student foregin key bảng này
 create table USER_KIND
 (
-	ID_UserKind nvarchar(50) not null,
+	ID_UserKind nvarchar(2) not null,
 	Name_UserKind nvarchar(50) not null,
 	PRIMARY KEY (ID_UserKind) 
 )
-select * from USER_KIND
+
 --dữ liệu bảng USER_KIND
-INSERT INTO USER_KIND VALUES ('1', N'Student')
-INSERT INTO USER_KIND VALUES ('2', N'Professor')
+INSERT INTO USER_KIND VALUES ('st', N'Student')
+INSERT INTO USER_KIND VALUES ('pr', N'Professor')
 
 
 
 -- Bảng này ko cần nữa
---create table USERS
---(
---ID smallint  not null,
---ID_UserKind tinyint not null,
---email nvarchar(50) not null,
---password nvarchar(50) not null,
---PRIMARY KEY (ID_UserKind,ID) 
---)
+create table USERS(
+	ID_User nvarchar(50)  not null,
+	--Admin là ad ,student là st,professor là pr
+	ID_UserKind nvarchar(2) not null FOREIGN KEY REFERENCES USER_KIND(ID_UserKind),
+	email nvarchar(50) not null,
+	password nvarchar(50) not null,
+	PRIMARY KEY (ID_User)
+	)
+	
+insert into USERS Values(N'18130005','st',N'18130005@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130077','st',N'18130077@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130001','st',N'18130001@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130002','st',N'18130002@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130003','st',N'18130003@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130004','st',N'18130004@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'18130006','st',N'18130006@st.hcmuaf.edu.vn',N'123456')
+
+insert into USERS Values(N'224','pr',N'224@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'225','pr',N'225@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'226','pr',N'226@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'227','pr',N'227@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'228','pr',N'228@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'229','pr',N'229@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
+
 -- một khoa trong trường
 create table Faculty
 (
@@ -56,11 +73,8 @@ INSERT INTO Faculty VALUES ('DH18QL', N'Khoa Quản lý đất đai')
 -- một học sinh của trường
 create table Student
 (
-	ID_Student nvarchar(50)  not null,
-	ID_UserKind nvarchar(50) not null FOREIGN KEY REFERENCES USER_KIND (ID_UserKind),
+	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User),
 	Student_Name nvarchar(50) not null,
-	Email_Student nvarchar(50) not null,
-	Student_Password nvarchar(50) not null,
 	-- mã khoa
 	ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
 	-- Khóa học của trường (VD DH18DTA thì khóa của trường là 18 vì mình nộp hồ sơ năm 2018)
@@ -76,24 +90,21 @@ create table Student
 	Primary key (ID_Student)
 )
 --dữ liệu bảng Student
-insert into Student Values(N'18130005','1',N'Đàm Văn Anh',N'18130005@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,100)
-insert into Student Values(N'18130077','1',N'Ngô Minh Hiển',N'18130077@st.hcmuaf.edu.vn',N'123456','DH18TY','22/10/2015',N'DH18DTA',136,70)
-insert into Student Values(N'18130001','1',N'Nguyễn Văn A',N'18130001@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,80)
-insert into Student Values(N'18130002','1',N'Nguyễn Văn B',N'18130002@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,40)
-insert into Student Values(N'18130003','1',N'Nguyễn Văn C',N'18130003@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,90)
-insert into Student Values(N'18130004','1',N'Nguyễn Văn D',N'18130004@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,110)
-insert into Student Values(N'18130006','1',N'Nguyễn Văn E',N'18130006@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2018',N'DH18DTA',136,120)
+insert into Student Values(N'18130005',N'Đàm Văn Anh','DH18DT','20/10/2018',N'DH18DTA',136,100)
+insert into Student Values(N'18130077',N'Ngô Minh Hiển','DH18TY','22/10/2015',N'DH18DTA',136,70)
+insert into Student Values(N'18130001',N'Nguyễn Văn A','DH18DT','20/10/2018',N'DH18DTA',136,80)
+insert into Student Values(N'18130002',N'Nguyễn Văn B','DH18DT','20/10/2018',N'DH18DTA',136,40)
+insert into Student Values(N'18130003',N'Nguyễn Văn C','DH18DT','20/10/2018',N'DH18DTA',136,90)
+insert into Student Values(N'18130004',N'Nguyễn Văn D','DH18DT','20/10/2018',N'DH18DTA',136,110)
+insert into Student Values(N'18130006',N'Nguyễn Văn E','DH18DT','20/10/2018',N'DH18DTA',136,120)
 
 
 
 -- một giáo sư của trường
 create table Professor
 (
-	ID_Professor nvarchar(50)  not null,
-	ID_UserKind nvarchar(50) not null FOREIGN KEY REFERENCES USER_KIND (ID_UserKind),
+	ID_Professor nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User),
 	Professor_Name nvarchar(50) not null,
-	Email_Professor nvarchar(50) not null,
-	Professor_Password nvarchar(50) not null,
 	-- mã khoa
 	ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
 	-- Khóa học của trường (VD DH18DTA thì khóa của trường là 18 vì mình nộp hồ sơ năm 2018)
@@ -105,13 +116,13 @@ create table Professor
 	
 	Primary key (ID_Professor)
 )
-insert into Professor Values(N'224','2',N'A',N'224@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'225','2',N'B',N'225@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Thạc Sĩ')
-insert into Professor Values(N'226','2',N'C',N'226@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','thạc Sĩ')
-insert into Professor Values(N'227','2',N'D',N'227@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Phó Giáo sư')
-insert into Professor Values(N'228','2',N'E',N'228@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'229','2',N'F',N'229@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'220','2',N'G',N'220@st.hcmuaf.edu.vn',N'123456','DH18DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'224',N'A','DH18DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'225',N'B','DH18DT','20/10/2000','Thạc Sĩ')
+insert into Professor Values(N'226',N'C','DH18DT','20/10/2000','thạc Sĩ')
+insert into Professor Values(N'227',N'D','DH18DT','20/10/2000','Phó Giáo sư')
+insert into Professor Values(N'228',N'E','DH18DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'229',N'F','DH18DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'220',N'G','DH18DT','20/10/2000','Tiến Sĩ')
 
 -- Học kỳ
 create table Semester
@@ -204,16 +215,16 @@ create table Schedule
 	ID_Course_Offering nvarchar(50) not null FOREIGN KEY REFERENCES Course_Offering(ID_Course_Offering),	
 	-- Mã giáo viên
 	Id_Profeesor nvarchar(50)  not null FOREIGN KEY REFERENCES Professor(ID_Professor),
-	-- Ngày dạy học
-	Teaching_Day date not null,
+	-- thứ dạy học
+	Teaching_Day smallint not null,
 	Primary key (ID_Schedule)
 ) 
-insert into Schedule values(N'1',N'1',N'224','20/11/2020')
-insert into Schedule values(N'2',N'2',N'226','22/11/2020')
-insert into Schedule values(N'3',N'1',N'225','23/11/2020')
-insert into Schedule values(N'4',N'3',N'224','24/11/2020')
-insert into Schedule values(N'5',N'4',N'224','25/11/2020')
-insert into Schedule values(N'6',N'2',N'224','20/11/2020')
+insert into Schedule values(N'1',N'1',N'224',4)
+insert into Schedule values(N'2',N'2',N'226',5)
+insert into Schedule values(N'3',N'1',N'225',6)
+insert into Schedule values(N'4',N'3',N'224',7)
+insert into Schedule values(N'5',N'4',N'224',8)
+insert into Schedule values(N'6',N'2',N'224',9)
 -- mon hoc tung hoc vien dang ky
 create table Student_Schedule
 (

@@ -1,28 +1,28 @@
 package beans;
 
 public class Faculty {
-	String idF,name;
+	String iD_Faculty,name_Faculty;
 
-	public Faculty(String idF, String name) {
+	public Faculty(String iD_Faculty, String name_Faculty) {
 		super();
-		this.idF = idF;
-		this.name = name;
+		this.iD_Faculty = iD_Faculty;
+		this.name_Faculty = name_Faculty;
 	}
 
-	public String getIdF() {
-		return idF;
+	public String getiD_Faculty() {
+		return iD_Faculty;
 	}
 
-	public void setIdF(String idF) {
-		this.idF = idF;
+	public void setiD_Faculty(String iD_Faculty) {
+		this.iD_Faculty = iD_Faculty;
 	}
 
-	public String getName() {
-		return name;
+	public String getName_Faculty() {
+		return name_Faculty;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName_Faculty(String name_Faculty) {
+		this.name_Faculty = name_Faculty;
 	}
-	
-}
+
+	}

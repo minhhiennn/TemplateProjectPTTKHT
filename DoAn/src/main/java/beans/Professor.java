@@ -1,17 +1,32 @@
 package beans;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Professor {
 	User user;
+	String professor_Name;
 	Faculty faculty;
-	String name,degree;
-	Date createD;
+	Date create_date;
+	String degree;
+	public Professor(User user, String professor_Name, Faculty faculty, Date create_date, String degree) {
+		super();
+		this.user = user;
+		this.professor_Name = professor_Name;
+		this.faculty = faculty;
+		this.create_date = create_date;
+		this.degree = degree;
+	}
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getProfessor_Name() {
+		return professor_Name;
+	}
+	public void setProfessor_Name(String professor_Name) {
+		this.professor_Name = professor_Name;
 	}
 	public Faculty getFaculty() {
 		return faculty;
@@ -19,11 +34,11 @@ public class Professor {
 	public void setFaculty(Faculty faculty) {
 		this.faculty = faculty;
 	}
-	public String getName() {
-		return name;
+	public Date getCreate_date() {
+		return create_date;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
 	}
 	public String getDegree() {
 		return degree;
@@ -31,18 +46,4 @@ public class Professor {
 	public void setDegree(String degree) {
 		this.degree = degree;
 	}
-	public Date getCreateD() {
-		return createD;
 	}
-	public void setCreateD(Date createD) {
-		this.createD = createD;
-	}
-	public Professor(User user, Faculty faculty, String name, String degree, Date createD) {
-		super();
-		this.user = user;
-		this.faculty = faculty;
-		this.name = name;
-		this.degree = degree;
-		this.createD = createD;
-	}
-}

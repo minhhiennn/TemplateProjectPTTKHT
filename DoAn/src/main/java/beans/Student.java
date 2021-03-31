@@ -1,17 +1,24 @@
 package beans;
 
+import java.util.Date;
+
 public class Student {
 	User user;
-	int  idUK;
-	String name, classCode, idF, createDate;
-	public Student(User user, int idUK, String name, String classCode, String idF, String createDate) {
+	String student_Name;
+	Faculty faculty;
+	Date create_date;
+	String class_code;
+	int cert_number_required,cert_number_accumulated;
+	public Student(User user, String student_Name, Faculty faculty, Date create_date, String class_code,
+			int cert_number_required, int cert_number_accumulated) {
 		super();
 		this.user = user;
-		this.idUK = idUK;
-		this.name = name;
-		this.classCode = classCode;
-		this.idF = idF;
-		this.createDate = createDate;
+		this.student_Name = student_Name;
+		this.faculty = faculty;
+		this.create_date = create_date;
+		this.class_code = class_code;
+		this.cert_number_required = cert_number_required;
+		this.cert_number_accumulated = cert_number_accumulated;
 	}
 	public User getUser() {
 		return user;
@@ -19,35 +26,40 @@ public class Student {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public int getIdUK() {
-		return idUK;
+	public String getStudent_Name() {
+		return student_Name;
 	}
-	public void setIdUK(int idUK) {
-		this.idUK = idUK;
+	public void setStudent_Name(String student_Name) {
+		this.student_Name = student_Name;
 	}
-	public String getName() {
-		return name;
+	public Faculty getFaculty() {
+		return faculty;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFaculty(Faculty faculty) {
+		this.faculty = faculty;
 	}
-	public String getClassCode() {
-		return classCode;
+	public Date getCreate_date() {
+		return create_date;
 	}
-	public void setClassCode(String classCode) {
-		this.classCode = classCode;
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
 	}
-	public String getIdF() {
-		return idF;
+	public String getClass_code() {
+		return class_code;
 	}
-	public void setIdF(String idF) {
-		this.idF = idF;
+	public void setClass_code(String class_code) {
+		this.class_code = class_code;
 	}
-	public String getCreateDate() {
-		return createDate;
+	public int getCert_number_required() {
+		return cert_number_required;
 	}
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
+	public void setCert_number_required(int cert_number_required) {
+		this.cert_number_required = cert_number_required;
 	}
-	
-}
+	public int getCert_number_accumulated() {
+		return cert_number_accumulated;
+	}
+	public void setCert_number_accumulated(int cert_number_accumulated) {
+		this.cert_number_accumulated = cert_number_accumulated;
+	}
+	}
