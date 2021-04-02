@@ -8,7 +8,7 @@
 				<div class="col-12">
 					<!-- Footer Logo -->
 					<div class="footer-logo">
-						<a href="index.jsp"><img src="img/core-img/logo2.png" alt=""></a>
+						<a href="index.jsp"><img src="/spring-mvc/template/img/core-img/logo2.png" alt=""></a>
 					</div>
 					<!-- Copywrite -->
 					<p>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <header class="header-area">
 
 	<!-- Top Header Area -->
@@ -26,8 +27,8 @@
 			<nav class="classy-navbar justify-content-between" id="cleverNav">
 
 				<!-- Logo -->
-				<a class="nav-brand" href="index.jsp"><img
-					src="img/core-img/logo.png" alt=""></a>
+				<a class="nav-brand" href="home"><img
+					src="/spring-mvc/template/img/core-img/logo.png" alt=""></a>
 
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -47,7 +48,7 @@
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.jsp">Home</a></li>
+							<li><a href="home">Home</a></li>
 							<!--          <li><a href="#">Pages</a>
                                     <ul class="dropdown">
                                         <li><a href="index.jsp">Home</a></li>
@@ -60,12 +61,12 @@
                                         <li><a href="contact.jsp">Contact</a></li>
                                     </ul>
                                 </li> -->
-							<li><a href="courses.jsp">Courses register</a></li>
-							<li><a href="table.jsp">TimeTable</a></li>
-							<li><a href="instructors.jsp">Examination Schedule</a></li>
-							<li><a href="instructors.jsp">View School Fee</a></li>
-							<li><a href="blog.jsp">Student Mark</a></li>
-							<li><a href="contact.jsp">Course Program</a></li>
+							<li><a href="courses">Courses register</a></li>
+							<li><a href="table">TimeTable</a></li>
+							<li><a href="single-course">Examination Schedule</a></li>
+							<li><a href="instructors">View School Fee</a></li>
+							<li><a href="blog">Student Mark</a></li>
+							<li><a href="contact">Course Program</a></li>
 						</ul>
 
 						<!-- Search Button -->

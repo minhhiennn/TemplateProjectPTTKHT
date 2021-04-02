@@ -27,6 +27,12 @@
 
 <!-- Stylesheet -->
 <link href="<c:url value='/template/style.css'/>" rel="stylesheet">
+
+<!-- ?o?n CSS cho table -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 </head>
 <body>
 	<%@ include file="/common/header.jsp"%>
@@ -42,8 +48,25 @@
 	<script src="<c:url value='/template/js/bootstrap/bootstrap.min.js'/>"></script>
 	<!-- All Plugins js -->
 	<!-- phần này là phần animation -->
+	<!-- <script src="<c:url value='/template/js/plugins/plugins.js'/>"></script> -->
 	<!-- <script src="js/plugins/plugins.js"></script> -->
 	<!-- Active js -->
 	<script src="<c:url value='/template/js/active.js'/>"></script>
+	<!-- JS cho table -->
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#tableahihi').DataTable({
+				"scrollY" : "300px",
+				"scrollCollapse" : false,
+				"paging" : false
+			});
+		});
+	</script>
 </body>
 </html>

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
 
-    <!-- apply student template (những thằng student lấy header footer này) -->
-    <!-- name đặt theo pattern -->
-	<decorator name="trang-chu" page="student.jsp">
-		<pattern>/trang-chu</pattern>
+	<!-- apply student template (những thằng student lấy header footer này) -->
+	<!-- name đặt theo pattern -->
+	<decorator name="student" page="MasterPageForStudent.jsp">
+		<pattern>/student/home</pattern>
+		<pattern>/student/blog</pattern>
+		<pattern>/student/blog-details</pattern>
+		<pattern>/student/contact</pattern>
+		<pattern>/student/courses</pattern>
+		<pattern>/student/instructors</pattern>
+		<pattern>/student/regular-page</pattern>
+		<pattern>/student/single-course</pattern>
+		<pattern>/student/table</pattern>
 	</decorator>
-
-    <!-- về sau nếu apply thêm professor nữa thì tạo cái tương tự dưới này (khác attribute page) -->
+	<!-- về sau nếu apply thêm professor nữa thì tạo cái tương tự dưới này (khác 
+		attribute page) -->
 </decorators>

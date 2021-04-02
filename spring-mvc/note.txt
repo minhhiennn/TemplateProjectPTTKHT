@@ -1,0 +1,2 @@
+để chuyển link từ folder student đến professor ta sử dụng link (/spring-mvc/professor/...)
+... là trang muốn chuyển đến (lưu ý ko có .jsp đằng sau).
