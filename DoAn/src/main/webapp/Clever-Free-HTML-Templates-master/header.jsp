@@ -140,7 +140,7 @@
 	</header>
 	<script>
     // Get the modal
-    
+    var formContent = document.getElementById("formContent");
     var modal = document.getElementById("myModal");
     var modalSignIn = document.getElementById("SignIn");
     var modalSignUp = document.getElementById("SignUp");
@@ -149,7 +149,11 @@
     var btnI = document.getElementById("SignInB");
     var btnU = document.getElementById("SignUpB");
     
-
+    window.onclick = function(event) {
+    	  if (event.target == myModal) {
+    	    modal.style.display = "none";
+    	  }
+    	}
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
@@ -178,7 +182,7 @@
 
     // When the user clicks anywhere outside of the modal, close it
    
-
+  
 </script>
 
 </body>

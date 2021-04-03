@@ -85,8 +85,13 @@
 							<a href="#" class="btn">Register</a>
 							<button id="myBtn" class="btn active">Open Modal</button>
 						</div>
-
-						<div class="modal" id="myModal">
+					</div>
+					<!-- Nav End -->
+				</div>
+			</nav>
+		</div>
+	</div>
+		<div class="modal" id="myModal">
 							<div id="formContent">
 								<!-- Tabs Titles -->
 								<h2 class="active" id="SignInB">Sign In</h2>
@@ -125,16 +130,12 @@
 
 							</div>
 						</div>
-					</div>
-					<!-- Nav End -->
-				</div>
-			</nav>
-		</div>
-	</div>
 </header>
 <script>
 	// Get the modal
 
+
+	var formContent = document.getElementById("formContent");
 	var modal = document.getElementById("myModal");
 	var modalSignIn = document.getElementById("SignIn");
 	var modalSignUp = document.getElementById("SignUp");
@@ -146,6 +147,12 @@
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	// When the user clicks the button, open the modal 
+		window.onclick = function(event) {
+  
+	if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
 	btn.onclick = function() {
 		modal.style.display = "block";
 	}
