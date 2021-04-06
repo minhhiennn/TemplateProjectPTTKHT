@@ -22,7 +22,7 @@ INSERT INTO USER_KIND VALUES ('pr', N'Professor')
 
 
 
--- Bảng này ko cần nữa
+-- Bảng này cần vcl
 create table USERS(
 	ID_User nvarchar(50)  not null,
 	--Admin là ad ,student là st,professor là pr
@@ -58,15 +58,15 @@ create table Faculty
 	Primary key (ID_Faculty)
 )
 --dữ liệu bảng Faculty
-INSERT INTO Faculty VALUES ('DH18DT', N'Khoa Công Nghệ Thông Tin')
-INSERT INTO Faculty VALUES ('DH18TY', N'Khoa Thú Y')
-INSERT INTO Faculty VALUES ('DH18NH', N'Khoa Nông Học')
-INSERT INTO Faculty VALUES ('DH18CK', N'Khoa Cơ Khí')
-INSERT INTO Faculty VALUES ('DH18AV', N'Khoa Ngôn Ngữ Anh')
-INSERT INTO Faculty VALUES ('DH18LA', N'Khoa Thiết kế cảnh quan')
-INSERT INTO Faculty VALUES ('DH18LN', N'Khoa Lâm nghiệp')
-INSERT INTO Faculty VALUES ('DH18BV', N'Khoa Bảo vệ thực vật')
-INSERT INTO Faculty VALUES ('DH18QL', N'Khoa Quản lý đất đai')
+INSERT INTO Faculty VALUES ('DT', N'Khoa Công Nghệ Thông Tin')
+INSERT INTO Faculty VALUES ('TY', N'Khoa Thú Y')
+INSERT INTO Faculty VALUES ('NH', N'Khoa Nông Học')
+INSERT INTO Faculty VALUES ('CK', N'Khoa Cơ Khí')
+INSERT INTO Faculty VALUES ('AV', N'Khoa Ngôn Ngữ Anh')
+INSERT INTO Faculty VALUES ('LA', N'Khoa Thiết kế cảnh quan')
+INSERT INTO Faculty VALUES ('LN', N'Khoa Lâm nghiệp')
+INSERT INTO Faculty VALUES ('BV', N'Khoa Bảo vệ thực vật')
+INSERT INTO Faculty VALUES ('QL', N'Khoa Quản lý đất đai')
 
 
 
@@ -90,13 +90,13 @@ create table Student
 	Primary key (ID_Student)
 )
 --dữ liệu bảng Student
-insert into Student Values(N'18130005',N'Đàm Văn Anh','DH18DT','20/10/2018',N'DH18DTA',136,100)
-insert into Student Values(N'18130077',N'Ngô Minh Hiển','DH18TY','22/10/2015',N'DH18DTA',136,70)
-insert into Student Values(N'18130001',N'Nguyễn Văn A','DH18DT','20/10/2018',N'DH18DTA',136,80)
-insert into Student Values(N'18130002',N'Nguyễn Văn B','DH18DT','20/10/2018',N'DH18DTA',136,40)
-insert into Student Values(N'18130003',N'Nguyễn Văn C','DH18DT','20/10/2018',N'DH18DTA',136,90)
-insert into Student Values(N'18130004',N'Nguyễn Văn D','DH18DT','20/10/2018',N'DH18DTA',136,110)
-insert into Student Values(N'18130006',N'Nguyễn Văn E','DH18DT','20/10/2018',N'DH18DTA',136,120)
+insert into Student Values(N'18130005',N'Đàm Văn Anh','DT','20/10/2018',N'DH18DTA',136,100)
+insert into Student Values(N'18130077',N'Ngô Minh Hiển','DT','22/10/2015',N'DH18DTA',136,70)
+insert into Student Values(N'18130001',N'Nguyễn Văn A','DT','20/10/2018',N'DH18DTA',136,80)
+insert into Student Values(N'18130002',N'Nguyễn Văn B','DT','20/10/2018',N'DH18DTA',136,40)
+insert into Student Values(N'18130003',N'Nguyễn Văn C','DT','20/10/2018',N'DH18DTA',136,90)
+insert into Student Values(N'18130004',N'Nguyễn Văn D','DT','20/10/2018',N'DH18DTA',136,110)
+insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH18DTA',136,120)
 
 
 
@@ -116,13 +116,13 @@ create table Professor
 	
 	Primary key (ID_Professor)
 )
-insert into Professor Values(N'224',N'A','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'225',N'B','DH18DT','20/10/2000','Thạc Sĩ')
-insert into Professor Values(N'226',N'C','DH18DT','20/10/2000','thạc Sĩ')
-insert into Professor Values(N'227',N'D','DH18DT','20/10/2000','Phó Giáo sư')
-insert into Professor Values(N'228',N'E','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'229',N'F','DH18DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'220',N'G','DH18DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'224',N'A','DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'225',N'B','DT','20/10/2000','Thạc Sĩ')
+insert into Professor Values(N'226',N'C','DT','20/10/2000','thạc Sĩ')
+insert into Professor Values(N'227',N'D','DT','20/10/2000','Phó Giáo sư')
+insert into Professor Values(N'228',N'E','DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'229',N'F','DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'220',N'G','DT','20/10/2000','Tiến Sĩ')
 
 -- Học kỳ
 create table Semester
@@ -148,6 +148,7 @@ create table Course
 (
     
     ID_Course nvarchar(50)  not null,
+    ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
     Name_Course nvarchar(50) not null,
     -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)
     Course_certificate tinyint not null,
@@ -155,15 +156,16 @@ create table Course
     years int not null,
     -- học kì cố định có môn này sẽ mở nếu/ hk sẽ là 1, 2  / nếu ko thì sẽ là 0
     numberS smallint
+    
     Primary key (ID_Course)    
 )
-insert into Course Values(N'2142','máy học',4,3,1)
-insert into Course Values(N'2122','chồng rau',2,3,2)
-insert into Course Values(N'3222','khoa học máy tính',3,3,1)
-insert into Course Values(N'4111','tình yêu và cuộc sống',4,3,1)
-insert into Course Values(N'5333','tiếng anh',4,3,1)
-insert into Course Values(N'6444','tiếng pháp ',4,3,1)
-insert into Course Values(N'7444','tiếng tàu',4,3,1)
+insert into Course Values(N'2142','DT','máy học',4,3,1)
+insert into Course Values(N'2122','DT','chồng rau',2,3,2)
+insert into Course Values(N'3222','DT','khoa học máy tính',3,3,1)
+insert into Course Values(N'4111','DT','tình yêu và cuộc sống',4,3,1)
+insert into Course Values(N'5333','DT','tiếng anh',4,3,1)
+insert into Course Values(N'6444','DT','tiếng pháp ',4,3,1)
+insert into Course Values(N'7444','DT','tiếng tàu',4,3,1)
 
 -- một lớp được mở cụ thể trong danh sách đăng ký môn học 	
 create table Course_Offering
