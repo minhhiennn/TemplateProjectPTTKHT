@@ -324,8 +324,9 @@ select co.*,sd.Id_Profeesor from Schedule sd join Course_Offering co on sd.ID_Co
 go
 
 -- những môn sẽ hiển thị khi nhấn đăng ký môn học
+--những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là null
 CREATE FUNCTION SubAvailableST (@ID_User varchar(50))
-RETURNS TABLE 
+RETURNS TABLE
 as
 RETURN  
 select sc.* from Course_Offering co join Course c on c.ID_Course = co.ID_Course
@@ -337,3 +338,17 @@ c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select I
 c.years <=  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User)  end and
 c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and 
 fs.ID_CourseB =  case when fs.ID_CourseB is null then  fs.ID_CourseB else (select ID_Course from Sub_Pass where ID_Student = @ID_User and Score >= 4)  end
+
+go
+--bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
+create FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
+RETURNS TABLE 
+as
+RETURN  
+select sc.ID_Schedule from Schedule sc join Student_Schedule  stc on sc.ID_Schedule = stc.ID_Schedule
+						  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
+where (sc.Teaching_Day not in (select Teaching_Day from Schedule where ID_Schedule = @ID_Schedule) and sc.Start_Slot  not in (select Start_Slot from Schedule where ID_Schedule = @ID_Schedule) ) 
+and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate) 
+and co.ID_Course not in (select c1.ID_Course from Schedule sc1 join Course_Offering co1 on sc1.ID_Course_Offering = co1.ID_Course_Offering 
+															   join Course c1 on c1.ID_Course = co1.ID_Course
+															   where sc1.ID_Schedule = @ID_Schedule)
