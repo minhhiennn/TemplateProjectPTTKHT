@@ -22,7 +22,7 @@
 
     <!-- Provide support for component scanning -->  
 	<context:component-scan
-		base-package="com.laptrinhjavaweb.controller" />
+		base-package="com.laptrinhjavaweb" />
 
 
     <!--Provide support for conversion, formatting and validation -->  

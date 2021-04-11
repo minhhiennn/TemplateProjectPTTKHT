@@ -1,2 +1,7 @@
 để chuyển link từ folder student đến professor ta sử dụng link (/spring-mvc/professor/...)
 ... là trang muốn chuyển đến (lưu ý ko có .jsp đằng sau).
+
+--Tổng quan về JPA API(kết nối cơ sở dữ liệu)
+entityManager.persit --> insert dữ liệu vào sql
+entityManager.merge --> update dữ liệu vào sql
+entityManager.remove --> delete dữ liệu sql

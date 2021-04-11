@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
+<c:set var="idU" value='${currentUser.iD_User}'></c:set>
 
 <header class="header-area">
 
@@ -81,59 +84,74 @@
 							</div> -->
 
 						<!-- Register / Login -->
-						<div class="register-login-area">
-							<a href="#" class="btn">Register</a>
-							<button id="myBtn" class="btn active">Open Modal</button>
-						</div>
+						<c:choose>
+							<c:when test="${currentUser == null}">
+								<div class="register-login-area">
+									<a href="#" class="btn">Register</a>
+									<button id="myBtn" class="btn active">Open Modal</button>
+								</div>
+							</c:when>
+							<c:otherwise>
+								 <div class="login-state d-flex align-items-center">
+                                <div class="user-name mr-30">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="userName" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${currentUser.iD_User}</a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
+                                            <a class="dropdown-item" href="#">Profile</a>
+                                            <a class="dropdown-item" href="#">Account Info</a>
+                                            <a class="dropdown-item" href="index.html">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<!-- Nav End -->
 				</div>
 			</nav>
 		</div>
 	</div>
-		<div class="modal" id="myModal">
-							<div id="formContent">
-								<!-- Tabs Titles -->
-								<h2 class="active" id="SignInB">Sign In</h2>
-								<h2 class="active" id="SignUpB">Sign Up</h2>
+	<div class="modal" id="myModal">
+		<div id="formContent">
+			<!-- Tabs Titles -->
+			<h2 class="active" id="SignInB">Sign In</h2>
+			<h2 class="active" id="SignUpB">Sign Up</h2>
 
-								<!-- Icon -->
-								<div class="fadeIn first"></div>
+			<!-- Icon -->
+			<div class="fadeIn first"></div>
 
-								<!-- Login Form -->
-								<div class="form-container sign-in-container" id="SignIn">
-									<form>
-										<input type="text" id="login" class="fadeIn second"
-											name="login" placeholder="login"> <input type="text"
-											id="password" class="fadeIn third" name="login"
-											placeholder="password"> <input type="submit"
-											class="fadeIn fourth" value="Log In">
-									</form>
-								</div>
-								<div class="form-container sign-up-container" id="SignUp"
-									style="display: none">
-									<form>
-										<input type="text" id="login" class="fadeIn second"
-											name="login" placeholder="login"> <input type="text"
-											id="password" class="fadeIn third" name="login"
-											placeholder="password"> <input type="text"
-											id="password" class="fadeIn third" name="login"
-											placeholder="password"> <input type="submit"
-											class="fadeIn fourth" value="Log In">
-									</form>
-								</div>
+			<!-- Login Form -->
+			<div class="form-container sign-in-container" id="SignIn">
+				<form action="${pageContext.request.contextPath}/UserServlet" method="get">
+					<input type="text" id="login" class="fadeIn second" name="ID_User"
+						placeholder="login"> <input type="text" id="password"
+						class="fadeIn third" name="password" placeholder="password">
+					<input type="submit" class="fadeIn fourth" value="Login" name="action">
+				</form>
+			</div>
+			<div class="form-container sign-up-container" id="SignUp"
+				style="display: none">
+				<form>
+					<input type="text" id="login" class="fadeIn second" name="login"
+						placeholder="login"> <input type="text" id="password"
+						class="fadeIn third" name="login" placeholder="password">
+					<input type="text" id="password" class="fadeIn third" name="login"
+						placeholder="password"> <input type="submit"
+						class="fadeIn fourth" value="Log In">
+				</form>
+			</div>
 
-								<!-- Remind Passowrd -->
-								<div id="formFooter">
-									<a class="underlineHover" href="#">Forgot Password?</a>
-								</div>
+			<!-- Remind Passowrd -->
+			<div id="formFooter">
+				<a class="underlineHover" href="#">Forgot Password?</a>
+			</div>
 
-							</div>
-						</div>
+		</div>
+	</div>
 </header>
 <script>
 	// Get the modal
-
 
 	var formContent = document.getElementById("formContent");
 	var modal = document.getElementById("myModal");
@@ -147,9 +165,9 @@
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	// When the user clicks the button, open the modal 
-		window.onclick = function(event) {
-  
-	if (event.target == modal) {
+	window.onclick = function(event) {
+
+		if (event.target == modal) {
 			modal.style.display = "none";
 		}
 	}
