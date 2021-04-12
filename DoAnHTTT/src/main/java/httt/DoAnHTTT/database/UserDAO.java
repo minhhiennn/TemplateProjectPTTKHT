@@ -3,10 +3,9 @@ package httt.DoAnHTTT.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import httt.DoAnHTTT.model.User;
-
-
 
 public class UserDAO {
 	private Connection conn = null;
@@ -29,16 +28,25 @@ public class UserDAO {
 				String ID_UserKind = rs.getString("ID_UserKind");
 				String email = rs.getString("email");
 				user = new User(ID_User, ID_UserKind, email, password);
-				
+
 			}
 		} catch (Exception e) {
-			
+
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		System.out.println(user);
 		return user;
-				
-		
+
 	}
 
-	
 }

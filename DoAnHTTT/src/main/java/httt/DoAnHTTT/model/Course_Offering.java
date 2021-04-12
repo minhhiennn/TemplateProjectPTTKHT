@@ -9,11 +9,11 @@ public class Course_Offering {
 	int max_Size, current_Size;
 	Date start_Day, end_Day;
 	String study_place;
-	int start_Slot, end_Slot, eeekdays;
+	int start_Slot, end_Slot, teaching_Day;
 	String theoretical;
 
 	public Course_Offering(String iD_Course_Offering, Course course, String class_code, int max_Size, int current_Size,
-			Date start_Day, Date end_Day, String study_place, int start_Slot, int end_Slot, int eeekdays,
+			Date start_Day, Date end_Day, String study_place, int start_Slot, int end_Slot, int teaching_Day,
 			String theoretical) {
 		super();
 		this.iD_Course_Offering = iD_Course_Offering;
@@ -26,7 +26,7 @@ public class Course_Offering {
 		this.study_place = study_place;
 		this.start_Slot = start_Slot;
 		this.end_Slot = end_Slot;
-		this.eeekdays = eeekdays;
+		this.teaching_Day = teaching_Day;
 		this.theoretical = theoretical;
 	}
 
@@ -110,12 +110,12 @@ public class Course_Offering {
 		this.end_Slot = end_Slot;
 	}
 
-	public int getEeekdays() {
-		return eeekdays;
+	public int getTeaching_Day() {
+		return teaching_Day;
 	}
 
-	public void setEeekdays(int eeekdays) {
-		this.eeekdays = eeekdays;
+	public void setTeaching_Day(int teaching_Day) {
+		this.teaching_Day = teaching_Day;
 	}
 
 	public String getTheoretical() {
@@ -124,6 +124,14 @@ public class Course_Offering {
 
 	public void setTheoretical(String theoretical) {
 		this.theoretical = theoretical;
+	}
+
+	@Override
+	public String toString() {
+		return "Course_Offering [iD_Course_Offering=" + iD_Course_Offering + ", course=" + course + ", class_code="
+				+ class_code + ", max_Size=" + max_Size + ", current_Size=" + current_Size + ", start_Day=" + start_Day
+				+ ", end_Day=" + end_Day + ", study_place=" + study_place + ", start_Slot=" + start_Slot + ", end_Slot="
+				+ end_Slot + ", teaching_Day=" + teaching_Day + ", theoretical=" + theoretical + "]";
 	}
 
 }

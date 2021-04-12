@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:useBean id="scheduleItems" scope="session"
+	class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
+<c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
+<c:set var="idU" value='${currentUser.iD_User}'></c:set>
 <!DOCTYPE html>
 <html>
 
@@ -43,114 +48,30 @@
 
 	<section class="popular-courses-area section-padding-100">
 		<div class="container">
-				<table id="tableahihi" class="" style="width: 100%;" >
-					<thead>
-						<tr style="border: none">
-							<th class="th-sm">Check</th>
-							<th class="th-sm">Name</th>
-							<th class="th-sm">Position</th>
-							<th class="th-sm">Office</th>
-							<th class="th-sm">Age</th>
-							<th class="th-sm">Start date</th>
-							<th class="th-sm">Salary</th>
+			<table id="tableahihi" class="" style="width: 100%;">
+				<thead>
+					<tr style="border: none">
+						<th class="th-sm">Check</th>
+						<th class="th-sm">Name</th>
+						<th class="th-sm">Position</th>
+						<th class="th-sm">Office</th>
+						<th class="th-sm">Age</th>
+						<th class="th-sm">Start date</th>
+						<th class="th-sm">Salary</th>
 
-						</tr>
-					</thead>
-					<tbody  >
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Tiger Nixon</td>
-							<td>System Architect</td>
-							<td>Edinburgh</td>
-							<td>61</td>
-							<td>2011/04/25</td>
-							<td>$320,800</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Garrett Winters</td>
-							<td>Accountant</td>
-							<td>Tokyo</td>
-							<td>63</td>
-							<td>2011/07/25</td>
-							<td>$170,750</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Ashton Cox</td>
-							<td>Junior Technical Author</td>
-							<td>San Francisco</td>
-							<td>66</td>
-							<td>2009/01/12</td>
-							<td>$86,000</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Cedric Kelly</td>
-							<td>Senior Javascript Developer</td>
-							<td>Edinburgh</td>
-							<td>22</td>
-							<td>2012/03/29</td>
-							<td>$433,060</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Airi Satou</td>
-							<td>Accountant</td>
-							<td>Tokyo</td>
-							<td>33</td>
-							<td>2008/11/28</td>
-							<td>$162,700</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Brielle Williamson</td>
-							<td>Integration Specialist</td>
-							<td>New York</td>
-							<td>61</td>
-							<td>2012/12/02</td>
-							<td>$372,000</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Brielle Williamson</td>
-							<td>Integration Specialist</td>
-							<td>New York</td>
-							<td>61</td>
-							<td>2012/12/02</td>
-							<td>$372,000</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Brielle Williamson</td>
-							<td>Integration Specialist</td>
-							<td>New York</td>
-							<td>61</td>
-							<td>2012/12/02</td>
-							<td>$372,000</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Brielle Williamson</td>
-							<td>Integration Specialist</td>
-							<td>New York</td>
-							<td>61</td>
-							<td>2012/12/02</td>
-							<td>$372,000</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Brielle Williamson</td>
-							<td>Integration Specialist</td>
-							<td>New York</td>
-							<td>61</td>
-							<td>2012/12/02</td>
-							<td>$372,000</td>
-						</tr>
-					</tbody>
-					<tfoot>
-					</tfoot>
-				</table>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<c:forEach var="item"
+							items="${scheduleItems.getTimeTableItem(idU)}">
+							<td>"${item.getId_Professor()}"</td>
+						</c:forEach>
+					</tr>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
 
 			<!-- <div class="row">
 				<div class="col-12">
