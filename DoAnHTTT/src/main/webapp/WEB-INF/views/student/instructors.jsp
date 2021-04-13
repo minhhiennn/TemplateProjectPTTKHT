@@ -60,7 +60,7 @@
                         <div class="single-tutors-slides">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
-                                <img src="/spring-mvc/template/img/bg-img/t1.png" alt="">
+                                <img src="/DoAnHTTT/template/img/bg-img/t1.png" alt="">
                             </div>
                             <!-- Tutor Information -->
                             <div class="tutor-information text-center">
@@ -79,7 +79,7 @@
                         <div class="single-tutors-slides">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
-                                <img src="/spring-mvc/template/img/bg-img/t2.png" alt="">
+                                <img src="/DoAnHTTT/template/img/bg-img/t2.png" alt="">
                             </div>
                             <!-- Tutor Information -->
                             <div class="tutor-information text-center">
@@ -98,7 +98,7 @@
                         <div class="single-tutors-slides">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
-                                <img src="/spring-mvc/template/img/bg-img/t3.png" alt="">
+                                <img src="/DoAnHTTT/template/img/bg-img/t3.png" alt="">
                             </div>
                             <!-- Tutor Information -->
                             <div class="tutor-information text-center">
@@ -117,7 +117,7 @@
                         <div class="single-tutors-slides">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
-                                <img src="/spring-mvc/template/img/bg-img/t4.png" alt="">
+                                <img src="/DoAnHTTT/template/img/bg-img/t4.png" alt="">
                             </div>
                             <!-- Tutor Information -->
                             <div class="tutor-information text-center">
@@ -136,7 +136,7 @@
                         <div class="single-tutors-slides">
                             <!-- Tutor Thumbnail -->
                             <div class="tutor-thumbnail">
-                                <img src="/spring-mvc/template/img/bg-img/t5.png" alt="">
+                                <img src="/DoAnHTTT/template/img/bg-img/t5.png" alt="">
                             </div>
                             <!-- Tutor Information -->
                             <div class="tutor-information text-center">
@@ -174,7 +174,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t1.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t1.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -187,7 +187,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t2.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t2.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -200,7 +200,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t3.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t3.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -213,7 +213,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t4.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t4.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -226,7 +226,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t5.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t5.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -239,7 +239,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t1.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t1.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -252,7 +252,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t2.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t2.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -265,7 +265,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t3.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t3.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>
@@ -278,7 +278,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-instructor d-flex align-items-center mb-30">
                         <div class="instructor-thumb">
-                            <img src="/spring-mvc/template/img/bg-img/t4.png" alt="">
+                            <img src="/DoAnHTTT/template/img/bg-img/t4.png" alt="">
                         </div>
                         <div class="instructor-info">
                             <h5>Sarah Parker</h5>

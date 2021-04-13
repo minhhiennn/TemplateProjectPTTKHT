@@ -94,7 +94,7 @@
 					<!-- Single Blog Area -->
 					<div class="col-12 col-lg-6">
 						<div class="single-blog-area mb-100">
-							<img src="/spring-mvc/template/img/blog-img/3.jpg" alt="">
+							<img src="/DoAnHTTT/template/img/blog-img/3.jpg" alt="">
 							<!-- Blog Content -->
 							<div class="blog-content">
 								<a href="#" class="blog-headline">
@@ -114,7 +114,7 @@
 					<!-- Single Blog Area -->
 					<div class="col-12 col-lg-6">
 						<div class="single-blog-area mb-100">
-							<img src="/spring-mvc/template/img/blog-img/4.jpg" alt="">
+							<img src="/DoAnHTTT/template/img/blog-img/4.jpg" alt="">
 							<!-- Blog Content -->
 							<div class="blog-content">
 								<a href="#" class="blog-headline">
@@ -185,7 +185,7 @@
 										<!-- Comment Admin -->
 										<div class="comment-admin d-flex">
 											<div class="thumb">
-												<img src="/spring-mvc/template/img/bg-img/t1.png" alt="">
+												<img src="/DoAnHTTT/template/img/bg-img/t1.png" alt="">
 											</div>
 											<div class="text">
 												<h6>Sarah Parker</h6>
@@ -209,7 +209,7 @@
 												<!-- Comment Admin -->
 												<div class="comment-admin d-flex">
 													<div class="thumb">
-														<img src="/spring-mvc/template/img/bg-img/t2.png" alt="">
+														<img src="/DoAnHTTT/template/img/bg-img/t2.png" alt="">
 													</div>
 													<div class="text">
 														<h6>Sarah Parker</h6>
@@ -235,7 +235,7 @@
 										<!-- Comment Admin -->
 										<div class="comment-admin d-flex">
 											<div class="thumb">
-												<img src="/spring-mvc/template/img/bg-img/t3.png" alt="">
+												<img src="/DoAnHTTT/template/img/bg-img/t3.png" alt="">
 											</div>
 											<div class="text">
 												<h6>Sarah Parker</h6>

@@ -31,7 +31,7 @@
 
 				<!-- Logo -->
 				<a class="nav-brand" href="home"><img
-					src="/spring-mvc/template/img/core-img/logo.png" alt=""></a>
+					src="/DoAnHTTT/template/img/core-img/logo.png" alt=""></a>
 
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -64,8 +64,8 @@
                                         <li><a href="contact.jsp">Contact</a></li>
                                     </ul>
                                 </li> -->
-							<li><a href="courses">Courses register</a></li>
-							<li><a href="table">TimeTable</a></li>
+							<li><a href="CourseRegister">Courses register</a></li>
+							<li><a href="TKBStudent">TimeTable</a></li>
 							<li><a href="single-course">Examination Schedule</a></li>
 							<li><a href="instructors">View School Fee</a></li>
 							<li><a href="blog">Student Mark</a></li>

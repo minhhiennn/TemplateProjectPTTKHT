@@ -48,9 +48,14 @@ public class Redirect {
 		ModelAndView mav = new ModelAndView("student/single-course");
 		return mav;
 	}
-	@RequestMapping(value = "/student/table", method = RequestMethod.GET)
+	@RequestMapping(value = "/student/CourseRegister", method = RequestMethod.GET)
 	public ModelAndView tablePage() {
-		ModelAndView mav = new ModelAndView("student/table");
+		ModelAndView mav = new ModelAndView("student/CourseRegister");
 		return mav;
-	}	
+	}
+	@RequestMapping(value = "/student/TKBStudent", method = RequestMethod.GET)
+	public ModelAndView tablePage2() {
+		ModelAndView mav = new ModelAndView("student/TKBStudent");
+		return mav;
+	}
 }

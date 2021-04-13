@@ -42,7 +42,37 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 				arrList.add(timeTableItem);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return arrList;
+	}
+
+	// Test function SubAvailableST(OK het nhe)
+	public ArrayList<Schedule> getSubAvailableST(String user_id) {
+		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
+		try {
+			pstmt = conn.prepareStatement("select * from SubAvailableST(?)");
+			pstmt.setString(1, user_id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Schedule = rs.getString("ID_Schedule");
+				ArrayList<String> list = new ArrayList<String>();
+				list.add(ID_Schedule);
+				Schedule schedule = new ScheduleDAO().getByKey(list);
+				arrList.add(schedule);
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -61,9 +91,9 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-        ArrayList<TimeTableItem> arrList = student_ScheduleDAO.getTimeTableItem("18130005");
-        for (TimeTableItem timeTableItem : arrList) {
-			System.out.println(timeTableItem);
+		ArrayList<Schedule> arrList = student_ScheduleDAO.getSubAvailableST("18130005");
+		for (Schedule schedule : arrList) {
+			System.out.println(schedule);
 		}
 	}
 }
