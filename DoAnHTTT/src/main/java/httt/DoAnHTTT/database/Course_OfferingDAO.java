@@ -50,7 +50,6 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -67,11 +66,18 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		return course_Offering;
 	}
 
+	public void Test() {
+		try {
+			pstmt = conn.prepareStatement("insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)");
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch(Exception e)  {
+			System.out.println("Catch trigger exception");
+		} 
+	}
+
 	public static void main(String[] args) {
 		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("15");
-		Course_Offering course_Offering = course_OfferingDAO.getByKey(list);
-		System.out.println(course_Offering);
+		course_OfferingDAO.Test();
 	}
 }

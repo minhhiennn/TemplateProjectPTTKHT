@@ -25,42 +25,42 @@
                     <div class="blog-catagories mb-70 d-flex flex-wrap justify-content-between">
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc1.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc1.jpg);">
                             <a href="#">
                                 <h6>Art &amp; Design</h6>
                             </a>
                         </div>
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc2.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc2.jpg);">
                             <a href="#">
                                 <h6>Business</h6>
                             </a>
                         </div>
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc3.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc3.jpg);">
                             <a href="#">
                                 <h6>IT &amp; Software</h6>
                             </a>
                         </div>
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc4.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc4.jpg);">
                             <a href="#">
                                 <h6>Languages</h6>
                             </a>
                         </div>
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc5.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc5.jpg);">
                             <a href="#">
                                 <h6>Programming Languages</h6>
                             </a>
                         </div>
 
                         <!-- Single Catagories -->
-                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/img/bg-img/bc6.jpg);">
+                        <div class="single-catagories bg-img" style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bc6.jpg);">
                             <a href="#">
                                 <h6>psychology</h6>
                             </a>
@@ -73,7 +73,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/1.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/1.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">
@@ -92,7 +92,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/2.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/2.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">
@@ -111,7 +111,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/3.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/3.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">
@@ -130,7 +130,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/4.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/4.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">
@@ -149,7 +149,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/5.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/5.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">
@@ -168,7 +168,7 @@
                 <!-- Single Blog Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/blog-img/6.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/blog-img/6.jpg" alt="">
                         <!-- Blog Content -->
                         <div class="blog-content">
                             <a href="#" class="blog-headline">

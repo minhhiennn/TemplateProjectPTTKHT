@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title></title>
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,11 +22,11 @@
 <title>Clever - Education &amp; Courses Template | Home</title>
 
 <!-- Favicon -->
-<link href="<c:url value='/template/img/core-img/favicon.ico'/>"
+<link href="<c:url value='/template/student/img/core-img/favicon.ico'/>"
 	rel="icon">
 
 <!-- Stylesheet -->
-<link href="<c:url value='/template/style.css'/>" rel="stylesheet">
+<link href="<c:url value='/template/student/style.css'/>" rel="stylesheet">
 
 <!-- ?o?n CSS cho table -->
 <link rel="stylesheet" type="text/css"
@@ -37,23 +37,23 @@
 
 <body>
 
-	<%@ include file="/common/header.jsp"%>
+	<%@ include file="/common/student/header.jsp"%>
 	<dec:body />
-	<%@ include file="/common/footer.jsp"%>
+	<%@ include file="/common/student/footer.jsp"%>
 	<!-- ##### Footer Area End ##### -->
 	<!-- ##### All Javascript Script ##### -->
 	<!-- jQuery-2.2.4 js -->
-	<script src="<c:url value='/template/js/jquery/jquery-2.2.4.min.js'/>"></script>
+	<script src="<c:url value='/template/student/js/jquery/jquery-2.2.4.min.js'/>"></script>
 	<!-- Popper js -->
-	<script src="<c:url value='/template/js/bootstrap/popper.min.js'/>"></script>
+	<script src="<c:url value='/template/student/js/bootstrap/popper.min.js'/>"></script>
 	<!-- Bootstrap js -->
-	<script src="<c:url value='/template/js/bootstrap/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/template/student/js/bootstrap/bootstrap.min.js'/>"></script>
 	<!-- All Plugins js -->
 	<!-- phần này là phần animation -->
 	<!-- <script src="<c:url value='/template/js/plugins/plugins.js'/>"></script> -->
 	<!-- <script src="js/plugins/plugins.js"></script> -->
 	<!-- Active js -->
-	<script src="<c:url value='/template/js/active.js'/>"></script>
+	<script src="<c:url value='/template/student/js/active.js'/>"></script>
 	<!-- JS cho table -->
 	<script type="text/javascript"
 		src="https://code.jquery.com/jquery-3.5.1.js"></script>

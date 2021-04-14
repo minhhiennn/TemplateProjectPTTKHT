@@ -31,7 +31,7 @@
 
 				<!-- Logo -->
 				<a class="nav-brand" href="home"><img
-					src="/DoAnHTTT/template/img/core-img/logo.png" alt=""></a>
+					src="/DoAnHTTT/template/student/img/core-img/logo.png" alt=""></a>
 
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">

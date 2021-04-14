@@ -20,7 +20,7 @@
 
 	<!-- ##### Hero Area Start ##### -->
 	<section class="hero-area bg-img bg-overlay-2by5"
-		style="background-image: url(/DoAnHTTT/template/img/bg-img/bg1.jpg);">
+		style="background-image: url(/DoAnHTTT/template/student/img/bg-img/bg1.jpg);">
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
@@ -44,7 +44,7 @@
 					<div class="single-cool-facts-area text-center mb-100 wow fadeInUp"
 						data-wow-delay="250ms">
 						<div class="icon">
-							<img src="/DoAnHTTT/template/img/core-img/docs.png" alt="">
+							<img src="/DoAnHTTT/template/student/img/core-img/docs.png" alt="">
 						</div>
 						<h2>
 							<span class="counter">1912</span>
@@ -58,7 +58,7 @@
 					<div class="single-cool-facts-area text-center mb-100 wow fadeInUp"
 						data-wow-delay="500ms">
 						<div class="icon">
-							<img src="/DoAnHTTT/template/img/core-img/star.png" alt="">
+							<img src="/DoAnHTTT/template/student/img/core-img/star.png" alt="">
 						</div>
 						<h2>
 							<span class="counter">123</span>
@@ -72,7 +72,7 @@
 					<div class="single-cool-facts-area text-center mb-100 wow fadeInUp"
 						data-wow-delay="750ms">
 						<div class="icon">
-							<img src="/DoAnHTTT/template/img/core-img/events.png" alt="">
+							<img src="/DoAnHTTT/template/student/img/core-img/events.png" alt="">
 						</div>
 						<h2>
 							<span class="counter">89</span>
@@ -86,7 +86,7 @@
 					<div class="single-cool-facts-area text-center mb-100 wow fadeInUp"
 						data-wow-delay="1000ms">
 						<div class="icon">
-							<img src="/DoAnHTTT/template/img/core-img/earth.png" alt="">
+							<img src="/DoAnHTTT/template/student/img/core-img/earth.png" alt="">
 						</div>
 						<h2>
 							<span class="counter">56</span>
@@ -101,7 +101,7 @@
 
 	<!-- ##### Popular Courses Start ##### -->
 	<section class="popular-courses-area section-padding-100-0"
-		style="background-image: url(/DoAnHTTT/template/img/core-img/texture.png);">
+		style="background-image: url(/DoAnHTTT/template/student/img/core-img/texture.png);">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -116,7 +116,7 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="single-popular-course mb-100 wow fadeInUp"
 						data-wow-delay="250ms">
-						<img src="/DoAnHTTT/template/img/bg-img/c1.jpg" alt="">
+						<img src="/DoAnHTTT/template/student/img/bg-img/c1.jpg" alt="">
 						<!-- Course Content -->
 						<div class="course-content">
 							<h4>English Grammar</h4>
@@ -149,7 +149,7 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="single-popular-course mb-100 wow fadeInUp"
 						data-wow-delay="500ms">
-						<img src="/DoAnHTTT/template/img/bg-img/c2.jpg" alt="">
+						<img src="/DoAnHTTT/template/student/img/bg-img/c2.jpg" alt="">
 						<!-- Course Content -->
 						<div class="course-content">
 							<h4>Vocabulary</h4>
@@ -182,7 +182,7 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="single-popular-course mb-100 wow fadeInUp"
 						data-wow-delay="750ms">
-						<img src="/DoAnHTTT/template/img/bg-img/c3.jpg" alt="">
+						<img src="/DoAnHTTT/template/student/img/bg-img/c3.jpg" alt="">
 						<!-- Course Content -->
 						<div class="course-content">
 							<h4>Expository writing</h4>
@@ -235,7 +235,7 @@
 						<div class="single-tutors-slides">
 							<!-- Tutor Thumbnail -->
 							<div class="tutor-thumbnail">
-								<img src="/DoAnHTTT/template/img/bg-img/t1.png" alt="">
+								<img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
 							</div>
 							<!-- Tutor Information -->
 							<div class="tutor-information text-center">
@@ -256,7 +256,7 @@
 						<div class="single-tutors-slides">
 							<!-- Tutor Thumbnail -->
 							<div class="tutor-thumbnail">
-								<img src="/DoAnHTTT/template/img/bg-img/t2.png" alt="">
+								<img src="/DoAnHTTT/template/student/img/bg-img/t2.png" alt="">
 							</div>
 							<!-- Tutor Information -->
 							<div class="tutor-information text-center">
@@ -277,7 +277,7 @@
 						<div class="single-tutors-slides">
 							<!-- Tutor Thumbnail -->
 							<div class="tutor-thumbnail">
-								<img src="/DoAnHTTT/template/img/bg-img/t3.png" alt="">
+								<img src="/DoAnHTTT/template/student/img/bg-img/t3.png" alt="">
 							</div>
 							<!-- Tutor Information -->
 							<div class="tutor-information text-center">
@@ -298,7 +298,7 @@
 						<div class="single-tutors-slides">
 							<!-- Tutor Thumbnail -->
 							<div class="tutor-thumbnail">
-								<img src="/DoAnHTTT/template/img/bg-img/t4.png" alt="">
+								<img src="/DoAnHTTT/template/student/img/bg-img/t4.png" alt="">
 							</div>
 							<!-- Tutor Information -->
 							<div class="tutor-information text-center">
@@ -319,7 +319,7 @@
 						<div class="single-tutors-slides">
 							<!-- Tutor Thumbnail -->
 							<div class="tutor-thumbnail">
-								<img src="/DoAnHTTT/template/img/bg-img/t5.png" alt="">
+								<img src="/DoAnHTTT/template/student/img/bg-img/t5.png" alt="">
 							</div>
 							<!-- Tutor Information -->
 							<div class="tutor-information text-center">
@@ -345,7 +345,7 @@
 	<!-- ##### Register Now Start ##### -->
 	<section
 		class="register-now section-padding-100-0 d-flex justify-content-between align-items-center"
-		style="background-image: url(/DoAnHTTT/template/img/core-img/texture.png);">
+		style="background-image: url(/DoAnHTTT/template/student/img/core-img/texture.png);">
 		<!-- Register Contact Form -->
 		<div class="register-contact-form mb-100 wow fadeInUp"
 			data-wow-delay="250ms">
@@ -424,7 +424,7 @@
 						data-wow-delay="250ms">
 						<!-- Events Thumb -->
 						<div class="events-thumb">
-							<img src="/DoAnHTTT/template/img/bg-img/e1.jpg" alt="">
+							<img src="/DoAnHTTT/template/student/img/bg-img/e1.jpg" alt="">
 							<h6 class="event-date">August 26</h6>
 							<h4 class="event-title">Networking Day</h4>
 						</div>
@@ -448,7 +448,7 @@
 						data-wow-delay="500ms">
 						<!-- Events Thumb -->
 						<div class="events-thumb">
-							<img src="/DoAnHTTT/template/img/bg-img/e2.jpg" alt="">
+							<img src="/DoAnHTTT/template/student/img/bg-img/e2.jpg" alt="">
 							<h6 class="event-date">August 7</h6>
 							<h4 class="event-title">Open Doors Day</h4>
 						</div>
@@ -472,7 +472,7 @@
 						data-wow-delay="750ms">
 						<!-- Events Thumb -->
 						<div class="events-thumb">
-							<img src="/DoAnHTTT/template/img/bg-img/e3.jpg" alt="">
+							<img src="/DoAnHTTT/template/student/img/bg-img/e3.jpg" alt="">
 							<h6 class="event-date">August 3</h6>
 							<h4 class="event-title">Creative Leadership</h4>
 						</div>
@@ -510,7 +510,7 @@
 				<div class="col-12 col-md-6">
 					<div class="single-blog-area mb-100 wow fadeInUp"
 						data-wow-delay="250ms">
-						<img src="/DoAnHTTT/template/img/blog-img/1.jpg" alt="">
+						<img src="/DoAnHTTT/template/student/img/blog-img/1.jpg" alt="">
 						<!-- Blog Content -->
 						<div class="blog-content">
 							<a href="#" class="blog-headline">
@@ -531,7 +531,7 @@
 				<div class="col-12 col-md-6">
 					<div class="single-blog-area mb-100 wow fadeInUp"
 						data-wow-delay="500ms">
-						<img src="/DoAnHTTT/template/img/blog-img/2.jpg" alt="">
+						<img src="/DoAnHTTT/template/student/img/blog-img/2.jpg" alt="">
 						<!-- Blog Content -->
 						<div class="blog-content">
 							<a href="#" class="blog-headline">

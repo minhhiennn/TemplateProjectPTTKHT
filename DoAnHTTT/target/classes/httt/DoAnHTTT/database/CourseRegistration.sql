@@ -130,6 +130,7 @@ create table Course_Offering
 	-- ngày bắt đầu
 	Primary key (ID_Course_Offering)
 )
+select * from Course_Offering
 -- mới sửa lại Schedule
 -- môn học có thể là thực hành hành hoặc lý thuyết 
 -- thực hành lý thuyết khác ngày khác tiết và có ngày bắt đầu với kết thúc là khác nhau
@@ -192,6 +193,8 @@ create table Sub_Pass
 	Rated nvarchar(10) not null,
 	Primary key (ID_Student,ID_Course,ID_Semester)
 )
+---
+select * from Sub_Pass;
 -- ket qua theo tung hoc ki
 create table semester_Result
 (
@@ -309,6 +312,7 @@ insert into Course_Offering Values(N'17',N'202121','DH18DTA',80,0)
 insert into Course_Offering Values(N'18',N'214241','DH18DTA',80,0)
 insert into Course_Offering Values(N'19',N'214441','DH18DTA',80,0)
 insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
+insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 
 -- insert into Schedule
 -- lười chèn vc
@@ -360,8 +364,8 @@ insert into front_Sub values(N'214441',N'214331')
 
 insert into Sub_Pass values('2_2018',N'213603',N'18130005',7.5,N'Khá')
 insert into Sub_Pass values('2_2018',N'214321',N'18130003',7.5,N'Khá')
---insert into Sub_Pass values('3_2021',N'3222',N'18130002',8.5,N'giỏi')
---insert into Sub_Pass values('1_2022',N'4111',N'18130001',2.5,N'Trung Bình')
+insert into Sub_Pass values('2_2018',N'214321',N'18130005',3.0,N'dốt')
+insert into Sub_Pass values('1_2022',N'213603',N'18130003',11.0,N'Trung Bình')
 --insert into Sub_Pass values('2_2022',N'2142',N'18130006',7.5,N'khá')
 --insert into Sub_Pass values('1_2022',N'2122',N'18130005',5.5,N'Trung bình')
 --insert into Sub_Pass values('3_2022',N'4111',N'18130004',7.5,N'Khá')
@@ -418,7 +422,7 @@ go
 
 -- những môn sẽ hiển thị khi nhấn đăng ký môn học
 -- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là null
-alter FUNCTION SubAvailableST (@ID_User varchar(50))
+create FUNCTION SubAvailableST (@ID_User varchar(50))
 RETURNS TABLE
 as
 RETURN  
@@ -496,4 +500,15 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
  select * from Student_Schedule
 go
 
--- tạo trigger cho phần kiểm tra nhập điểm giáo viên
+-- tạo trigger cho course_offering
+alter Trigger checkCourse_Offering
+on Course_Offering
+for insert,update
+as
+begin
+Declare @CurrentSizeI tinyint = (select I.Current_Size from inserted I);
+Declare @MaxSizeI tinyint = (select I.Max_Size from inserted I );
+if @CurrentSizeI > @MaxSizeI
+RAISERROR(N'lớp đã đầy',10,1)
+ROLLBACK TRANSACTION
+end

@@ -45,7 +45,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c1.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c1.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>English Grammar</h4>
@@ -76,7 +76,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c2.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c2.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Vocabulary</h4>
@@ -107,7 +107,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="750ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c3.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c3.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Expository writing</h4>
@@ -138,7 +138,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c4.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c4.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Vocabulary</h4>
@@ -169,7 +169,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c5.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c5.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>English Grammer</h4>
@@ -200,7 +200,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="750ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c6.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c6.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Expository writing</h4>
@@ -231,7 +231,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c7.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c7.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>English Grammer</h4>
@@ -262,7 +262,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="500ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c8.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c8.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Vocabulary</h4>
@@ -293,7 +293,7 @@
                 <!-- Single Popular Course -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="750ms">
-                        <img src="/DoAnHTTT/template/img/bg-img/c9.jpg" alt="">
+                        <img src="/DoAnHTTT/template/student/img/bg-img/c9.jpg" alt="">
                         <!-- Course Content -->
                         <div class="course-content">
                             <h4>Expository writing</h4>
