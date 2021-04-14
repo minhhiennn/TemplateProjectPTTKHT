@@ -17,4 +17,7 @@
 	</decorator>
 	<!-- về sau nếu apply thêm professor nữa thì tạo cái tương tự dưới này (khác 
 		attribute page) -->
+	<decorator name="admin" page="MasterPageForAdmin.jsp">
+		<pattern>/admin/index</pattern>
+	</decorator>
 </decorators>
