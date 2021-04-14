@@ -32,6 +32,9 @@ create table USERS
 	password nvarchar(50) not null,
 	PRIMARY KEY (ID_User)
 	)
+	----
+	select * from USERS;
+	----
 -- một khoa trong trường
 create table Faculty
 (
@@ -41,6 +44,9 @@ create table Faculty
 	
 	Primary key (ID_Faculty)
 )
+---
+select * from Faculty where ID_Faculty = 'AV';
+---
 -- một học sinh của trường
 create table Student
 (
@@ -71,11 +77,14 @@ create table Professor
 	-- Cách tính khóa học lấy năm nộp hồ sơ (trong đây là năm tạo tài khoản) trừ cho năm mốc (năm 2000)
 	Create_date date not null,
 	-- Degree là cái vẹo gì
-	Degree varchar(50),
+	Degree Nvarchar(50),
 	
 	
 	Primary key (ID_Professor)
 )
+    ----
+	select * from Professor where ID_Professor = '220';
+	----
 -- Học kỳ
 create table Semester
 (
@@ -93,7 +102,7 @@ create table Course
     ID_Course nvarchar(50)  not null,
     ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
     Name_Course nvarchar(50) not null,
-    -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)
+    -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)	
     Course_certificate tinyint not null,
     -- học viên năm bao nhiêu có thể học
     years int not null,
@@ -102,6 +111,9 @@ create table Course
     
     Primary key (ID_Course)    
 )
+--
+Select * from Course;
+--
 -- một lớp được mở cụ thể trong danh sách đăng ký môn học 	
 create table Course_Offering
 (
@@ -121,7 +133,9 @@ create table Course_Offering
 -- mới sửa lại Schedule
 -- môn học có thể là thực hành hành hoặc lý thuyết 
 -- thực hành lý thuyết khác ngày khác tiết và có ngày bắt đầu với kết thúc là khác nhau
-
+--
+--Select co.* , sc.Start_Day,sc.End_Day,sc.Study_place,sc.Start_Slot,sc.End_Slot,sc.Theoretical,sc.Teaching_Day from Course_Offering co inner join Schedule sc on co.ID_Course_Offering = sc.ID_Course_Offering where co.ID_Course_Offering = '15';
+--
 create table Schedule
 (
 	ID_Schedule nvarchar(50) not null,
@@ -133,6 +147,7 @@ create table Schedule
 	Theoretical varchar(2) not null,
 	-- thứ dạy học
 	Teaching_Day smallint not null,
+	-- ngày bắt đầu
 	Start_Day date not null,
 	-- ngày kết thúc
 	End_Day date not null,
@@ -143,7 +158,10 @@ create table Schedule
 	-- tiết kết thúc
 	End_Slot tinyint not null,
 	Primary key (ID_Schedule)
-) 
+)
+ -----
+ select * from Schedule where ID_Schedule = '1';
+ -----
 -- mon hoc tung hoc vien dang ky
 create table Student_Schedule
 (
@@ -169,7 +187,7 @@ create table Sub_Pass
     ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course),
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 	-- Điểm	
-	Score float not null,
+	Score float not null check (Score < 10 and Score > 0),
 	-- Đánh giá học lực
 	Rated nvarchar(10) not null,
 	Primary key (ID_Student,ID_Course,ID_Semester)
@@ -230,13 +248,13 @@ insert into Student Values(N'18130004',N'Nguyễn Văn D','DT','20/10/2018',N'DH
 insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH18DTA',136,0)
 
 -- insert into Professor
-insert into Professor Values(N'224',N'A','DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'225',N'B','DT','20/10/2000','Thạc Sĩ')
-insert into Professor Values(N'226',N'C','DT','20/10/2000','thạc Sĩ')
-insert into Professor Values(N'227',N'D','DT','20/10/2000','Phó Giáo sư')
-insert into Professor Values(N'228',N'E','DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'229',N'F','DT','20/10/2000','Tiến Sĩ')
-insert into Professor Values(N'220',N'G','DT','20/10/2000','Tiến Sĩ')
+insert into Professor Values(N'224',N'A','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'225',N'B','DT','20/10/2000',N'Thạc Sĩ')
+insert into Professor Values(N'226',N'C','DT','20/10/2000',N'thạc Sĩ')
+insert into Professor Values(N'227',N'D','DT','20/10/2000',N'Phó Giáo sư')
+insert into Professor Values(N'228',N'E','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'229',N'F','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'220',N'G','DT','20/10/2000',N'Tiến Sĩ')
 
 -- insert into Semester
 insert into Semester Values(N'1_2018','1/9/2018','31/1/2019',2021,1)
@@ -249,26 +267,26 @@ insert into Semester Values(N'1_2021','1/9/2021','31/1/2022',2022,1)
 insert into Semester Values(N'2_2021','1/3/2022','30/6/2022',2022,2)
 
 -- insert into course
-insert into Course Values(N'213603','DT',N'Anh văn 1',4,2018,1);
-insert into Course Values(N'214201','DT',N'Nhập môn tin học',3,2018,1)
-insert into Course Values(N'202109','DT',N'Toán cao cấp A2',3,2018,1)
-insert into Course Values(N'200102','DT',N'Kinh tế chính trị Mác-Lênin',2,2018,1)
-insert into Course Values(N'214321','DT',N'Lập trình cơ bản',4,2018,1)
-insert into Course Values(N'202206','DT',N'Vật lý 2',2,2018,1)
-insert into Course Values(N'202108','DT',N'Toán cao cấp A1',3,2018,1)
-insert into Course Values(N'202501','DT',N'Giáo dục thể chất 1*',1,2018,1)
-insert into Course Values(N'200101','DT',N'Triết học Mác Lênin',3,2018,1)
-insert into Course Values(N'200103','DT',N'Chủ nghĩa xã hội khoa học',2,2018,2)
-insert into Course Values(N'213604','DT',N'Anh văn 2',3,2018,2)
-insert into Course Values(N'202110','DT',N'Toán cao cấp A3',3,2018,2)
-insert into Course Values(N'214331','DT',N'Lập trình nâng cao',4,2018,2)
-insert into Course Values(N'214231','DT',N'Cấu trúc máy tính',2,2018,2)
-insert into Course Values(N'214242','DT',N'Nhập môn hệ điều hành',3,2018,2)
-insert into Course Values(N'208453','DT',N'Marketing căn bản',2,2019,1)
-insert into Course Values(N'202121','DT',N'Xác suất thống kê',3,2019,1)
-insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2019,1)
-insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2019,1)
-insert into Course Values(N'202622','DT',N'Pháp luật đại cương',2,2019,1)
+insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
+insert into Course Values(N'214201','DT',N'Nhập môn tin học',3,1,1)
+insert into Course Values(N'202109','DT',N'Toán cao cấp A2',3,1,1)
+insert into Course Values(N'200102','DT',N'Kinh tế chính trị Mác-Lênin',2,1,1)
+insert into Course Values(N'214321','DT',N'Lập trình cơ bản',4,1,1)
+insert into Course Values(N'202206','DT',N'Vật lý 2',2,1,1)
+insert into Course Values(N'202108','DT',N'Toán cao cấp A1',3,1,1)
+insert into Course Values(N'202501','DT',N'Giáo dục thể chất 1*',1,1,1)
+insert into Course Values(N'200101','DT',N'Triết học Mác Lênin',3,1,1)
+insert into Course Values(N'200103','DT',N'Chủ nghĩa xã hội khoa học',2,1,2)
+insert into Course Values(N'213604','DT',N'Anh văn 2',3,1,2)
+insert into Course Values(N'202110','DT',N'Toán cao cấp A3',3,1,2)
+insert into Course Values(N'214331','DT',N'Lập trình nâng cao',4,1,2)
+insert into Course Values(N'214231','DT',N'Cấu trúc máy tính',2,1,2)
+insert into Course Values(N'214242','DT',N'Nhập môn hệ điều hành',3,1,2)
+insert into Course Values(N'208453','DT',N'Marketing căn bản',2,2,1)
+insert into Course Values(N'202121','DT',N'Xác suất thống kê',3,2,1)
+insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2,1)
+insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2,1)
+insert into Course Values(N'202622','DT',N'Pháp luật đại cương',2,2,1)
 
 -- insert into Course_Offering
 insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)
@@ -295,6 +313,9 @@ insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
 -- insert into Schedule
 -- lười chèn vc
 insert into Schedule values(N'1',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1a',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1c',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1b',N'20',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'2',N'2',N'225','LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
 insert into Schedule values(N'3',N'3',N'226','LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
 insert into Schedule values(N'4',N'4',N'227','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
@@ -324,17 +345,21 @@ insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',
 --insert into Student_Schedule values('2_2021',N'1',N'18130004')
 --insert into Student_Schedule values('2_2022',N'3',N'18130005')
 --insert into Student_Schedule values('1_2021',N'1',N'18130006')
+insert into Student_Schedule values('2_2020',N'1',N'18130005')
+insert into Student_Schedule values('2_2020',N'2',N'18130005')
+insert into Student_Schedule values('2_2020',N'3',N'18130005')
+insert into Student_Schedule values('2_2020',N'4',N'18130005')
+
 
 -- insert into front_Sub
 insert into front_Sub values(N'214331',N'214321')
-insert into front_Sub values(N'202121',N'202110')
+
 insert into front_Sub values(N'214441',N'214331')
 
-
 -- insert into Sub_Pass
--- như cc
---insert into Sub_Pass values('1_2021',N'2142',N'18130005',7.5,N'Khá')
---insert into Sub_Pass values('2_2021',N'2122',N'18130003',7.5,N'Khá')
+
+insert into Sub_Pass values('2_2018',N'213603',N'18130005',7.5,N'Khá')
+insert into Sub_Pass values('2_2018',N'214321',N'18130003',7.5,N'Khá')
 --insert into Sub_Pass values('3_2021',N'3222',N'18130002',8.5,N'giỏi')
 --insert into Sub_Pass values('1_2022',N'4111',N'18130001',2.5,N'Trung Bình')
 --insert into Sub_Pass values('2_2022',N'2142',N'18130006',7.5,N'khá')
@@ -366,38 +391,109 @@ CREATE FUNCTION TimeTableSt (@ID_User varchar(50))
 RETURNS TABLE 
 as
 RETURN  
-select co.*,sd.Id_Profeesor from Schedule sd join Course_Offering co on sd.ID_Course_Offering = co.ID_Course_Offering
+select sd.* from Schedule sd join Course_Offering co on sd.ID_Course_Offering = co.ID_Course_Offering
 									 join Student_Schedule stc on stc.ID_Schedule = sd.ID_Schedule 
 			where stc.ID_Student = @ID_User and stc.ID_Semester in (select ID_Semester from Semester where GETDATE() between startDate and endDate )
 
 
 go
-
-
--- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
-create FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
-RETURNS TABLE 
+select * from TimeTableSt('18130005');
+go
+create FUNCTION subPassed (@ID_CourseB nvarchar(50),@ID_User nvarchar(50))
+RETURNS nvarchar(50) 
 as
-RETURN  
-select sc.ID_Schedule from Schedule sc join Student_Schedule  stc on sc.ID_Schedule = stc.ID_Schedule
-						  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
-where (sc.Teaching_Day not in (select Teaching_Day from Schedule where ID_Schedule = @ID_Schedule) and sc.Start_Slot  not in (select Start_Slot from Schedule where ID_Schedule = @ID_Schedule) ) 
-and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate) 
-and co.ID_Course not in (select c1.ID_Course from Schedule sc1 join Course_Offering co1 on sc1.ID_Course_Offering = co1.ID_Course_Offering 
-															   join Course c1 on c1.ID_Course = co1.ID_Course
-															   where sc1.ID_Schedule = @ID_Schedule)
+begin
+Declare @ID_CourseB1 nvarchar(50)
+(select @ID_CourseB1 = fs.ID_CourseB  from front_Sub fs where fs.ID_CourseB = @ID_CourseB and  fs.ID_Course = case
+when (select ID_Course  from Sub_Pass where ID_Course = fs.ID_Course  and ID_Student = @ID_User and Score >= 4) is not null then fs.ID_Course
+else null end)
+RETURN @ID_CourseB1;
+end
+
+go
+
+
+select  [dbo].subPassed (N'214331',N'18130005')
 go
 
 -- những môn sẽ hiển thị khi nhấn đăng ký môn học
 -- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là null
-create function SubAvailable(@ID_User varchar(50),@Date date) 
-returns table
+alter FUNCTION SubAvailableST (@ID_User varchar(50))
+RETURNS TABLE
 as
-return
-	select sc.*
-	from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
-	                 join Course c on co.ID_Course = c.ID_Course;
+RETURN  
+select sc.ID_Schedule from Course_Offering co join Course c on c.ID_Course = co.ID_Course
+													 join Schedule sc on sc.ID_Course_Offering = co.ID_Course_Offering
+													 
+where co.Current_Size < co.Max_Size and 
+c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select ID_Faculty from Student where ID_Student = @ID_User)  end and
+c.years <=  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
+c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and
+c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
+when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
+
 go
-select c.*
-from Course c
-where c.years
+select * from SubAvailableST('18130005');
+
+go
+-- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
+
+
+create FUNCTION checkTeachDay (@ID_User varchar(50))
+RETURNS TABLE 
+as
+RETURN  
+select sc.Teaching_Day from Schedule sc join Student_Schedule stc on sc.ID_Schedule = stc.ID_Schedule
+					   where stc.ID_Student = @ID_User and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate)
+go
+create FUNCTION checkStart_Slot (@ID_User varchar(50))
+RETURNS TABLE 
+as
+RETURN  
+select sc.Start_Slot from Schedule sc join Student_Schedule stc on sc.ID_Schedule = stc.ID_Schedule
+					   where stc.ID_Student = @ID_User and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate)
+go
+
+create FUNCTION checkSubExist (@ID_User varchar(50))
+RETURNS TABLE 
+as
+RETURN  
+select c.ID_Course from Schedule sc join Student_Schedule stc on sc.ID_Schedule = stc.ID_Schedule
+						join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
+						join Course c on c.ID_Course = co.ID_Course
+						where stc.ID_Student  = @ID_User and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate)
+go
+
+alter FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
+RETURNS TABLE 
+as
+RETURN  
+select sc.ID_Schedule from Schedule sc  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
+						  
+where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User)) and sc.Start_Slot   in (select Start_Slot from checkStart_Slot(@ID_User)))
+ or co.ID_Course   in (select ID_Course from checkSubExist(@ID_User)))
+ and sc.ID_Schedule = @ID_Schedule
+ go
+ -- a là y chang nên ko được
+ -- b là khác môn nhưng trùng giờ
+ -- 20 là được
+
+--insert into Schedule values(N'1',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+--insert into Schedule values(N'1a',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+--insert into Schedule values(N'1c',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+--insert into Schedule values(N'1b',N'20',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+--insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+
+--insert into Student_Schedule values('2_2020',N'1',N'18130005')
+--insert into Student_Schedule values('2_2020',N'2',N'18130005')
+--insert into Student_Schedule values('2_2020',N'3',N'18130005')
+--insert into Student_Schedule values('2_2020',N'4',N'18130005')
+
+ select * from checkDayST(N'1a','18130005');
+ select * from checkDayST(N'1b','18130005');
+ select * from checkDayST(N'1c','18130005');
+ select * from checkDayST(N'20','18130005');
+ select * from Student_Schedule
+go
+
+-- tạo trigger cho phần kiểm tra nhập điểm giáo viên
