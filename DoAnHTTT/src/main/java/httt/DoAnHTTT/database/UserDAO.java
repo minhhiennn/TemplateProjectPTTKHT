@@ -45,7 +45,17 @@ public class UserDAO {
 			}
 		}
 		return user;
-
 	}
 
+	public void InsertUserStudent(String ID_User) {
+		try {
+			pstmt = conn.prepareStatement("insert into USERS Values(?,'st',?,'123456')");
+			pstmt.setString(1, ID_User);
+			pstmt.setString(2, ID_User + "@st.hcmuaf.edu.vn");
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

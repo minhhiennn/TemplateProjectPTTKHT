@@ -14,7 +14,7 @@ public class StudentDAO {
 		conn = Connect.getConnection();
 	}
 
-	public void Test(String ID_Student, String Student_Name, String ID_Faculty, String Create_date, String Class_code,
+	public void InsertStudent(String ID_Student, String Student_Name, String ID_Faculty, String Create_date, String Class_code,
 			String Cert_number_required, String Cert_number_accumulated) {
 		try {
 			pstmt = conn.prepareStatement("insert into Student Values(?,?,?,?,?,?,?)");

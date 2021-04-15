@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import httt.DoAnHTTT.database.StudentDAO;
+import httt.DoAnHTTT.database.UserDAO;
 
 public class ExcelReader {
 	public static String FormatID(String s) {
@@ -32,6 +33,8 @@ public class ExcelReader {
 	}
 
 	public static void main(String[] args) throws IOException {
+		StudentDAO studentDAO = new StudentDAO();
+		UserDAO userDAO = new UserDAO();
 		// obtaining input bytes from a file
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
 		// creating workbook instance that refers to .xls file
@@ -39,7 +42,6 @@ public class ExcelReader {
 		// creating a Sheet object to retrieve the object
 		XSSFSheet sheet = wb.getSheetAt(0);
 		// evaluating cell type
-		FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
 		for (int i = 0; i < 2; i++) // iteration over row using for each loop
 		{
 			Row row = sheet.getRow(i);
@@ -47,6 +49,7 @@ public class ExcelReader {
 				continue;
 			} else {
 				String ID_Student = FormatID(row.getCell(0).getStringCellValue());
+				userDAO.InsertUserStudent(ID_Student);
 				String Student_Name = row.getCell(1).getStringCellValue();
 				String ID_Faculty = row.getCell(2).getStringCellValue();
 				String Create_date = FormatDate(row.getCell(3).getStringCellValue());
@@ -55,10 +58,10 @@ public class ExcelReader {
 				String Cert_number_accumulatedS = FormatNumber(row.getCell(6).toString());
 				System.out.println(ID_Student + "\t" + Student_Name + "\t" + ID_Faculty + "\t" + Class_Code + "\t"
 						+ Create_date + "\t" + Cert_number_requiredS + "\t" + Cert_number_accumulatedS);
-				StudentDAO studentDAO = new StudentDAO();
-				studentDAO.Test(ID_Student, Student_Name, ID_Faculty, Create_date, Class_Code, Cert_number_requiredS,
-						Cert_number_accumulatedS);
+				studentDAO.InsertStudent(ID_Student, Student_Name, ID_Faculty, Create_date, Class_Code,
+						Cert_number_requiredS, Cert_number_accumulatedS);
 			}
 		}
+		wb.close();
 	}
 }

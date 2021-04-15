@@ -223,6 +223,10 @@ insert into USERS Values(N'18130003','st',N'18130003@st.hcmuaf.edu.vn',N'123456'
 insert into USERS Values(N'18130004','st',N'18130004@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'18130006','st',N'18130006@st.hcmuaf.edu.vn',N'123456')
 
+--
+select * from USERS;
+delete from USERS where ID_User = '18130009';
+--
 insert into USERS Values(N'224','pr',N'224@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'225','pr',N'225@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'226','pr',N'226@st.hcmuaf.edu.vn',N'123456')
@@ -251,6 +255,10 @@ insert into Student Values(N'18130002',N'Nguyễn Văn B','DT','20/10/2018',N'DH
 insert into Student Values(N'18130003',N'Nguyễn Văn C','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130004',N'Nguyễn Văn D','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH18DTA',136,0)
+--
+select * from Student;
+delete from Student where ID_Student = '18130009';
+--
 
 -- insert into Professor
 insert into Professor Values(N'224',N'A','DT','20/10/2000',N'Tiến Sĩ')
@@ -501,7 +509,7 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
  select * from checkDayST(N'1c','18130005');
  select * from checkDayST(N'20','18130005');
  select * from Student_Schedule
-go
+ go
 
 -- tạo trigger cho course_offering
 alter Trigger checkCourse_Offering
