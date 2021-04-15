@@ -503,12 +503,18 @@ go
 -- tạo trigger cho course_offering
 alter Trigger checkCourse_Offering
 on Course_Offering
-for insert,update
+after insert,update
 as
+
 begin
 Declare @CurrentSizeI tinyint = (select I.Current_Size from inserted I);
 Declare @MaxSizeI tinyint = (select I.Max_Size from inserted I );
 if @CurrentSizeI > @MaxSizeI
-RAISERROR(N'lớp đã đầy',10,1)
+
+
+RAISERROR (N'Lớp đã đầy',11,1)
 ROLLBACK TRANSACTION
+
 end
+go
+insert into Course_Offering Values(N'23',N'202622','DH18DTA',80,100)

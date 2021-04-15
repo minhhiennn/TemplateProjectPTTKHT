@@ -1,12 +1,17 @@
 package httt.DoAnHTTT.database;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import javax.sound.sampled.AudioFormat.Encoding;
 
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Course_Offering;
@@ -66,17 +71,17 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		return course_Offering;
 	}
 
-	public void Test() {
+	public void Test() throws SQLException {
 		try {
-			pstmt = conn.prepareStatement("insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)");
+			pstmt = conn.prepareStatement("insert into Course_Offering Values(N'23',N'202622','DH18DTA',80,100)");
 			int row = pstmt.executeUpdate();
 			System.out.println(row);
-		} catch(Exception e)  {
-			System.out.println("Catch trigger exception");
+		} catch(SQLException e)  {
+			System.out.println(e.getMessage());
 		} 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
 		course_OfferingDAO.Test();
 	}
