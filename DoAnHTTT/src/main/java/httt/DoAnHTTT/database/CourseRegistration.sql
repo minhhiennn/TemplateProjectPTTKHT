@@ -142,7 +142,8 @@ create table Schedule
 	ID_Schedule nvarchar(50) not null,
 	ID_Course_Offering nvarchar(50) not null FOREIGN KEY REFERENCES Course_Offering(ID_Course_Offering),	
 	-- Mã giáo viên
-	Id_Profeesor nvarchar(50)  not null FOREIGN KEY REFERENCES Professor(ID_Professor),
+	-- Sửa lại ID_Professor có thể là null
+	Id_Profeesor nvarchar(50) FOREIGN KEY REFERENCES Professor(ID_Professor),
 	-- TH là thực hành
 	-- LT là lý thuyết
 	Theoretical varchar(2) not null,
@@ -229,6 +230,7 @@ insert into USERS Values(N'227','pr',N'227@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'228','pr',N'228@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'229','pr',N'229@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
+insert into USERS Values(N'300','pr',N'300@st.hcmuaf.edu.vn',N'123456')
 
 --dữ liệu bảng Faculty
 INSERT INTO Faculty VALUES ('DT', N'Khoa Công Nghệ Thông Tin')
@@ -258,6 +260,7 @@ insert into Professor Values(N'227',N'D','DT','20/10/2000',N'Phó Giáo sư')
 insert into Professor Values(N'228',N'E','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'229',N'F','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'220',N'G','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'300',N'Van ANh','NH','20/10/2000',N'Tiến Sĩ');
 
 -- insert into Semester
 insert into Semester Values(N'1_2018','1/9/2018','31/1/2019',2021,1)
@@ -312,23 +315,23 @@ insert into Course_Offering Values(N'17',N'202121','DH18DTA',80,0)
 insert into Course_Offering Values(N'18',N'214241','DH18DTA',80,0)
 insert into Course_Offering Values(N'19',N'214441','DH18DTA',80,0)
 insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
-insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
+--insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 
 -- insert into Schedule
 -- lười chèn vc
-insert into Schedule values(N'1',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'1a',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'1c',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'1b',N'20',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'2',N'2',N'225','LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'3',N'3',N'226','LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'4',N'4',N'227','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'5',N'5',N'228','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'6',N'5',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'7',N'6',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'8',N'7',N'225','LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'9',N'8',N'226','LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'10',N'9',N'227','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1a',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1c',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'1b',N'20',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'2',N'2',null,'LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
+insert into Schedule values(N'3',N'3',null,'LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
+insert into Schedule values(N'4',N'4',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'5',N'5',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'6',N'5',null,'TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'7',N'6',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'8',N'7',null,'LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
+insert into Schedule values(N'9',N'8',null,'LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
+insert into Schedule values(N'10',N'9',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'11',N'10',N'228','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'12',N'11',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'13',N'12',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
@@ -509,6 +512,19 @@ begin
 Declare @CurrentSizeI tinyint = (select I.Current_Size from inserted I);
 Declare @MaxSizeI tinyint = (select I.Max_Size from inserted I );
 if @CurrentSizeI > @MaxSizeI
-RAISERROR(N'lớp đã đầy',10,1)
+RAISERROR(N'lớp đã đầy',11,1)
 ROLLBACK TRANSACTION
 end
+go
+-- tạo function dk môn học giáo viên
+alter function checkSubjectForProfessor(@ID_Professor nvarchar(50))
+returns table 
+as
+return
+select sc.*,c.ID_Course,c.ID_Faculty
+from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+                 join Course c on co.ID_Course = c.ID_Course
+where sc.Id_Profeesor is null and c.ID_Faculty = (select pf.ID_Faculty from Professor pf where pf.ID_Professor = @ID_Professor);
+go
+
+select * from checkSubjectForProfessor('220');

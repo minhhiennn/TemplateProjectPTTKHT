@@ -78,6 +78,9 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 
 	public static void main(String[] args) {
 		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-		course_OfferingDAO.Test();
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("1");
+		Course_Offering course_Offering = course_OfferingDAO.getByKey(list);
+		System.out.println(course_Offering);
 	}
 }
