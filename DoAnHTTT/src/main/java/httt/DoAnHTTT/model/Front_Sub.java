@@ -1,23 +1,28 @@
 package httt.DoAnHTTT.model;
 
 public class Front_Sub {
-	String iD_CourseB;
-	Course course;
-	public Front_Sub(String iD_CourseB, Course course) {
+	Course course,courseB;
+
+	public Front_Sub(Course course, Course courseB) {
 		super();
-		this.iD_CourseB = iD_CourseB;
 		this.course = course;
+		this.courseB = courseB;
 	}
-	public String getiD_CourseB() {
-		return iD_CourseB;
-	}
-	public void setiD_CourseB(String iD_CourseB) {
-		this.iD_CourseB = iD_CourseB;
-	}
+
 	public Course getCourse() {
 		return course;
 	}
+
 	public void setCourse(Course course) {
 		this.course = course;
 	}
+
+	public Course getCourseB() {
+		return courseB;
+	}
+
+	public void setCourseB(Course courseB) {
+		this.courseB = courseB;
+	}
+
 	}

@@ -20,16 +20,21 @@ public class FacultyDAO implements IDAO<Faculty>{
 	}
 
 	@Override
-	public Faculty getByKey(List<String> key) {
+	public Faculty getByKeyS(List<String> key) {
+		return null;
+	}
+
+	@Override
+	public Faculty getByKey(String key) {
 		Faculty faculty = null;
 		try {
 			pstmt = conn.prepareStatement("select * from Faculty where ID_Faculty = ?");
-			pstmt.setString(1, key.get(0));
+			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String ID_Faculty = rs.getString("ID_Faculty");
 				String Name_Faculty = rs.getString("Name_Faculty");
-				faculty = new Faculty(ID_Faculty, Name_Faculty);
+				int ID_FacultyN = rs.getInt("ID_FacultyN");
+				faculty = new Faculty(key, Name_Faculty,ID_FacultyN);
 
 			}
 		} catch (SQLException e) {
@@ -47,5 +52,24 @@ public class FacultyDAO implements IDAO<Faculty>{
 			}
 		}
 		return faculty;
+	}
+
+
+	@Override
+	public boolean insert(Faculty key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Faculty key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(Faculty key) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

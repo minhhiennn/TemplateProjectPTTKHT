@@ -4,15 +4,15 @@ package function;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import httt.DoAnHTTT.database.StudentDAO;
-import httt.DoAnHTTT.database.UserDAO;
 
 public class ExcelReader {
 	public static String FormatID(String s) {
@@ -32,36 +32,31 @@ public class ExcelReader {
 		return year + "-" + month + "-" + day;
 	}
 
-	public static void main(String[] args) throws IOException {
-		StudentDAO studentDAO = new StudentDAO();
-		UserDAO userDAO = new UserDAO();
-		// obtaining input bytes from a file
+	public static void StudentAdd() throws IOException {
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
-		// creating workbook instance that refers to .xls file
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
-		// creating a Sheet object to retrieve the object
 		XSSFSheet sheet = wb.getSheetAt(0);
-		// evaluating cell type
-		for (int i = 0; i < 2; i++) // iteration over row using for each loop
-		{
-			Row row = sheet.getRow(i);
+		StudentDAO dao = new StudentDAO();
+		Iterator<Row> itr = sheet.iterator();
+		while (itr.hasNext()) {
+			Row row = itr.next();
 			if (row.getRowNum() == 0) {
 				continue;
 			} else {
-				String ID_Student = FormatID(row.getCell(0).getStringCellValue());
-				userDAO.InsertUserStudent(ID_Student);
-				String Student_Name = row.getCell(1).getStringCellValue();
-				String ID_Faculty = row.getCell(2).getStringCellValue();
-				String Create_date = FormatDate(row.getCell(3).getStringCellValue());
-				String Class_Code = row.getCell(4).getStringCellValue();
-				String Cert_number_requiredS = FormatNumber(row.getCell(5).toString());
-				String Cert_number_accumulatedS = FormatNumber(row.getCell(6).toString());
-				System.out.println(ID_Student + "\t" + Student_Name + "\t" + ID_Faculty + "\t" + Class_Code + "\t"
-						+ Create_date + "\t" + Cert_number_requiredS + "\t" + Cert_number_accumulatedS);
-				studentDAO.InsertStudent(ID_Student, Student_Name, ID_Faculty, Create_date, Class_Code,
-						Cert_number_requiredS, Cert_number_accumulatedS);
+				try {
+					Iterator<Cell> cellIterator = row.cellIterator();
+					int khoa = (int) cellIterator.next().getNumericCellValue();
+					String name = cellIterator.next().getStringCellValue();
+					String maNganh = cellIterator.next().getStringCellValue();
+					dao.insertN(khoa, name, maNganh);
+				} catch (Exception e) {
+				}
 			}
+
 		}
-		wb.close();
+	}
+
+	public static void main(String[] args) throws IOException {
+		StudentAdd();
 	}
 }
