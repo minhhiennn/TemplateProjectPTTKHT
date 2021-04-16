@@ -10,6 +10,7 @@ import java.util.List;
 
 import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.Professor;
+import httt.DoAnHTTT.model.User;
 
 public class ProfessorDAO implements IDAO<Professor> {
 	private Connection conn = null;
@@ -21,22 +22,23 @@ public class ProfessorDAO implements IDAO<Professor> {
 	}
 
 	@Override
-	public Professor getByKey(List<String> key) {
+	public Professor getByKey(String key) {
 		Professor professor = null;
 		try {
 			pstmt = conn.prepareStatement("select * from Professor where ID_Professor = ?");
-			pstmt.setString(1, key.get(0));
+			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String ID_Professor = rs.getString("ID_Professor");
+				UserDAO dao1 = new UserDAO();
+				User user = dao1.getByKey(key);
 				String Professor_Name = rs.getString("Professor_Name");
 				String ID_Faculty = rs.getString("ID_Faculty");
-				ArrayList<String> list = new ArrayList<String>();
-				list.add(ID_Faculty);
-				Faculty faculty = new FacultyDAO().getByKey(list);
-				Date Create_date = rs.getDate("Create_date");
+				FacultyDAO dao2 = new FacultyDAO();
+				Faculty faculty = dao2.getByKey(ID_Faculty);
+				Date create_date = new Date(rs.getDate("Create_date").getTime());
 				String Degree = rs.getString("Degree");
-				professor = new Professor(ID_Professor, Professor_Name, faculty, Create_date, Degree);
+				professor = new Professor(user, Professor_Name, faculty, create_date, Degree);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,5 +55,29 @@ public class ProfessorDAO implements IDAO<Professor> {
 			}
 		}
 		return professor;
+	}
+
+	@Override
+	public Professor getByKeyS(List<String> key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean insert(Professor key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Professor key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(Professor key) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

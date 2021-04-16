@@ -4,37 +4,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import httt.DoAnHTTT.model.Course;
+import httt.DoAnHTTT.model.Class;
 import httt.DoAnHTTT.model.Faculty;
 
-public class CourseDAO implements IDAO<Course> {
+public class ClassDAO implements IDAO<Class> {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
-	public CourseDAO() {
+	public ClassDAO() {
 		conn = Connect.getConnection();
 	}
 
 	@Override
-	public Course getByKey(String key) {
-		Course course = null;
+	public Class getByKey(String key) {
+		Class class1 = null;
 		try {
-			pstmt = conn.prepareStatement("select * from Course where ID_Course = ?");
+			pstmt = conn.prepareStatement("select * from Class where Class_code = ?");
 			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String ID_Faculty = rs.getString("Name_Faculty");
+				int max_Size = rs.getInt("Max_Size");
+				int current_Size =rs.getInt("Current_Size");
 				FacultyDAO dao = new FacultyDAO();
-				Faculty faculty = dao.getByKey(ID_Faculty);
-				String Name_Course = rs.getString("ID_Faculty");
-				int Course_certificate = rs.getInt("Course_certificate");
-				int years = rs.getInt("years");
-				int numberS = rs.getInt("numberS");
-				course = new Course(key, Name_Course, faculty, Course_certificate, years, numberS);
+				Faculty faculty = dao.getByKey(key);
+				class1 = new Class(key, faculty, max_Size, current_Size);
 
 			}
 		} catch (SQLException e) {
@@ -51,30 +47,36 @@ public class CourseDAO implements IDAO<Course> {
 				e.printStackTrace();
 			}
 		}
-		return course;
+		return class1;
 	}
 
 	@Override
-	public Course getByKeyS(List<String> key) {
+	public Class getByKeyS(List<String> key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean insert(Course key) {
+	public boolean insert(Class key) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(Course key) {
+	public boolean update(Class key) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(Course key) {
+	public boolean delete(Class key) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public Class getByForNStudent(int khoa, String maNganh) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

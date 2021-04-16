@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Course_Offering;
@@ -22,23 +23,28 @@ public class ScheduleDAO implements IDAO<Schedule> {
 	}
 
 	@Override
-	public Schedule getByKey(List<String> key) {
+	public Schedule getByKey(String key) {
 		Schedule schedule = null;
 		try {
 			pstmt = conn.prepareStatement("select * from Schedule where ID_Schedule = ?");
-			pstmt.setString(1, key.get(0));
+			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String ID_Schedule = rs.getString("ID_Schedule");
 				String ID_Course_Offering = rs.getString("ID_Course_Offering");
-				ArrayList<String> list1 = new ArrayList<String>();
-				list1.add(ID_Course_Offering);
-				Course_Offering course_Offering = new Course_OfferingDAO().getByKey(list1);
+				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+				Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_Course_Offering);
 				String Id_Profeesor = rs.getString("Id_Profeesor");
-				ArrayList<String> list2 = new ArrayList<String>();
-				list2.add(Id_Profeesor);
-				Professor professor = new ProfessorDAO().getByKey(list2);
-				schedule = new Schedule(ID_Schedule, course_Offering, professor);
+				ProfessorDAO professorDAO = new ProfessorDAO();
+				Professor professor = professorDAO.getByKey(Id_Profeesor);
+				String Theoretical = rs.getString("Theoretical");
+				int Teaching_Day = rs.getInt("Teaching_Day");
+				Date Start_Day = new Date(rs.getDate("Start_Day").getTime());
+				Date End_Day = new Date(rs.getDate("End_Day").getTime());
+				String Study_place = rs.getString("Study_place");
+				int Start_Slot = rs.getInt("Start_Slot");
+				int End_Slot = rs.getInt("End_Slot");
+				schedule = new Schedule(key, course_Offering, professor, Theoretical, Teaching_Day, Start_Day, End_Day, Study_place, Start_Slot, End_Slot);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,4 +62,29 @@ public class ScheduleDAO implements IDAO<Schedule> {
 		}
 		return schedule;
 	}
+
+	@Override
+	public Schedule getByKeyS(List<String> key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean insert(Schedule key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Schedule key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(Schedule key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -40,9 +40,19 @@ create table Faculty
 (
     -- mã khoa (VD DH18DTA thì mã khoa là DT)
 	ID_Faculty nvarchar(50) not null,
+	ID_FacultyN int not null,
 	Name_Faculty nvarchar(50) not null,
 	
 	Primary key (ID_Faculty)
+)
+create table Class
+(
+    -- mã khoa (VD DH18DTA thì mã khoa là DT)
+	Class_code nvarchar(50) not null,
+	ID_Faculty nvarchar(50) not null,
+	Max_Size tinyint not null,
+	Current_Size tinyint not null,
+	Primary key (Class_code)
 )
 ---
 select * from Faculty where ID_Faculty = 'AV';
@@ -58,7 +68,7 @@ create table Student
 	-- Cách tính khóa học lấy năm nộp hồ sơ (trong đây là năm tạo tài khoản) trừ cho năm mốc (năm 2000)
 	Create_date smalldatetime not null,
 	-- Class code là mã lớp (VD DH18DTA)
-	Class_code nvarchar(50) not null,
+	Class_code nvarchar(50) not null FOREIGN KEY REFERENCES Class(Class_code),
 	-- Thêm vào số chứng chỉ bắt buộc ra trường
 	-- Ngành CNTT thì tao nhớ ko nhầm tích lũy 145 chỉ là dc ra trường
 	Cert_number_required SMALLINT not null, -- Tính năng mới
@@ -120,7 +130,7 @@ create table Course_Offering
 	ID_Course_Offering nvarchar(50)  not null,
 	ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course),
 	-- mã lớp (VD DH18DTA)
-	Class_code nvarchar(50) not null,
+	Class_code nvarchar(50) not null FOREIGN KEY REFERENCES Class(Class_code),
 	-- tinyint max value là 255 (từ 0 đến 255)
 	-- max size là số sinh viên tối đa của lớp
 	Max_Size tinyint not null,
@@ -237,16 +247,18 @@ insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'300','pr',N'300@st.hcmuaf.edu.vn',N'123456')
 
 --dữ liệu bảng Faculty
-INSERT INTO Faculty VALUES ('DT', N'Khoa Công Nghệ Thông Tin')
-INSERT INTO Faculty VALUES ('TY', N'Khoa Thú Y')
-INSERT INTO Faculty VALUES ('NH', N'Khoa Nông Học')
-INSERT INTO Faculty VALUES ('CK', N'Khoa Cơ Khí')
-INSERT INTO Faculty VALUES ('AV', N'Khoa Ngôn Ngữ Anh')
-INSERT INTO Faculty VALUES ('LA', N'Khoa Thiết kế cảnh quan')
-INSERT INTO Faculty VALUES ('LN', N'Khoa Lâm nghiệp')
-INSERT INTO Faculty VALUES ('BV', N'Khoa Bảo vệ thực vật')
-INSERT INTO Faculty VALUES ('QL', N'Khoa Quản lý đất đai')
+INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
+INSERT INTO Faculty VALUES ('TY', 131,N'Khoa Thú Y')
+INSERT INTO Faculty VALUES ('NH', 132,N'Khoa Nông Học')
+INSERT INTO Faculty VALUES ('CK', 133,N'Khoa Cơ Khí')
+INSERT INTO Faculty VALUES ('AV', 134,N'Khoa Ngôn Ngữ Anh')
+INSERT INTO Faculty VALUES ('LA', 135,N'Khoa Thiết kế cảnh quan')
+INSERT INTO Faculty VALUES ('LN', 136,N'Khoa Lâm nghiệp')
+INSERT INTO Faculty VALUES ('BV', 137,N'Khoa Bảo vệ thực vật')
+INSERT INTO Faculty VALUES ('QL', 138,N'Khoa Quản lý đất đai')
 
+insert into Class Values(N'DH18DTA','DT',7,100)
+select * from class where SUBSTRING(Class_code,3,2) = '18' and ID_Faculty = 'dt';
 --dữ liệu bảng Student
 insert into Student Values(N'18130005',N'Đàm Văn Anh','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130077',N'Ngô Minh Hiển','DT','22/10/2018',N'DH18DTA',136,0)
@@ -536,3 +548,5 @@ where sc.Id_Profeesor is null and c.ID_Faculty = (select pf.ID_Faculty from Prof
 go
 
 select * from checkSubjectForProfessor('220');
+select * from Student
+select * from USERS
