@@ -65,7 +65,23 @@ public class ProfessorDAO implements IDAO<Professor> {
 
 	@Override
 	public boolean insert(Professor key) {
-		// TODO Auto-generated method stub
+		String ID_Professor = key.getUser().getiD_User();
+		String Professor_Name = key.getProfessor_Name();
+		String ID_Faculty = key.getFaculty().getiD_Faculty();
+		Date date = key.getCreate_date();
+		String Degree = key.getDegree();
+		try {
+			pstmt = conn.prepareStatement("insert into Professor Values(?,?,?,?,?)");
+			pstmt.setString(1, ID_Professor);
+			pstmt.setString(2, Professor_Name);
+			pstmt.setString(3, ID_Faculty);
+			pstmt.setDate(4, new java.sql.Date(date.getTime()));
+			pstmt.setString(5, Degree);
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -79,5 +95,11 @@ public class ProfessorDAO implements IDAO<Professor> {
 	public boolean delete(Professor key) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public static void main(String[] args) {
+		java.util.Date date1 = new Date();
+		java.sql.Date date = new java.sql.Date(date1.getTime());
+		System.out.println(date);
 	}
 }

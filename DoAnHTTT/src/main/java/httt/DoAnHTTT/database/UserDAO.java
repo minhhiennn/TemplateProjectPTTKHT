@@ -101,7 +101,21 @@ public class UserDAO implements IDAO<User>{
 
 	@Override
 	public boolean insert(User key) {
-		// TODO Auto-generated method stub
+		String ID_User = key.getiD_User();
+		String ID_UserKind = key.getiD_UserKind();
+		String email = key.getEmail();
+		String password = key.getPassword();
+		try {
+			pstmt = conn.prepareStatement("insert into USERS Values(?,?,?,?)");
+			pstmt.setString(1, ID_User);
+			pstmt.setString(2, ID_UserKind);
+			pstmt.setString(3, email);
+			pstmt.setString(4, password);
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
