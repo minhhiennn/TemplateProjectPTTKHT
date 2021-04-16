@@ -246,7 +246,7 @@ insert into USERS Values(N'229','pr',N'229@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'300','pr',N'300@st.hcmuaf.edu.vn',N'123456')
 --
-delete from USERS where ID_User in ('305','310');
+delete from USERS where ID_User in ('301','302');
 --
 --dữ liệu bảng Faculty
 INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
@@ -285,7 +285,8 @@ insert into Professor Values(N'220',N'G','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'300',N'Van ANh','NH','20/10/2000',N'Tiến Sĩ');
 --
 select * from Professor;
-delete from Professor where ID_Professor in ('305','310');
+delete from Professor where ID_Professor in ('301','302');
+select top 1 ID_Professor from Professor order by ID_Professor DESC; 
 --
 -- insert into Semester
 insert into Semester Values(N'1_2018','1/9/2018','31/1/2019',2021,1)

@@ -52,13 +52,13 @@ public class ExcelReaderForProfessor {
 			if (row.getRowNum() == 0) {
 				continue;
 			} else {
-				String ID_Professor = FormatID(row.getCell(0).getStringCellValue());
+				String ID_Professor = String.valueOf(professorDAO.selectTop1ID_Professor());
 				User user = new User(ID_Professor, "pr", ID_Professor+"@st.hcmuaf.edu.vn", "123456");
 				userDao.insert(user);
-				String Professor_Name = row.getCell(1).getStringCellValue();
-				String ID_Faculty = row.getCell(2).getStringCellValue();
+				String Professor_Name = row.getCell(0).getStringCellValue();
+				String ID_Faculty = row.getCell(1).getStringCellValue();
 				Faculty faculty = facultyDAO.getByKey(ID_Faculty);
-				String Degree = row.getCell(3).getStringCellValue();
+				String Degree = row.getCell(2).getStringCellValue();
 				Professor professor = new Professor(user, Professor_Name, faculty, new java.util.Date(), Degree);
 				professorDAO.insert(professor);
 				System.out.println(ID_Professor + "\t" + Professor_Name + "\t" + ID_Faculty + "\t" + Degree);

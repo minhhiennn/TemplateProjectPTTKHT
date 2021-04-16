@@ -21,6 +21,32 @@ public class ProfessorDAO implements IDAO<Professor> {
 		conn = Connect.getConnection();
 	}
 
+	public int selectTop1ID_Professor() {
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement("select top 1 ID_Professor from Professor order by ID_Professor DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result = Integer.parseInt(rs.getString("ID_Professor"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result + 1;
+	}
+
 	@Override
 	public Professor getByKey(String key) {
 		Professor professor = null;
@@ -81,6 +107,17 @@ public class ProfessorDAO implements IDAO<Professor> {
 			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
@@ -98,8 +135,10 @@ public class ProfessorDAO implements IDAO<Professor> {
 	}
 
 	public static void main(String[] args) {
-		java.util.Date date1 = new Date();
-		java.sql.Date date = new java.sql.Date(date1.getTime());
-		System.out.println(date);
+//		java.util.Date date1 = new Date();
+//		java.sql.Date date = new java.sql.Date(date1.getTime());
+//		System.out.println(date);
+		ProfessorDAO professorDAO = new ProfessorDAO();
+		System.out.println(professorDAO.selectTop1ID_Professor());
 	}
 }
