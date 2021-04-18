@@ -9,7 +9,7 @@ import java.util.List;
 import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.User;
 
-public class UserDAO implements IDAO<User>{
+public class UserDAO implements IDAO<User> {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
@@ -55,7 +55,6 @@ public class UserDAO implements IDAO<User>{
 			pstmt.setString(1, ID_User);
 			pstmt.setString(2, ID_User + "@st.hcmuaf.edu.vn");
 			int row = pstmt.executeUpdate();
-			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -101,8 +100,29 @@ public class UserDAO implements IDAO<User>{
 
 	@Override
 	public boolean insert(User key) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			pstmt = conn.prepareStatement("insert into Users Values(?,?,?,?)");
+			pstmt.setString(1, key.getiD_User());
+			pstmt.setString(2, key.getiD_UserKind());
+			pstmt.setString(3, key.getEmail());
+			pstmt.setString(4, key.getPassword());
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -76,6 +76,9 @@ create table Student
 	Cert_number_accumulated smallint not null, -- Tính năng mới
 	Primary key (ID_Student)
 )
+--
+select * from Student
+--
 -- một giáo sư của trường
 create table Professor
 (
@@ -199,11 +202,18 @@ create table Sub_Pass
     ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course),
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 	-- Điểm	
-	Score float not null check (Score < 10 and Score > 0),
+	Score float not null check (Score <= 10 and Score >= 0),
+	-- Điểm hệ 4
+	ScoreSystem4 float not null check (ScoreSystem4 <= 4 and ScoreSystem4 >= 0),
 	-- Đánh giá học lực
 	Rated nvarchar(10) not null,
 	Primary key (ID_Student,ID_Course,ID_Semester)
 )
+---
+select * from Sub_Pass;
+select * from Student;
+update Student set Cert_number_accumulated = 0 where ID_Student = '18130005';
+select * from Sub_Pass where ID_Student = '18130003' and ID_Course = '214321' and Score > 4.0;
 ---
 select * from Sub_Pass;
 -- ket qua theo tung hoc ki
@@ -212,18 +222,20 @@ create table semester_Result
 	ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
 	--
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	--diem trung binh trong ki nay
+	--diem trung binh he 4 trong ki nay 
 	gradeAv float,
 	creditGet smallint,
 	Primary key (ID_Semester,ID_Student)
 )
+--insert into Final_Result values(N'18130005',6.6,72)
 create table Final_Result
 (
-	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	gradeAv	float,
-	creditGet smallint,
-	Primary key (ID_Student)
+ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
+gradeAv float,
+createGet smallint,
+Primary key (ID_Student)
 )
+go
 -- insert into users
 insert into USERS Values(N'18130005','st',N'18130005@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'18130077','st',N'18130077@st.hcmuaf.edu.vn',N'123456')
@@ -245,7 +257,9 @@ insert into USERS Values(N'228','pr',N'228@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'229','pr',N'229@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'300','pr',N'300@st.hcmuaf.edu.vn',N'123456')
-
+--
+delete from USERS where ID_User in ('301','302');
+--
 --dữ liệu bảng Faculty
 INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
 INSERT INTO Faculty VALUES ('TY', 131,N'Khoa Thú Y')
@@ -257,6 +271,9 @@ INSERT INTO Faculty VALUES ('LN', 136,N'Khoa Lâm nghiệp')
 INSERT INTO Faculty VALUES ('BV', 137,N'Khoa Bảo vệ thực vật')
 INSERT INTO Faculty VALUES ('QL', 138,N'Khoa Quản lý đất đai')
 
+--
+select * from Faculty;
+--
 insert into Class Values(N'DH18DTA','DT',7,100)
 select * from class where SUBSTRING(Class_code,3,2) = '18' and ID_Faculty = 'dt';
 --dữ liệu bảng Student
@@ -270,6 +287,8 @@ insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH
 --
 select * from Student;
 delete from Student where ID_Student = '18130009';
+update Student Set Cert_number_accumulated = 4 where ID_Student = '18130006';
+select Cert_number_accumulated from Student where ID_Student = '18130006';
 --
 
 -- insert into Professor
@@ -281,7 +300,11 @@ insert into Professor Values(N'228',N'E','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'229',N'F','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'220',N'G','DT','20/10/2000',N'Tiến Sĩ')
 insert into Professor Values(N'300',N'Van ANh','NH','20/10/2000',N'Tiến Sĩ');
-
+--
+select * from Professor;
+delete from Professor where ID_Professor in ('301','302');
+select top 1 ID_Professor from Professor order by ID_Professor DESC; 
+--
 -- insert into Semester
 insert into Semester Values(N'1_2018','1/9/2018','31/1/2019',2021,1)
 insert into Semester Values(N'2_2018','1/3/2019','30/6/2019',2021,2)
@@ -313,6 +336,10 @@ insert into Course Values(N'202121','DT',N'Xác suất thống kê',3,2,1)
 insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2,1)
 insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2,1)
 insert into Course Values(N'202622','DT',N'Pháp luật đại cương',2,2,1)
+
+--
+select Course_certificate from Course where ID_Course = '213603';
+--
 
 -- insert into Course_Offering
 insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)
@@ -385,10 +412,8 @@ insert into front_Sub values(N'214441',N'214331')
 
 -- insert into Sub_Pass
 
-insert into Sub_Pass values('2_2018',N'213603',N'18130005',7.5,N'Khá')
-insert into Sub_Pass values('2_2018',N'214321',N'18130003',7.5,N'Khá')
-insert into Sub_Pass values('2_2018',N'214321',N'18130005',3.0,N'dốt')
-insert into Sub_Pass values('1_2022',N'213603',N'18130003',11.0,N'Trung Bình')
+select * from Sub_Pass;
+--delete from Sub_Pass where ID_Course = '200102';
 --insert into Sub_Pass values('2_2022',N'2142',N'18130006',7.5,N'khá')
 --insert into Sub_Pass values('1_2022',N'2122',N'18130005',5.5,N'Trung bình')
 --insert into Sub_Pass values('3_2022',N'4111',N'18130004',7.5,N'Khá')
@@ -550,3 +575,47 @@ go
 select * from checkSubjectForProfessor('220');
 select * from Student
 select * from USERS
+go
+--
+select sp.* ,c.Course_certificate from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+go
+--
+-- tạo function semester_Result
+alter function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
+returns table
+as
+return 
+select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+where sp.ID_Student = @ID_Student and sp.ID_Semester = @ID_Semester
+go
+--
+select * from get_Semester_Reuslt('18130005','2_2018');
+-- lấy điểm TB từ semester_Result(hệ 4)
+select SUM(gr.ScoreSystem4 * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB_He_4 from get_Semester_Reuslt('18130005','2_2018') gr;
+-- lấy tổng tín chỉ đã đạt trong học kỳ(ko lấy môn dưới 4.0)
+select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018') gr where gr.Score > 4.0;
+-- tổng tín chỉ đã đăng ký trong học kỳ
+select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018')gr;
+--
+
+go
+--
+-- tạo function Final_Result(éo biết tính như nào)
+create function get_Final_Result(@ID_Student nvarchar(50))
+returns table
+as
+return 
+select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+where sp.ID_Student = @ID_Student
+go
+select * from get_Final_Result('18130005');
+--
+insert into semester_Result values();
+--
+
+DELETE FROM Student WHERE ID_Student like '181%' and ID_Student != '18130005' ;
+DELETE FROM USERS WHERE ID_User like '181%' and ID_User = '18130005';
+DELETE FROM Class WHERE Class_code like 'DH18%';
+ select * from Student
+ select * from USERS
+ select * from Class

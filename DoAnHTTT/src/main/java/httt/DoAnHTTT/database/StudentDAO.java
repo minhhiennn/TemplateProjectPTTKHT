@@ -40,11 +40,6 @@ public class StudentDAO implements IDAO<Student> {
 		}
 	}
 
-	public static void main(String[] args) {
-		StudentDAO studentDAO = new StudentDAO();
-		studentDAO.getID_Student(18, "dt");
-	}
-
 	@Override
 	public Student getByKey(String key) {
 		Student student = null;
@@ -53,7 +48,6 @@ public class StudentDAO implements IDAO<Student> {
 			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-
 				UserDAO userDao = new UserDAO();
 				User user = userDao.getByKey(key);
 				String Student_Name = rs.getString("Student_Name");
@@ -66,7 +60,6 @@ public class StudentDAO implements IDAO<Student> {
 				httt.DoAnHTTT.model.Class class1 = classDAO.getByKey(Class_code);
 				int Cert_number_required = rs.getInt("Cert_number_required");
 				int Cert_number_accumulated = rs.getInt("Cert_number_accumulated");
-
 				student = new Student(user, Student_Name, faculty, create_date, class1, Cert_number_required,
 						Cert_number_accumulated);
 
@@ -96,8 +89,32 @@ public class StudentDAO implements IDAO<Student> {
 
 	@Override
 	public boolean insert(Student key) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			pstmt = conn.prepareStatement("insert into Student Values(?,?,?,?,?,?,?)");
+			pstmt.setString(1, key.getUser().getiD_User());
+			pstmt.setString(2, key.getStudent_Name());
+			pstmt.setString(3, key.getFaculty().getiD_Faculty());
+			pstmt.setDate(4, new java.sql.Date(key.getCreate_date().getTime()));
+			pstmt.setString(5, key.getClass1().getClass_Code());
+			pstmt.setInt(6, key.getCert_number_required());
+			pstmt.setInt(7, key.getCert_number_accumulated());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
+
 	}
 
 	@Override
@@ -113,44 +130,62 @@ public class StudentDAO implements IDAO<Student> {
 	}
 
 	public void insertN(int khoa, String name, String maNganh) {
-		String ID_Student = getID_Student(khoa,maNganh);
-		User user = new User(ID_Student, "st", ID_Student+"@st.hcmuaf.edu.vn", "123456");
-		UserDAO dao = new UserDAO();
-		dao.insert(user);
-		FacultyDAO facultyDAO = new FacultyDAO();
-		Faculty faculty=  facultyDAO.getByKey(maNganh);
-		ClassDAO classDAO = new ClassDAO();
-		Class class1 = classDAO.getByForNStudent(khoa,maNganh);
-		Student student = new Student(user, ID_Student, faculty, new Date(), class1, 0, 0);
-		insert(student);
-		
+		String ID_Student = getID_Student(khoa, maNganh);
+		if (ID_Student != null) {
+			User user = new User(ID_Student, "st", ID_Student + "@st.hcmuaf.edu.vn", "123456");
+			UserDAO userDAO = new UserDAO();
+			userDAO.insert(user);
+			FacultyDAO facultyDAO = new FacultyDAO();
+			Faculty faculty = facultyDAO.getByKey(maNganh);
+			ClassDAO classDAO = new ClassDAO();
+			Class class1 = classDAO.getByForNStudent(khoa, maNganh);
+			Student student = new Student(user, name, faculty, new Date(), class1, 0, 0);
+			class1.setCurrent_Size(class1.getCurrent_Size() + 1);
+			insert(student);
+			ClassDAO classDAO1 = new ClassDAO();
+			classDAO1.update(class1);
+		} else {
+			System.out.println("that bai");
+		}
 	}
 
 	private String getID_Student(int khoa, String maNganh) {
+		FacultyDAO facultyDAO = new FacultyDAO();
+		Faculty faculty = facultyDAO.getByKey(maNganh);
 		String ID_Student = null;
-		try {
-			pstmt = conn.prepareStatement("select * from class where SUBSTRING(Class_code,3,2) = ? and ID_Faculty = ?");
-			pstmt.setString(1, new String(""+khoa).trim());
-			pstmt.setString(2, maNganh);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+		if (faculty != null) {
+			ID_Student = khoa + "" + faculty.getID_FacultyN() + "000";
 			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (rs != null) {
-					rs.close();
+				pstmt = conn.prepareStatement(
+						"select top 1 * from Users where ID_User like ? order by ID_User desc");
+				pstmt.setString(1, khoa + "" + faculty.getID_FacultyN() + "%");
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					String lastID = (Integer.parseInt(rs.getString("ID_User")) + 1) + "";
+					ID_Student = lastID.trim();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (rs != null) {
+						rs.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return ID_Student;
+
 	}
+
+	public static void main(String[] args) {
+		StudentDAO studentDAO = new StudentDAO();
+		System.out.println(studentDAO.getID_Student(18, "DT"));
+	}
+
 }
