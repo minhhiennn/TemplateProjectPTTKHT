@@ -12,10 +12,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import httt.DoAnHTTT.database.CourseDAO;
+import httt.DoAnHTTT.database.Final_ResultDAO;
 import httt.DoAnHTTT.database.SemesterDAO;
 import httt.DoAnHTTT.database.Semester_ResultDAO;
 import httt.DoAnHTTT.database.StudentDAO;
 import httt.DoAnHTTT.database.Sub_PassDAO;
+import httt.DoAnHTTT.model.Final_Result;
 import httt.DoAnHTTT.model.Semester_Result;
 import httt.DoAnHTTT.model.Sub_Pass;
 
@@ -45,6 +47,7 @@ public class ExcelReaderForGradeFill {
 		CourseDAO courseDAO = new CourseDAO();
 		StudentDAO studentDAO = new StudentDAO();
 		Semester_ResultDAO semester_ResultDAO = new Semester_ResultDAO();
+		Final_ResultDAO Final_ResultDAO = new Final_ResultDAO();
 		// obtaining input bytes from a file
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\GradeFill.xlsx"));
 		// creating workbook instance that refers to .xls file
@@ -65,6 +68,10 @@ public class ExcelReaderForGradeFill {
 				String ID_Student = FormatID(row.getCell(3).getStringCellValue());
 				String ID_Semester = FormatID(row.getCell(4).getStringCellValue());
 				hashSet.add(ID_Student + "-" + ID_Semester);
+				ID_Student = FormatID(row.getCell(3).getStringCellValue());
+				ID_Semester = FormatID(row.getCell(4).getStringCellValue());
+				System.out.println(
+						ID_Course + "\t" + Name_Course + "\t" + Score + "\t" + ID_Student + "\t" + ID_Semester);
 				// check xem student da hoc qua mon nay hay chua
 				boolean check = sub_PassDAO.checkScoreSub_Pass(ID_Student, ID_Course);
 				if (check == true) {
@@ -156,6 +163,14 @@ public class ExcelReaderForGradeFill {
 					semester_ResultDAO.getDiemTBHe4(ID_Student, ID_Semester),
 					semester_ResultDAO.getSoTinChiDaDat(ID_Student, ID_Semester));
 			semester_ResultDAO.insert(semester_Result);
+		}
+		for (String i : hashSet) {
+			String[] iSplit = i.split("-");
+			String ID_Student = iSplit[0];
+			String ID_Semester = iSplit[1];
+			Final_Result final_Result = new Final_Result(studentDAO.getByKey(ID_Student),
+					Final_ResultDAO.sumScore(ID_Student));
+			Final_ResultDAO.insert(final_Result);
 		}
 	}
 

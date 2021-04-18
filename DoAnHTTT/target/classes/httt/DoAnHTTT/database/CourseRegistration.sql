@@ -230,12 +230,12 @@ create table semester_Result
 	creditGet smallint,
 	Primary key (ID_Semester,ID_Student)
 )
+select * from semester_Result;
 --insert into Final_Result values(N'18130005',6.6,72)
 create table Final_Result
 (
 ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 gradeAv float,
-createGet smallint,
 Primary key (ID_Student)
 )
 go

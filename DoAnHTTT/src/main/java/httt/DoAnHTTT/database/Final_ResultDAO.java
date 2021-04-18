@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.Final_Result;
 import httt.DoAnHTTT.model.Student;
 
@@ -28,10 +27,9 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StudentDAO studentDAO = new StudentDAO();
-				Student student =  studentDAO.getByKey(key);
+				Student student = studentDAO.getByKey(key);
 				float gradeAv = rs.getFloat("gradeAv");
-				int creditGet = rs.getInt("creditGet");
-				final_Result = new Final_Result(student, gradeAv, creditGet);
+				final_Result = new Final_Result(student, gradeAv);
 
 			}
 		} catch (SQLException e) {
@@ -59,7 +57,26 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 
 	@Override
 	public boolean insert(Final_Result key) {
-		// TODO Auto-generated method stub
+		String ID_Student = key.getStudent().getUser().getiD_User();
+		float gradeAv = key.getGradeAv();
+
+		try {
+			pstmt = conn.prepareStatement("Insert into Final_Result values(?,?)");
+			pstmt.setString(1, ID_Student);
+			pstmt.setFloat(2, gradeAv);
+
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
 		return false;
 	}
 
@@ -73,5 +90,34 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 	public boolean delete(Final_Result key) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public float sumScore(String key) {
+		float sum = 0;
+		int numbersemester = 0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=?");
+			pstmt.setString(1, key);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sum += (rs.getFloat("gradeAv"));
+				numbersemester++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return sum / numbersemester;
 	}
 }
