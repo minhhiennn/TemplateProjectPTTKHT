@@ -1,7 +1,7 @@
 package httt.DoAnHTTT.model;
 
 public class User {
-	String iD_User,iD_UserKind,email,password;
+	String iD_User, iD_UserKind, email, password;
 
 	public User(String iD_User, String iD_UserKind, String email, String password) {
 		super();
@@ -43,4 +43,4 @@ public class User {
 		this.password = password;
 	}
 
-	}
+}

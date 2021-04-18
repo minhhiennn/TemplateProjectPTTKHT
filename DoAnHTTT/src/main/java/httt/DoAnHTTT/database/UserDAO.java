@@ -65,7 +65,7 @@ public class UserDAO implements IDAO<User> {
 	public User getByKey(String key) {
 		User user = null;
 		try {
-			pstmt = conn.prepareStatement("select * from User where ID_User = ?");
+			pstmt = conn.prepareStatement("select * from USERS where ID_User = ?");
 			pstmt.setString(1, key);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -140,5 +140,10 @@ public class UserDAO implements IDAO<User> {
 	public boolean delete(User key) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public static void main(String[] args) {
+       UserDAO userDAO = new UserDAO();
+       User user = userDAO.getByKey("18130005");
 	}
 }

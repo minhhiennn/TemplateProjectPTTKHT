@@ -50,5 +50,10 @@ public class Course {
 	public void setNumberS(int numberS) {
 		this.numberS = numberS;
 	}
+	@Override
+	public String toString() {
+		return "Course [iD_Course=" + iD_Course + ", name_Course=" + name_Course + ", faculty=" + faculty
+				+ ", course_certificate=" + course_certificate + ", years=" + years + ", numberS=" + numberS + "]";
+	}
 
 }

@@ -30,7 +30,6 @@ public class ProfessorDAO implements IDAO<Professor> {
 				result = Integer.parseInt(rs.getString("ID_Professor"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
