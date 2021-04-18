@@ -55,7 +55,6 @@ public class UserDAO implements IDAO<User> {
 			pstmt.setString(1, ID_User);
 			pstmt.setString(2, ID_User + "@st.hcmuaf.edu.vn");
 			int row = pstmt.executeUpdate();
-			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +111,6 @@ public class UserDAO implements IDAO<User> {
 			pstmt.setString(3, email);
 			pstmt.setString(4, password);
 			int row = pstmt.executeUpdate();
-			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

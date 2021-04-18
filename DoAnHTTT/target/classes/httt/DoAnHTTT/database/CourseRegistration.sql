@@ -612,3 +612,7 @@ select * from get_Final_Result('18130005');
 --
 insert into semester_Result values();
 --
+select * from class
+select * from Student
+delete Student where ID_Student like '18131%'
+delete class where Class_code like 'DH18TY%'

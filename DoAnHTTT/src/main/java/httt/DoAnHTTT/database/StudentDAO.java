@@ -70,7 +70,32 @@ public class StudentDAO implements IDAO<Student> {
 
 	@Override
 	public boolean insert(Student key) {
-		return false;
+		try {
+			pstmt = conn.prepareStatement("insert into Student Values(?,?,?,?,?,?,?)");
+			pstmt.setString(1, key.getUser().getiD_User());
+			pstmt.setString(2, key.getStudent_Name());
+			pstmt.setString(3, key.getFaculty().getiD_Faculty());
+			pstmt.setDate(4, new java.sql.Date(key.getCreate_date().getTime()));
+			pstmt.setString(5, key.getClass1().getClass_Code());
+			pstmt.setInt(6, key.getCert_number_required());
+			pstmt.setInt(7, key.getCert_number_accumulated());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
+
 	}
 
 	@Override
@@ -86,40 +111,53 @@ public class StudentDAO implements IDAO<Student> {
 
 	public void insertN(int khoa, String name, String maNganh) {
 		String ID_Student = getID_Student(khoa, maNganh);
-		User user = new User(ID_Student, "st", ID_Student + "@st.hcmuaf.edu.vn", "123456");
-		UserDAO dao = new UserDAO();
-		dao.insert(user);
-		FacultyDAO facultyDAO = new FacultyDAO();
-		Faculty faculty = facultyDAO.getByKey(maNganh);
-		ClassDAO classDAO = new ClassDAO();
-		Class class1 = classDAO.getByForNStudent(khoa, maNganh);
-		Student student = new Student(user, ID_Student, faculty, new Date(), class1, 0, 0);
-		insert(student);
-
+		if (ID_Student != null) {
+			User user = new User(ID_Student, "st", ID_Student + "@st.hcmuaf.edu.vn", "123456");
+			UserDAO userDAO = new UserDAO();
+			userDAO.insert(user);
+			FacultyDAO facultyDAO = new FacultyDAO();
+			Faculty faculty = facultyDAO.getByKey(maNganh);
+			ClassDAO classDAO = new ClassDAO();
+			Class class1 = classDAO.getByForNStudent(khoa, maNganh);
+			Student student = new Student(user, name, faculty, new Date(), class1, 0, 0);
+			class1.setCurrent_Size(class1.getCurrent_Size() + 1);
+			insert(student);
+			ClassDAO classDAO1 = new ClassDAO();
+			classDAO1.update(class1);
+		} else {
+			System.out.println("that bai");
+		}
 	}
 
-	private String getID_Student(int khoa, String maNganh) {
-		String ID_Student = null;
-		try {
-			pstmt = conn.prepareStatement("select * from class where SUBSTRING(Class_code,3,2) = ? and ID_Faculty = ?");
-			pstmt.setString(1, new String("" + khoa).trim());
-			pstmt.setString(2, maNganh);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
 
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+	private String getID_Student(int khoa, String maNganh) {
+		FacultyDAO facultyDAO = new FacultyDAO();
+		Faculty faculty = facultyDAO.getByKey(maNganh);
+		String ID_Student = null;
+		if (faculty != null) {
+			ID_Student = khoa + "" + faculty.getID_FacultyN() + "000";
 			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (rs != null) {
-					rs.close();
+				pstmt = conn.prepareStatement(
+						"select top 1 * from Users where ID_User like ? order by ID_User desc");
+				pstmt.setString(1, khoa + "" + faculty.getID_FacultyN() + "%");
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					String lastID = (Integer.parseInt(rs.getString("ID_User")) + 1) + "";
+					ID_Student = lastID.trim();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (rs != null) {
+						rs.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return ID_Student;
@@ -157,7 +195,6 @@ public class StudentDAO implements IDAO<Student> {
 			pstmt.setInt(1, Cert_number_accumulated);
 			pstmt.setString(2, ID_Student);
 			int row = pstmt.executeUpdate();
-			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

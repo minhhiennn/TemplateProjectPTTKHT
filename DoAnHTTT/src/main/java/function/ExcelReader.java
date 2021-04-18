@@ -4,7 +4,10 @@ package function;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,31 +15,55 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import httt.DoAnHTTT.database.ClassDAO;
 import httt.DoAnHTTT.database.StudentDAO;
+import httt.DoAnHTTT.model.Class;
 
 public class ExcelReader {
-	public static String FormatID(String s) {
-		return s.substring(1, s.length() - 1);
+
+	public ExcelReader() throws IOException {
 	}
 
-	public static String FormatNumber(String s) {
-		StringTokenizer st = new StringTokenizer(s, ".");
-		return st.nextToken();
+	public Map<String, Integer> StudentCount() throws IOException {
+		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		XSSFSheet sheet = wb.getSheetAt(0);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		Iterator<Row> itr = sheet.iterator();
+		
+		while (itr.hasNext()) {
+			Row row = itr.next();
+			if (row.getRowNum() == 0) {
+				continue;
+			} else {
+				try {
+					Iterator<Cell> cellIterator = row.cellIterator();
+					int khoa = (int) cellIterator.next().getNumericCellValue();
+					String ho = cellIterator.next().getStringCellValue();
+					String ten = cellIterator.next().getStringCellValue();
+					String maNganh = cellIterator.next().getStringCellValue();
+					if (ten != null) {
+						if (map.get(khoa + maNganh) == null) {
+							map.put(khoa + maNganh, 1);
+						} else {
+							map.put(khoa + maNganh, map.get(khoa + maNganh) + 1);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return map;
 	}
 
-	public static String FormatDate(String s) {
-		String[] s2 = s.split("/");
-		String day = s2[0];
-		String month = s2[1];
-		String year = s2[2];
-		return year + "-" + month + "-" + day;
-	}
-
-	public static void StudentAdd() throws IOException {
+	public void StudentAdd() throws IOException {
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet = wb.getSheetAt(0);
 		StudentDAO dao = new StudentDAO();
+		ClassDAO classDAO = new ClassDAO();
+		classDAO.createClass(StudentCount());
 		Iterator<Row> itr = sheet.iterator();
 		while (itr.hasNext()) {
 			Row row = itr.next();
@@ -46,17 +73,24 @@ public class ExcelReader {
 				try {
 					Iterator<Cell> cellIterator = row.cellIterator();
 					int khoa = (int) cellIterator.next().getNumericCellValue();
-					String name = cellIterator.next().getStringCellValue();
+					String ho = cellIterator.next().getStringCellValue();
+					String ten = cellIterator.next().getStringCellValue();
 					String maNganh = cellIterator.next().getStringCellValue();
-					dao.insertN(khoa, name, maNganh);
+					dao.insertN(khoa, ho + " " + ten, maNganh);
+					
 				} catch (Exception e) {
 				}
 			}
-
 		}
+		classDAO.updateFullClassUpdate(StudentCount());
 	}
 
+	void StudentClean() {
+		
+	}
 	public static void main(String[] args) throws IOException {
-		StudentAdd();
+		ExcelReader excelReader = new ExcelReader();
+
+		excelReader.StudentAdd();
 	}
 }
