@@ -43,9 +43,10 @@ public class Semester_ResultDAO implements IDAO<Semester_Result> {
 				Semester semester = semesterDAO.getByKey(key.get(0));
 				StudentDAO studentDAO = new StudentDAO();
 				Student student = studentDAO.getByKey(key.get(2));
-				float gradeAv = rs.getFloat("gradeAv");
+				double gradeAv = rs.getFloat("gradeAv");
+				double gradeAv4 = rs.getDouble("gradeAv4");
 				int creditGet = rs.getInt("creditGet");
-				semester_Result = new Semester_Result(semester, student, gradeAv, creditGet);
+				semester_Result = new Semester_Result(semester, student, gradeAv, gradeAv4, creditGet);
 
 			}
 		} catch (SQLException e) {
@@ -70,13 +71,15 @@ public class Semester_ResultDAO implements IDAO<Semester_Result> {
 		String ID_Semester = key.getSemester().getiD_Semester();
 		String ID_Student = key.getStudent().getUser().getiD_User();
 		double gradeAv = key.getGradeAv();
+		double gradeAv4 = key.getGradeAv4();
 		int creditGet = key.getCreditGet();
 		try {
-			pstmt = conn.prepareStatement("insert into semester_Result values(?,?,?,?)");
+			pstmt = conn.prepareStatement("insert into semester_Result values(?,?,?,?,?)");
 			pstmt.setString(1, ID_Semester);
 			pstmt.setString(2, ID_Student);
 			pstmt.setDouble(3, gradeAv);
-			pstmt.setInt(4, creditGet);
+			pstmt.setDouble(4, gradeAv4);
+			pstmt.setInt(5, creditGet);
 			int row = pstmt.executeUpdate();
 			System.out.println(row);
 		} catch (SQLException e) {
@@ -104,6 +107,34 @@ public class Semester_ResultDAO implements IDAO<Semester_Result> {
 	@Override
 	public boolean delete(Semester_Result key) {
 		return false;
+	}
+
+	public double getDiemTB(String ID_Student, String ID_Semester) {
+		double Diem_TB = 0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select SUM(gr.Score * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB from get_Semester_Reuslt(?,?) gr");
+			pstmt.setString(1, ID_Student);
+			pstmt.setString(2, ID_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Diem_TB = rs.getDouble("Diem_TB");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return Diem_TB;
 	}
 
 	public double getDiemTBHe4(String ID_Student, String ID_Semester) {

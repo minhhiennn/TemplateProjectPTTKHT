@@ -174,23 +174,24 @@ public class ClassDAO implements IDAO<Class> {
 
 	public void createClass(Map<String, Integer> studentCount) {
 		Set<String> set = studentCount.keySet();
-
 		for (String key : set) {
 			String iD_Faculty = key.substring(key.length() - 2);
 			FacultyDAO dao = new FacultyDAO();
 			Faculty faculty = dao.getByKey(iD_Faculty);
 			if (faculty != null) {
-
 				char code = 'a';
 				int quantity = studentCount.get(key);
+				System.out.println(quantity);
 				if (quantity >= 100) {
 					for (int i = 0; i <= quantity / 100; i++) {
 						int maxsize = 0;
 						String class_Code = "DH" + key + Character.toUpperCase(code++);
 						if (i == (quantity / 100)) {
 							maxsize = (quantity / ((quantity / 100) + 1)) + (quantity % ((quantity / 100) + 1));
+							System.out.println(maxsize);
 						} else {
 							maxsize = quantity / ((quantity / 100) + 1);
+							System.out.println(maxsize);
 						}
 						Class class1 = new Class(class_Code, faculty, maxsize, 0);
 						insert(class1);

@@ -4,6 +4,7 @@ package function;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -19,6 +20,8 @@ import httt.DoAnHTTT.model.Semester_Result;
 import httt.DoAnHTTT.model.Sub_Pass;
 
 public class ExcelReaderForGradeFill {
+	public static HashSet<String> hashSet = new HashSet<String>();
+
 	public static String FormatID(String s) {
 		return s.substring(1, s.length() - 1);
 	}
@@ -36,7 +39,7 @@ public class ExcelReaderForGradeFill {
 		return year + "-" + month + "-" + day;
 	}
 
-	public static void InsertByExcel() throws IOException {
+	public static void InsertAndUpdate() throws IOException {
 		Sub_PassDAO sub_PassDAO = new Sub_PassDAO();
 		SemesterDAO semesterDAO = new SemesterDAO();
 		CourseDAO courseDAO = new CourseDAO();
@@ -49,8 +52,6 @@ public class ExcelReaderForGradeFill {
 		// creating a Sheet object to retrieve the object
 		XSSFSheet sheet = wb.getSheetAt(0);
 		// evaluating cell type
-		String ID_Student = null;
-		String ID_Semester = null;
 		for (int i = 0; i <= sheet.getLastRowNum(); i++) // iteration over row using for each loop
 		{
 
@@ -61,13 +62,11 @@ public class ExcelReaderForGradeFill {
 				String ID_Course = FormatID(row.getCell(0).getStringCellValue());
 				String Name_Course = row.getCell(1).getStringCellValue();
 				double Score = row.getCell(2).getNumericCellValue();
-				ID_Student = FormatID(row.getCell(3).getStringCellValue());
-				ID_Semester = FormatID(row.getCell(4).getStringCellValue());
-				System.out.println(
-						ID_Course + "\t" + Name_Course + "\t" + Score + "\t" + ID_Student + "\t" + ID_Semester);
+				String ID_Student = FormatID(row.getCell(3).getStringCellValue());
+				String ID_Semester = FormatID(row.getCell(4).getStringCellValue());
+				hashSet.add(ID_Student + "-" + ID_Semester);
 				// check xem student da hoc qua mon nay hay chua
 				boolean check = sub_PassDAO.checkScoreSub_Pass(ID_Student, ID_Course);
-				System.out.println(check);
 				if (check == true) {
 					if (Score < 4.0) {
 						sub_PassDAO.insert(new Sub_Pass(semesterDAO.getByKey(ID_Semester),
@@ -146,14 +145,21 @@ public class ExcelReaderForGradeFill {
 				}
 			}
 		}
-		Semester_Result semester_Result = new Semester_Result(semesterDAO.getByKey(ID_Semester),
-				studentDAO.getByKey(ID_Student), semester_ResultDAO.getDiemTBHe4(ID_Student, ID_Semester),
-				semester_ResultDAO.getSoTinChiDaDat(ID_Student, ID_Semester));
-		semester_ResultDAO.insert(semester_Result);
+		System.out.println(hashSet.size());
 		wb.close();
+		for (String i : hashSet) {
+			String[] iSplit = i.split("-");
+			String ID_Student = iSplit[0];
+			String ID_Semester = iSplit[1];
+			Semester_Result semester_Result = new Semester_Result(semesterDAO.getByKey(ID_Semester),
+					studentDAO.getByKey(ID_Student), semester_ResultDAO.getDiemTB(ID_Student, ID_Semester),
+					semester_ResultDAO.getDiemTBHe4(ID_Student, ID_Semester),
+					semester_ResultDAO.getSoTinChiDaDat(ID_Student, ID_Semester));
+			semester_ResultDAO.insert(semester_Result);
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
-		ExcelReaderForGradeFill.InsertByExcel();
+		ExcelReaderForGradeFill.InsertAndUpdate();
 	}
 }

@@ -4,13 +4,15 @@ public class Semester_Result {
 	Semester semester;
 	Student student;
 	double gradeAv;
+	double gradeAv4;
 	int creditGet;
 
-	public Semester_Result(Semester semester, Student student, double gradeAv, int creditGet) {
+	public Semester_Result(Semester semester, Student student, double gradeAv, double gradeAv4, int creditGet) {
 		super();
 		this.semester = semester;
 		this.student = student;
 		this.gradeAv = gradeAv;
+		this.gradeAv4 = gradeAv4;
 		this.creditGet = creditGet;
 	}
 
@@ -36,6 +38,14 @@ public class Semester_Result {
 
 	public void setGradeAv(double gradeAv) {
 		this.gradeAv = gradeAv;
+	}
+
+	public double getGradeAv4() {
+		return gradeAv4;
+	}
+
+	public void setGradeAv4(double gradeAv4) {
+		this.gradeAv4 = gradeAv4;
 	}
 
 	public int getCreditGet() {

@@ -210,6 +210,7 @@ create table Sub_Pass
 	Primary key (ID_Student,ID_Course,ID_Semester)
 )
 ---
+delete from Sub_Pass;
 select * from Sub_Pass;
 select * from Student;
 update Student set Cert_number_accumulated = 0 where ID_Student = '18130005';
@@ -222,11 +223,14 @@ create table semester_Result
 	ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
 	--
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	--diem trung binh he 4 trong ki nay 
+	--diem trung binh trong ki nay 
 	gradeAv float,
+	--diem trung binh he 4 trong ki nay
+	gradeAv4 float,
 	creditGet smallint,
 	Primary key (ID_Semester,ID_Student)
 )
+select * from semester_Result;
 --insert into Final_Result values(N'18130005',6.6,72)
 create table Final_Result
 (
@@ -581,7 +585,7 @@ select sp.* ,c.Course_certificate from Sub_Pass sp join Course c on sp.ID_Course
 go
 --
 -- tạo function semester_Result
-alter function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
+create function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
 returns table
 as
 return 
@@ -590,7 +594,9 @@ where sp.ID_Student = @ID_Student and sp.ID_Semester = @ID_Semester
 go
 --
 select * from get_Semester_Reuslt('18130005','2_2018');
--- lấy điểm TB từ semester_Result(hệ 4)
+-- tính điểm TB từ semester_Result
+select SUM(gr.Score * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB from get_Semester_Reuslt('18130005','2_2018') gr;
+-- tính điểm TB từ semester_Result(hệ 4)
 select SUM(gr.ScoreSystem4 * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB_He_4 from get_Semester_Reuslt('18130005','2_2018') gr;
 -- lấy tổng tín chỉ đã đạt trong học kỳ(ko lấy môn dưới 4.0)
 select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018') gr where gr.Score > 4.0;
@@ -614,5 +620,5 @@ insert into semester_Result values();
 --
 select * from class
 select * from Student
---delete Student where ID_Student like '18131%'
---delete class where Class_code like 'DH18TY%'
+delete Student where ID_Student like '18135%'
+delete class where Class_code like 'DH18TY%'

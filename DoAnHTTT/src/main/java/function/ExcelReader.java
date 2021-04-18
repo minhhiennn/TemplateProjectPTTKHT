@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import httt.DoAnHTTT.database.ClassDAO;
 import httt.DoAnHTTT.database.StudentDAO;
-import httt.DoAnHTTT.model.Class;
 
 public class ExcelReader {
 
@@ -90,7 +87,6 @@ public class ExcelReader {
 	}
 	public static void main(String[] args) throws IOException {
 		ExcelReader excelReader = new ExcelReader();
-
 		excelReader.StudentAdd();
 	}
 }
