@@ -12,8 +12,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import httt.DoAnHTTT.database.CourseDAO;
 import httt.DoAnHTTT.database.SemesterDAO;
+import httt.DoAnHTTT.database.Semester_ResultDAO;
 import httt.DoAnHTTT.database.StudentDAO;
 import httt.DoAnHTTT.database.Sub_PassDAO;
+import httt.DoAnHTTT.model.Semester_Result;
 import httt.DoAnHTTT.model.Sub_Pass;
 
 public class ExcelReaderForGradeFill {
@@ -39,6 +41,7 @@ public class ExcelReaderForGradeFill {
 		SemesterDAO semesterDAO = new SemesterDAO();
 		CourseDAO courseDAO = new CourseDAO();
 		StudentDAO studentDAO = new StudentDAO();
+		Semester_ResultDAO semester_ResultDAO = new Semester_ResultDAO();
 		// obtaining input bytes from a file
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\GradeFill.xlsx"));
 		// creating workbook instance that refers to .xls file
@@ -46,6 +49,8 @@ public class ExcelReaderForGradeFill {
 		// creating a Sheet object to retrieve the object
 		XSSFSheet sheet = wb.getSheetAt(0);
 		// evaluating cell type
+		String ID_Student = null;
+		String ID_Semester = null;
 		for (int i = 0; i <= sheet.getLastRowNum(); i++) // iteration over row using for each loop
 		{
 
@@ -56,8 +61,8 @@ public class ExcelReaderForGradeFill {
 				String ID_Course = FormatID(row.getCell(0).getStringCellValue());
 				String Name_Course = row.getCell(1).getStringCellValue();
 				double Score = row.getCell(2).getNumericCellValue();
-				String ID_Student = FormatID(row.getCell(3).getStringCellValue());
-				String ID_Semester = FormatID(row.getCell(4).getStringCellValue());
+				ID_Student = FormatID(row.getCell(3).getStringCellValue());
+				ID_Semester = FormatID(row.getCell(4).getStringCellValue());
 				System.out.println(
 						ID_Course + "\t" + Name_Course + "\t" + Score + "\t" + ID_Student + "\t" + ID_Semester);
 				// check xem student da hoc qua mon nay hay chua
@@ -141,6 +146,10 @@ public class ExcelReaderForGradeFill {
 				}
 			}
 		}
+		Semester_Result semester_Result = new Semester_Result(semesterDAO.getByKey(ID_Semester),
+				studentDAO.getByKey(ID_Student), semester_ResultDAO.getDiemTBHe4(ID_Student, ID_Semester),
+				semester_ResultDAO.getSoTinChiDaDat(ID_Student, ID_Semester));
+		semester_ResultDAO.insert(semester_Result);
 		wb.close();
 	}
 

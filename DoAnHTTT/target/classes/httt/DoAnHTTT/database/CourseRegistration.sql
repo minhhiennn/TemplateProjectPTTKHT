@@ -222,18 +222,20 @@ create table semester_Result
 	ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
 	--
 	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	--diem trung binh trong ki nay
+	--diem trung binh he 4 trong ki nay 
 	gradeAv float,
 	creditGet smallint,
 	Primary key (ID_Semester,ID_Student)
 )
+--insert into Final_Result values(N'18130005',6.6,72)
 create table Final_Result
 (
-	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
-	gradeAv	float,
-	creditGet smallint,
-	Primary key (ID_Student)
+ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
+gradeAv float,
+createGet smallint,
+Primary key (ID_Student)
 )
+go
 -- insert into users
 insert into USERS Values(N'18130005','st',N'18130005@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'18130077','st',N'18130077@st.hcmuaf.edu.vn',N'123456')
@@ -574,18 +576,39 @@ select * from checkSubjectForProfessor('220');
 select * from Student
 select * from USERS
 go
+--
+select sp.* ,c.Course_certificate from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+go
+--
 -- tạo function semester_Result
-create function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
+alter function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
 returns table
 as
 return 
-select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
 where sp.ID_Student = @ID_Student and sp.ID_Semester = @ID_Semester
 go
 --
 select * from get_Semester_Reuslt('18130005','2_2018');
--- lấy điểm TB từ semester_Result(chỉ tính những môn trên 4.0)
-select AVG(gr.Score) Diem_TB from get_Semester_Reuslt('18130005','2_2018') gr where gr.Score > 4.0;
--- lấy tổng tín chỉ
-select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018')gr where gr.Score > 4.0;
--- tạo function Final_Result
+-- lấy điểm TB từ semester_Result(hệ 4)
+select SUM(gr.ScoreSystem4 * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB_He_4 from get_Semester_Reuslt('18130005','2_2018') gr;
+-- lấy tổng tín chỉ đã đạt trong học kỳ(ko lấy môn dưới 4.0)
+select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018') gr where gr.Score > 4.0;
+-- tổng tín chỉ đã đăng ký trong học kỳ
+select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2018')gr;
+--
+
+go
+--
+-- tạo function Final_Result(éo biết tính như nào)
+create function get_Final_Result(@ID_Student nvarchar(50))
+returns table
+as
+return 
+select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+where sp.ID_Student = @ID_Student
+go
+select * from get_Final_Result('18130005');
+--
+insert into semester_Result values();
+--
