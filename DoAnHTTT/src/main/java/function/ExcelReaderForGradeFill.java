@@ -42,6 +42,7 @@ public class ExcelReaderForGradeFill {
 		CourseDAO courseDAO = new CourseDAO();
 		StudentDAO studentDAO = new StudentDAO();
 		Semester_ResultDAO semester_ResultDAO = new Semester_ResultDAO();
+			Final_ResultDAO Final_ResultDAO =new Final_ResultDAO();
 		// obtaining input bytes from a file
 		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\GradeFill.xlsx"));
 		// creating workbook instance that refers to .xls file
@@ -63,6 +64,7 @@ public class ExcelReaderForGradeFill {
 				double Score = row.getCell(2).getNumericCellValue();
 				ID_Student = FormatID(row.getCell(3).getStringCellValue());
 				ID_Semester = FormatID(row.getCell(4).getStringCellValue());
+			
 				System.out.println(
 						ID_Course + "\t" + Name_Course + "\t" + Score + "\t" + ID_Student + "\t" + ID_Semester);
 				// check xem student da hoc qua mon nay hay chua
@@ -150,6 +152,8 @@ public class ExcelReaderForGradeFill {
 				studentDAO.getByKey(ID_Student), semester_ResultDAO.getDiemTBHe4(ID_Student, ID_Semester),
 				semester_ResultDAO.getSoTinChiDaDat(ID_Student, ID_Semester));
 		semester_ResultDAO.insert(semester_Result);
+		Final_Result final_Result=new Final_Result(ID_Student,Final_ResultDAO.sumScore(ID_Student));
+		Final_ResultDAO.insert(final_Result);
 		wb.close();
 	}
 
