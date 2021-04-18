@@ -236,6 +236,7 @@ create table Final_Result
 (
 ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 gradeAv float,
+gradeAv4 float,
 Primary key (ID_Student)
 )
 select * from Final_Result

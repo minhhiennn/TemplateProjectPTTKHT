@@ -120,4 +120,32 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 		}
 		return sum / numbersemester;
 	}
+	public float sumScoreav4(String key) {
+		float sum = 0;
+		int numbersemester = 0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=?");
+			pstmt.setString(1, key);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sum += (rs.getFloat("gradeAv4"));
+				numbersemester++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return sum / numbersemester;
+	}
 }

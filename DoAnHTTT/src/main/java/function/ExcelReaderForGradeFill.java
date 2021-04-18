@@ -169,7 +169,7 @@ public class ExcelReaderForGradeFill {
 			String ID_Student = iSplit[0];
 			String ID_Semester = iSplit[1];
 			Final_Result final_Result = new Final_Result(studentDAO.getByKey(ID_Student),
-					Final_ResultDAO.sumScore(ID_Student));
+					Final_ResultDAO.sumScore(ID_Student),Final_ResultDAO.sumScoreav4(ID_Student));
 			Final_ResultDAO.insert(final_Result);
 		}
 	}
