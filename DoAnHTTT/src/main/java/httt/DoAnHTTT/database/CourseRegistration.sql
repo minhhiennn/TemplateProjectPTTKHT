@@ -232,7 +232,6 @@ create table Final_Result
 (
 ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 gradeAv float,
-createGet smallint,
 Primary key (ID_Student)
 )
 go
