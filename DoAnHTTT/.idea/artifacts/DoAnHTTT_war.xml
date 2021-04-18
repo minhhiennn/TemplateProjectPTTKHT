@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DoAnHTTT:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>DoAnHTTT</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="DoAnHTTT.war">
+      <element id="artifact" artifact-name="DoAnHTTT:war exploded" />
+    </root>
+  </artifact>
+</component>

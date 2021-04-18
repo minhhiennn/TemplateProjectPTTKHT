@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Attribute.Use;
+
 import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.User;
 
@@ -60,14 +62,17 @@ public class UserDAO implements IDAO<User> {
 			e.printStackTrace();
 		}
 	}
-
+public static void main(String[] args) {
+	UserDAO dao=new UserDAO();
+	System.out.println(dao.getByKey("18130005"));
+}
 	@Override
 	public User getByKey(String key) {
 		User user = null;
 		try {
 			pstmt = conn.prepareStatement("select * from USERS where ID_User = ?");
 			pstmt.setString(1, key);
-			rs = pstmt.executeQuery();
+			rs=pstmt.executeQuery();
 			while (rs.next()) {
 				String ID_User = rs.getString("ID_User");
 				String ID_UserKind = rs.getString("ID_UserKind");
@@ -140,10 +145,5 @@ public class UserDAO implements IDAO<User> {
 	public boolean delete(User key) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public static void main(String[] args) {
-       UserDAO userDAO = new UserDAO();
-       User user = userDAO.getByKey("18130005");
 	}
 }

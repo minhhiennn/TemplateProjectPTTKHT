@@ -30,6 +30,7 @@ public class ProfessorDAO implements IDAO<Professor> {
 				result = Integer.parseInt(rs.getString("ID_Professor"));
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -137,7 +138,7 @@ public class ProfessorDAO implements IDAO<Professor> {
 //		java.util.Date date1 = new Date();
 //		java.sql.Date date = new java.sql.Date(date1.getTime());
 //		System.out.println(date);
-		ProfessorDAO professorDAO = new ProfessorDAO();
+		ProfessorDAO professorDAO = new	ProfessorDAO();
 		System.out.println(professorDAO.selectTop1ID_Professor());
 	}
 }

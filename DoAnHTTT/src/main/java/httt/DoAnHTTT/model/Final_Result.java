@@ -28,4 +28,9 @@ public class Final_Result {
 	public void setCreditGet(int creditGet) {
 		this.creditGet = creditGet;
 	}
+	@Override
+	public String toString() {
+		return "Final_Result [student=" + student + ", gradeAv=" + gradeAv + ", creditGet=" + creditGet + "]";
+	}
+
 }

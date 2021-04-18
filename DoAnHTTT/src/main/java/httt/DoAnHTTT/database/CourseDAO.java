@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
-
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Faculty;
 
@@ -79,35 +77,10 @@ public class CourseDAO implements IDAO<Course> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+public static void main(String[] args) {
+	CourseDAO course=new CourseDAO();
+	System.out.println(	course.getByKey("214321"));
 
-	public int getCourse_certificate(String ID_Course) {
-		int result = 0;
-		try {
-			pstmt = conn.prepareStatement("select Course_certificate from Course where ID_Course = ?");
-			pstmt.setString(1, ID_Course);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				result = rs.getInt("Course_certificate");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (rs != null) {
-					rs.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
-	public static void main(String[] args) {
-		CourseDAO courseDAO = new CourseDAO();
-		Course course = courseDAO.getByKey("213603");
-		System.out.println(course);
-	}
+}
+
 }

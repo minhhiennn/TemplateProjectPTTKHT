@@ -72,9 +72,8 @@ public class FacultyDAO implements IDAO<Faculty>{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public static void main(String[] args) {
-		FacultyDAO facultyDAO = new FacultyDAO();
-		Faculty faculty = facultyDAO.getByKey("BV");
-		System.out.println(faculty);
-	}
+public static void main(String[] args) {
+	FacultyDAO dao=new FacultyDAO();
+	System.out.println(dao.getByKey("DT")) ;
+}
 }

@@ -69,13 +69,57 @@ public class Semester_ResultDAO implements IDAO<Semester_Result>{
 
 	@Override
 	public boolean insert(Semester_Result key) {
-		// TODO Auto-generated method stub
+		String ID_Semester=key.getSemester().getiD_Semester();
+		String ID_Student=key.getStudent().getUser().getiD_User();
+		float gradeAv=key.getGradeAv();
+		int creditGet=key.getCreditGet();
+		try {
+			pstmt=conn.prepareStatement("insert into semester_Result values (?,?,?,?)");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Student);
+			pstmt.setFloat(3, gradeAv);
+			pstmt.setInt(4, creditGet);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			
+			try {
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean update(Semester_Result key) {
-		// TODO Auto-generated method stub
+		String ID_Semester=key.getSemester().getiD_Semester();
+		String ID_Student=key.getStudent().getUser().getiD_User();
+		float gradeAv=key.getGradeAv();
+		int creditGet=key.getCreditGet();
+		try {
+			pstmt=conn.prepareStatement("UPDATE semester_Result SET gradeAv = ?,creditGet=? WHERE ID_Semester=?and ID_Student=?");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Student);
+			pstmt.setFloat(3, gradeAv);
+			pstmt.setInt(4, creditGet);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			
+			try {
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
 		return false;
 	}
 
@@ -84,5 +128,67 @@ public class Semester_ResultDAO implements IDAO<Semester_Result>{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public float sumScore(String key) {
+		float sum=0;
+		int cre=0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from Sub_Pass sp join Course C on sp.ID_Course=c.ID_Course where sp.ID_Semester=?");
+			pstmt.setString(1, key);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sum+=(rs.getFloat("Score")*rs.getInt("Course_certificate"));
+				cre+=rs.getInt("Course_certificate");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return sum/cre;
 
+	}
+	public int sumcre(String key) {
+		int cre=0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from Sub_Pass sp join Course C on sp.ID_Course=c.ID_Course where sp.ID_Semester=?");
+			pstmt.setString(1, key);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				if(rs.getFloat("Score")>4) {
+				cre+=rs.getInt("Course_certificate");
+				}
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return cre;
+
+	}
+public static void main(String[] args) {
+	Semester_ResultDAO dao3=new Semester_ResultDAO();
+	System.out.println(dao3.sumScore("2_2018"));
+	System.out.println(dao3.sumcre("2_2018"));
+}
 }
