@@ -13,4 +13,9 @@ public class RedirectAdmin {
 		ModelAndView mav = new ModelAndView("admin/index");
 		return mav;
 	}
+	@RequestMapping(value = "/admin/addStudent", method = RequestMethod.GET)
+	public ModelAndView layout_Static() {
+		ModelAndView mav = new ModelAndView("admin/AddStudent");
+		return mav;
+	}
 }

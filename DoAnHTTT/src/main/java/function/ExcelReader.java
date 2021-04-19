@@ -21,13 +21,13 @@ public class ExcelReader {
 	public ExcelReader() throws IOException {
 	}
 
-	public Map<String, Integer> StudentCount() throws IOException {
-		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
+	public Map<String, Integer> StudentCount(File file) throws IOException {
+		FileInputStream fis = new FileInputStream(file);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet = wb.getSheetAt(0);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		Iterator<Row> itr = sheet.iterator();
-		
+
 		while (itr.hasNext()) {
 			Row row = itr.next();
 			if (row.getRowNum() == 0) {
@@ -54,13 +54,13 @@ public class ExcelReader {
 		return map;
 	}
 
-	public void StudentAdd() throws IOException {
-		FileInputStream fis = new FileInputStream(new File("src\\main\\webapp\\File\\1.xlsx"));
+	public void StudentAdd(File file) throws IOException {
+		FileInputStream fis = new FileInputStream(file);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet = wb.getSheetAt(0);
 		StudentDAO dao = new StudentDAO();
 		ClassDAO classDAO = new ClassDAO();
-		classDAO.createClass(StudentCount());
+		classDAO.createClass(StudentCount(file));
 		Iterator<Row> itr = sheet.iterator();
 		while (itr.hasNext()) {
 			Row row = itr.next();
@@ -74,19 +74,18 @@ public class ExcelReader {
 					String ten = cellIterator.next().getStringCellValue();
 					String maNganh = cellIterator.next().getStringCellValue();
 					dao.insertN(khoa, ho + " " + ten, maNganh);
-					
+
 				} catch (Exception e) {
 				}
 			}
 		}
-		classDAO.updateFullClassUpdate(StudentCount());
+		classDAO.updateFullClassUpdate(StudentCount(file));
 	}
 
 	void StudentClean() {
-		
+
 	}
+
 	public static void main(String[] args) throws IOException {
-		ExcelReader excelReader = new ExcelReader();
-		excelReader.StudentAdd();
 	}
 }

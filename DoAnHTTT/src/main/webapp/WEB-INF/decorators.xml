@@ -19,5 +19,6 @@
 		attribute page) -->
 	<decorator name="admin" page="MasterPageForAdmin.jsp">
 		<pattern>/admin/index</pattern>
+		<pattern>/admin/addStudent</pattern>
 	</decorator>
 </decorators>

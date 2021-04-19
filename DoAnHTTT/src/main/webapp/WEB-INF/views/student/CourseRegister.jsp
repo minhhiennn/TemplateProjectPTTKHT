@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:useBean id="scheduleItems" scope="session"
+<jsp:useBean id="scheduleItems" scope="request"
 	class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
@@ -74,16 +74,16 @@
 								<tr>
 								    <td> <input type="checkbox"> </td>
 									<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
-									<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
-									<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
-									<td>${item.getCourse_Offering().getClass_code()}</td>
+                                    <td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
+                                    <td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
+                                    <td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
 									<td>${item.getCourse_Offering().getMax_Size()}</td>
 									<td>${item.getCourse_Offering().getCurrent_Size()}</td>
-									<td>${item.getCourse_Offering().getTheoretical()}</td>
-									<td>${item.getCourse_Offering().getTeaching_Day()}</td>
-									<td>${item.getCourse_Offering().getStart_Slot()}</td>
-									<td>${item.getCourse_Offering().getEnd_Slot() - item.getCourse_Offering().getStart_Slot()}</td>
-									<td>${item.getCourse_Offering().getStudy_place()}</td>
+									<td>${item.getTheoretical()}</td>
+									<td>${item.getTeaching_Day()}</td>
+									<td>${item.getStart_Slot()}</td>
+									<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
+									<td>${item.getStudy_place()}</td>
 									<td>${item.getProfessor().getProfessor_Name()}</td>
 								</tr>
 							</c:forEach>

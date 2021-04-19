@@ -236,8 +236,10 @@ create table Final_Result
 (
 ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
 gradeAv float,
+gradeAv4 float,
 Primary key (ID_Student)
 )
+select * from Final_Result
 go
 -- insert into users
 insert into USERS Values(N'18130005','st',N'18130005@st.hcmuaf.edu.vn',N'123456')
@@ -606,16 +608,7 @@ select SUM(gr.Course_certificate) so_TC from get_Semester_Reuslt('18130005','2_2
 go
 --
 -- tạo function Final_Result(éo biết tính như nào)
-create function get_Final_Result(@ID_Student nvarchar(50))
-returns table
-as
-return 
-select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
-where sp.ID_Student = @ID_Student
-go
-select * from get_Final_Result('18130005');
 --
-insert into semester_Result values();
 --
 select * from class
 select * from Student

@@ -29,7 +29,8 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 				StudentDAO studentDAO = new StudentDAO();
 				Student student = studentDAO.getByKey(key);
 				float gradeAv = rs.getFloat("gradeAv");
-				final_Result = new Final_Result(student, gradeAv);
+				float gradeAv4 = rs.getFloat("graveAv4");
+				final_Result = new Final_Result(student, gradeAv, gradeAv4);
 
 			}
 		} catch (SQLException e) {
@@ -120,6 +121,7 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 		}
 		return sum / numbersemester;
 	}
+
 	public float sumScoreav4(String key) {
 		float sum = 0;
 		int numbersemester = 0;
