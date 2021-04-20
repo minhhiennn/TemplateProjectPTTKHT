@@ -340,7 +340,8 @@ insert into TimeForCourseRegister Values(N'1_2020','6/1/2021','12/1/2021')
 insert into TimeForCourseRegister Values(N'2_2020','3/5/2021','12/5/2021')
 insert into TimeForCourseRegister Values(N'1_2021','6/1/2022','12/1/2022')
 insert into TimeForCourseRegister Values(N'2_2021','3/5/2022','12/5/2022')
-
+--update TimeForCourseRegister set startDate = '1/4/2021' where ID_Semester = '2_2020';
+select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
 insert into Course Values(N'214201','DT',N'Nhập môn tin học',3,1,1)

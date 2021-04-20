@@ -58,10 +58,11 @@
 				<c:otherwise>
 					<c:choose>
 						<c:when test="${TimeRegister.checkTime() == false }">
-						<h3 style="color: red; text-align: center;">Thông Báo: Ngoài Thời Gian Đăng Ký</h3>
+							<h3 style="color: red; text-align: center;">Thông Báo: Ngoài
+								Thời Gian Đăng Ký</h3>
 						</c:when>
 						<c:otherwise>
-							<table id="tableahihi" class="" style="width: 100%;">
+							<table id="tableahihi2" class="" style="width: 100%;">
 								<thead>
 									<tr style="border: none">
 										<th class="th-sm"></th>
@@ -83,7 +84,8 @@
 									<c:forEach var="item"
 										items="${scheduleItems.getSubAvailableST(idU)}">
 										<tr>
-											<td><input type="checkbox"></td>
+											<td><input type="checkbox" id="myCheck"
+												onclick="myFunction()"></td>
 											<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 											<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
 											<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
@@ -106,15 +108,61 @@
 					</c:choose>
 				</c:otherwise>
 			</c:choose>
-			<!-- <div class="row">
-				<div class="col-12">
-					<div class="load-more text-center wow fadeInUp"
-						data-wow-delay="1000ms">
-						<a href="#" class="btn clever-btn btn-2">Load More</a>
-					</div>
+			<div style="padding-top: 10px; padding-left: 12px">
+				<h3>Danh sách môn học đã chọn</h3>
+				<div>
+					<table id="tableahihi" class="" style="width: 100%;">
+						<thead>
+							<tr style="border: none">
+								<th class="th-sm"></th>
+								<th class="th-sm">Mã MH</th>
+								<th class="th-sm">Tên MH</th>
+								<th class="th-sm">STC</th>
+								<th class="th-sm">Mã lớp</th>
+								<th class="th-sm">Sĩ số</th>
+								<th class="th-sm">CL</th>
+								<th class="th-sm">Theoretical</th>
+								<th class="th-sm">Thứ</th>
+								<th class="th-sm">Tiết BD</th>
+								<th class="th-sm">ST</th>
+								<th class="th-sm">Phòng</th>
+								<th class="th-sm">Giảng Viên</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+								<td>huhiha</td>
+							</tr>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
 				</div>
-			</div> -->
+			</div>
 		</div>
 	</section>
+	<script type="text/javascript">
+		function myFunction() {
+			var checkBox = document.getElementById("myCheck");
+			var text = document.getElementById("text");
+			if (checkBox.checked == true) {
+				window.location.href= "${pageContext.request.contextPath}/CourseRegisterServlet";
+			} else {
+				window.open("${pageContext.request.contextPath}/CourseRegisterServlet");
+			}
+		}
+	</script>
 </body>
 </html>

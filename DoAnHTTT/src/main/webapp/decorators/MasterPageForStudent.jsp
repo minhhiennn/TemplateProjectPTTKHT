@@ -26,7 +26,8 @@
 	rel="icon">
 
 <!-- Stylesheet -->
-<link href="<c:url value='/template/student/style.css'/>" rel="stylesheet">
+<link href="<c:url value='/template/student/style.css'/>"
+	rel="stylesheet">
 
 <!-- ?o?n CSS cho table -->
 <link rel="stylesheet" type="text/css"
@@ -43,11 +44,14 @@
 	<!-- ##### Footer Area End ##### -->
 	<!-- ##### All Javascript Script ##### -->
 	<!-- jQuery-2.2.4 js -->
-	<script src="<c:url value='/template/student/js/jquery/jquery-2.2.4.min.js'/>"></script>
+	<script
+		src="<c:url value='/template/student/js/jquery/jquery-2.2.4.min.js'/>"></script>
 	<!-- Popper js -->
-	<script src="<c:url value='/template/student/js/bootstrap/popper.min.js'/>"></script>
+	<script
+		src="<c:url value='/template/student/js/bootstrap/popper.min.js'/>"></script>
 	<!-- Bootstrap js -->
-	<script src="<c:url value='/template/student/js/bootstrap/bootstrap.min.js'/>"></script>
+	<script
+		src="<c:url value='/template/student/js/bootstrap/bootstrap.min.js'/>"></script>
 	<!-- All Plugins js -->
 	<!-- phần này là phần animation -->
 	<!-- <script src="<c:url value='/template/js/plugins/plugins.js'/>"></script> -->
@@ -64,13 +68,22 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#tableahihi').DataTable({
-				  "bInfo" : false,
+				"bInfo" : false,
 				"scrollY" : "300px",
 				"scrollCollapse" : false,
 				"paging" : false
 			});
 		});
-		
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#tableahihi2').DataTable({
+				"bInfo" : false,
+				"scrollY" : "300px",
+				"scrollCollapse" : false,
+				"paging" : false
+			});
+		});
 	</script>
 </body>
 </html>
