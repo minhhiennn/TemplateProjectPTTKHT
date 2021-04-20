@@ -1,11 +1,11 @@
 package httt.DoAnHTTT.model;
 
 public class Semester_Result {
-	Semester semester;
-	Student student;
-	double gradeAv;
-	double gradeAv4;
-	int creditGet;
+	private Semester semester;
+	private Student student;
+	private double gradeAv;
+	private double gradeAv4;
+	private int creditGet;
 
 	public Semester_Result(Semester semester, Student student, double gradeAv, double gradeAv4, int creditGet) {
 		super();

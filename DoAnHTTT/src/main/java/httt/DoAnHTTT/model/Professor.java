@@ -3,11 +3,11 @@ package httt.DoAnHTTT.model;
 import java.util.Date;
 
 public class Professor {
-	User user;
-	String professor_Name;
-	Faculty faculty;
-	Date create_date;
-	String degree;
+	private User user;
+	private String professor_Name;
+	private Faculty faculty;
+	private Date create_date;
+	private String degree;
 	public Professor(User user, String professor_Name, Faculty faculty, Date create_date, String degree) {
 		super();
 		this.user = user;

@@ -3,14 +3,14 @@ package httt.DoAnHTTT.model;
 import java.util.Date;
 
 public class Schedule {
-	String iD_Schedule;
-	Course_Offering course_Offering;
-	Professor professor;
-	String theoretical;
-	int teaching_Day;
-	Date start_Day,end_Day;
-	String study_place;	
-	int start_Slot,end_Slot;
+	private String iD_Schedule;
+	private Course_Offering course_Offering;
+	private Professor professor;
+	private String theoretical;
+	private int teaching_Day;
+	private Date start_Day,end_Day;
+	private String study_place;	
+	private int start_Slot,end_Slot;
 	public Schedule(String iD_Schedule, Course_Offering course_Offering, Professor professor, String theoretical,
 			int teaching_Day, Date start_Day, Date end_Day, String study_place, int start_Slot, int end_Slot) {
 		super();

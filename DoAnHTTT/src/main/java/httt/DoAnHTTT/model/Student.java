@@ -3,12 +3,12 @@ package httt.DoAnHTTT.model;
 import java.util.Date;
 
 public class Student {
-	User user;
-	String student_Name;
-	Faculty faculty;
-	Date create_date;
-	Class class1;
-	int cert_number_required, cert_number_accumulated;
+	private User user;
+	private String student_Name;
+	private Faculty faculty;
+	private Date create_date;
+	private Class class1;
+	private int cert_number_required, cert_number_accumulated;
 	public Student(User user, String student_Name, Faculty faculty, Date create_date, Class class1,
 			int cert_number_required, int cert_number_accumulated) {
 		super();

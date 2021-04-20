@@ -2,10 +2,10 @@ package httt.DoAnHTTT.model;
 
 
 public class Course_Offering {
-	String iD_Course_Offering;
-	Course course;
-	Class class1;
-	int max_Size, current_Size;
+	private String iD_Course_Offering;
+	private Course course;
+	private Class class1;
+	private int max_Size, current_Size;
 	public Course_Offering(String iD_Course_Offering, Course course, Class class1, int max_Size, int current_Size) {
 		super();
 		this.iD_Course_Offering = iD_Course_Offering;

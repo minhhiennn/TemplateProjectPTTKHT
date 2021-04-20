@@ -1,9 +1,9 @@
 package httt.DoAnHTTT.model;
 
 public class Student_Schedule {
-	Semester semester;
-	Schedule schedule;
-	Student student;
+	private Semester semester;
+	private Schedule schedule;
+	private Student student;
 	public Student_Schedule(Semester semester, Schedule schedule, Student student) {
 		super();
 		this.semester = semester;

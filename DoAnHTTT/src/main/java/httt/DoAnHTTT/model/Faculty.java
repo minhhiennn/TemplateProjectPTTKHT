@@ -1,8 +1,8 @@
 package httt.DoAnHTTT.model;
 
 public class Faculty {
-	String iD_Faculty, name_Faculty;
-	int ID_FacultyN;
+	private String iD_Faculty, name_Faculty;
+	private int ID_FacultyN;
 
 	public Faculty(String iD_Faculty, String name_Faculty, int iD_FacultyN) {
 		super();

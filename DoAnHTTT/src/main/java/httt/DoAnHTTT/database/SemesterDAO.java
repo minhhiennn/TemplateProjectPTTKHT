@@ -74,4 +74,8 @@ public class SemesterDAO implements IDAO<Semester> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public static void main(String[] args) {
+         SemesterDAO semesterDAO = new SemesterDAO();
+	}
 }

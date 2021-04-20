@@ -1,12 +1,12 @@
 package httt.DoAnHTTT.model;
 
 public class Sub_Pass {
-	Semester semester;
-	Course course;
-	Student student;
-	double score;
-	double ScoreSystem4;
-	String rated;
+	private Semester semester;
+	private Course course;
+	private Student student;
+	private double score;
+	private double ScoreSystem4;
+	private String rated;
 
 	public Sub_Pass(Semester semester, Course course, Student student, double score, double scoreSystem4,
 			String rated) {

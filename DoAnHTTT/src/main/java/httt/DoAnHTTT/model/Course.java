@@ -1,9 +1,9 @@
 package httt.DoAnHTTT.model;
 
 public class Course {
-	String iD_Course, name_Course;
-	Faculty faculty;
-	int course_certificate, years, numberS;
+	private String iD_Course, name_Course;
+	private Faculty faculty;
+	private int course_certificate, years, numberS;
 	public Course(String iD_Course, String name_Course, Faculty faculty, int course_certificate, int years,
 			int numberS) {
 		super();

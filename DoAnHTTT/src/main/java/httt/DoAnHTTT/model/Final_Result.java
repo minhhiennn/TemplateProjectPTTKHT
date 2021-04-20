@@ -1,9 +1,9 @@
 package httt.DoAnHTTT.model;
 
 public class Final_Result {
-	Student student;
-	float gradeAv;
-	float gradeAv4;
+	private Student student;
+	private float gradeAv;
+	private float gradeAv4;
 
 	public Final_Result(Student student, float gradeAv,float gradeAv4) {
 		super();

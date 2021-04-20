@@ -3,9 +3,9 @@ package httt.DoAnHTTT.model;
 import java.util.Date;
 
 public class Semester {
-	String iD_Semester;
-	Date startDate,endDate;
-	int years,numberS;
+	private String iD_Semester;
+	private Date startDate,endDate;
+	private int years,numberS;
 	public Semester(String iD_Semester, Date startDate, Date endDate, int years, int numberS) {
 		super();
 		this.iD_Semester = iD_Semester;

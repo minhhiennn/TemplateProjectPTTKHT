@@ -1,7 +1,7 @@
 package httt.DoAnHTTT.model;
 
 public class Front_Sub {
-	Course course,courseB;
+	private Course course,courseB;
 
 	public Front_Sub(Course course, Course courseB) {
 		super();

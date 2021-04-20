@@ -1,9 +1,9 @@
 package httt.DoAnHTTT.model;
 
 public class Class {
-	String class_Code;
-	Faculty faculty;
-	int max_Size,current_Size;
+	private String class_Code;
+	private Faculty faculty;
+	private int max_Size,current_Size;
 	public Class(String class_Code, Faculty faculty, int max_Size, int current_Size) {
 		super();
 		this.class_Code = class_Code;

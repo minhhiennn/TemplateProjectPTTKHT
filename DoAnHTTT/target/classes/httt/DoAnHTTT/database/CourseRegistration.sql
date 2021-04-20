@@ -108,6 +108,17 @@ create table Semester
 	numberS smallint not null
 	Primary key (ID_Semester)
 )
+-- bảng tính thời gian đăng ký môn học
+create table TimeForCourseRegister
+(
+    ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
+    startDate date not null,
+    endDate date not null,
+    Primary key(ID_Semester)
+)
+--
+select * from TimeForCourseRegister tf join Semester se on tf.ID_Semester = se.ID_Semester where GETDATE() between tf.startDate and tf.endDate;
+--
 -- mô tả chi tiết học phần
 create table Course
 (
@@ -320,6 +331,16 @@ insert into Semester Values(N'2_2020','1/3/2021','30/6/2021',2022,2)
 insert into Semester Values(N'1_2021','1/9/2021','31/1/2022',2022,1)
 insert into Semester Values(N'2_2021','1/3/2022','30/6/2022',2022,2)
 
+-- insert into TimeForCourseRegister
+insert into TimeForCourseRegister Values(N'1_2018','6/1/2019','12/1/2019')
+insert into TimeForCourseRegister Values(N'2_2018','3/5/2019','12/5/2019')
+insert into TimeForCourseRegister Values(N'1_2019','6/1/2020','6/1/2020')
+insert into TimeForCourseRegister Values(N'2_2019','3/5/2020','12/5/2020')
+insert into TimeForCourseRegister Values(N'1_2020','6/1/2021','12/1/2021')
+insert into TimeForCourseRegister Values(N'2_2020','3/5/2021','12/5/2021')
+insert into TimeForCourseRegister Values(N'1_2021','6/1/2022','12/1/2022')
+insert into TimeForCourseRegister Values(N'2_2021','3/5/2022','12/5/2022')
+
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
 insert into Course Values(N'214201','DT',N'Nhập môn tin học',3,1,1)
@@ -488,7 +509,6 @@ c.years <=  case when c.years is null then  c.years else (select (YEAR(GETDATE()
 c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and
 c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
-
 go
 select * from SubAvailableST('18130005');
 

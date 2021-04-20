@@ -65,25 +65,21 @@ public class ScheduleDAO implements IDAO<Schedule> {
 
 	@Override
 	public Schedule getByKeyS(List<String> key) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean insert(Schedule key) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean update(Schedule key) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean delete(Schedule key) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:useBean id="scheduleItems" scope="request"
 	class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
+<jsp:useBean id="TimeRegister" scope="request"
+	class="httt.DoAnHTTT.database.TimeForCourseRegisterDao" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
 <!DOCTYPE html>
@@ -49,51 +51,59 @@
 	<section class="popular-courses-area section-padding-100">
 		<div class="container">
 			<c:choose>
-				<c:when test="${currentUser != null}">
-					<table id="tableahihi" class="" style="width: 100%;">
-						<thead>
-							<tr style="border: none">
-							    <th class="th-sm"></th>
-								<th class="th-sm">Mã MH</th>
-                                <th class="th-sm">Tên MH</th>
-                                <th class="th-sm">STC</th>
-                                <th class="th-sm">Mã lớp</th>
-                                <th class="th-sm">Sĩ số</th>
-                                <th class="th-sm">CL</th>
-                                <th class="th-sm">Theoretical</th>
-                                <th class="th-sm">Thứ</th>
-                                <th class="th-sm">Tiết BD</th>
-                                <th class="th-sm">ST</th>
-                                <th class="th-sm">Phòng</th>
-                                <th class="th-sm">Giảng Viên</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="item"
-								items="${scheduleItems.getSubAvailableST(idU)}">
-								<tr>
-								    <td> <input type="checkbox"> </td>
-									<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
-                                    <td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
-                                    <td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
-                                    <td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
-									<td>${item.getCourse_Offering().getMax_Size()}</td>
-									<td>${item.getCourse_Offering().getCurrent_Size()}</td>
-									<td>${item.getTheoretical()}</td>
-									<td>${item.getTeaching_Day()}</td>
-									<td>${item.getStart_Slot()}</td>
-									<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
-									<td>${item.getStudy_place()}</td>
-									<td>${item.getProfessor().getProfessor_Name()}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-						<tfoot>
-						</tfoot>
-					</table>
+				<c:when test="${currentUser == null}">
+					<h3 style="color: red; text-align: center;">Vui Lòng Đăng Nhập
+						Để Xem Được Đăng Ký Môn Học</h3>
 				</c:when>
 				<c:otherwise>
-					<h3 style="color: red;text-align: center;">Vui Lòng Đăng Nhập Để Xem Được Đăng Ký Môn Học</h3>
+					<c:choose>
+						<c:when test="${TimeRegister.checkTime() == false }">
+						<h3 style="color: red; text-align: center;">Thông Báo: Ngoài Thời Gian Đăng Ký</h3>
+						</c:when>
+						<c:otherwise>
+							<table id="tableahihi" class="" style="width: 100%;">
+								<thead>
+									<tr style="border: none">
+										<th class="th-sm"></th>
+										<th class="th-sm">Mã MH</th>
+										<th class="th-sm">Tên MH</th>
+										<th class="th-sm">STC</th>
+										<th class="th-sm">Mã lớp</th>
+										<th class="th-sm">Sĩ số</th>
+										<th class="th-sm">CL</th>
+										<th class="th-sm">Theoretical</th>
+										<th class="th-sm">Thứ</th>
+										<th class="th-sm">Tiết BD</th>
+										<th class="th-sm">ST</th>
+										<th class="th-sm">Phòng</th>
+										<th class="th-sm">Giảng Viên</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item"
+										items="${scheduleItems.getSubAvailableST(idU)}">
+										<tr>
+											<td><input type="checkbox"></td>
+											<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
+											<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
+											<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
+											<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
+											<td>${item.getCourse_Offering().getMax_Size()}</td>
+											<td>${item.getCourse_Offering().getCurrent_Size()}</td>
+											<td>${item.getTheoretical()}</td>
+											<td>${item.getTeaching_Day()}</td>
+											<td>${item.getStart_Slot()}</td>
+											<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
+											<td>${item.getStudy_place()}</td>
+											<td>${item.getProfessor().getProfessor_Name()}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+								<tfoot>
+								</tfoot>
+							</table>
+						</c:otherwise>
+					</c:choose>
 				</c:otherwise>
 			</c:choose>
 			<!-- <div class="row">
