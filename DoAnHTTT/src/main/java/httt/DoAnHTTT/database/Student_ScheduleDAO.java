@@ -23,9 +23,8 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		conn = Connect.getConnection();
 	}
 
-
-	public ArrayList<TimeTableItem> getTimeTableItem(String user_id) {
-		ArrayList<TimeTableItem> arrList = new ArrayList<TimeTableItem>();
+	public ArrayList<Schedule> getTimeTableItem(String user_id) {
+		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
 		try {
 			pstmt = conn.prepareStatement("select * from TimeTableSt(?)");
 			pstmt.setString(1, user_id);
@@ -33,9 +32,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 			while (rs.next()) {
 				String ID_Schedule = rs.getString("ID_Schedule");
 				Schedule schedule = new ScheduleDAO().getByKey(ID_Schedule);
-				String ID_Professor = rs.getString("Id_Profeesor");
-				TimeTableItem timeTableItem = new TimeTableItem(schedule, ID_Professor);
-				arrList.add(timeTableItem);
+				arrList.add(schedule);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,14 +80,21 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return arrList;
 	}
 
-	public static void main(String[] args) {
-		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		ArrayList<Schedule> arrList = student_ScheduleDAO.getSubAvailableST("18130005");
-		for (Schedule schedule : arrList) {
-			System.out.println(schedule);
+	public boolean checkDayST(String ID_Schedule, String ID_User) {
+		boolean bool = true;
+		try {
+			pstmt = conn.prepareStatement("select * from checkDayST(?,?)");
+			pstmt.setString(1, ID_Schedule);
+			pstmt.setString(2, ID_User);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				bool = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return bool;
 	}
-
 
 	@Override
 	public Student_Schedule getByKey(String key) {
@@ -98,12 +102,12 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return null;
 	}
 
-
 	@Override
 	public Student_Schedule getByKeyS(List<String> key) {
 		Student_Schedule student_Schedule = null;
 		try {
-			pstmt = conn.prepareStatement("select * from Student_Schedule where ID_Semester = ? and ID_Schedule = ? and ID_Student = ?");
+			pstmt = conn.prepareStatement(
+					"select * from Student_Schedule where ID_Semester = ? and ID_Schedule = ? and ID_Student = ?");
 			pstmt.setString(1, key.get(0));
 			pstmt.setString(2, key.get(1));
 			pstmt.setString(3, key.get(2));
@@ -115,7 +119,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 				Schedule schedule = scheduleDAO.getByKey(key.get(1));
 				StudentDAO studentDAO = new StudentDAO();
 				Student student = studentDAO.getByKey(key.get(2));
-				student_Schedule = new Student_Schedule(semester, schedule,student);
+				student_Schedule = new Student_Schedule(semester, schedule, student);
 
 			}
 		} catch (SQLException e) {
@@ -135,13 +139,35 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return student_Schedule;
 	}
 
-
 	@Override
 	public boolean insert(Student_Schedule key) {
-		// TODO Auto-generated method stub
-		return false;
+		String ID_Semester = key.getSemester().getiD_Semester();
+		String ID_Schedule = key.getSchedule().getiD_Schedule();
+		String ID_Student = key.getStudent().getUser().getiD_User();
+		try {
+			pstmt = conn.prepareStatement("insert into Student_Schedule values(?,?,?)");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Schedule);
+			pstmt.setString(3, ID_Student);
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
 	}
-
 
 	@Override
 	public boolean update(Student_Schedule key) {
@@ -149,10 +175,26 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return false;
 	}
 
-
 	@Override
 	public boolean delete(Student_Schedule key) {
-		// TODO Auto-generated method stub
+		String ID_Semester = key.getSemester().getiD_Semester();
+		String ID_Schedule = key.getSchedule().getiD_Schedule();
+		String ID_Student = key.getStudent().getUser().getiD_User();
+		try {
+			pstmt = conn.prepareStatement(
+					"delete from Student_Schedule where ID_Semester=? and ID_Schedule=? and ID_Student=?");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Schedule);
+			pstmt.setString(3, ID_Student);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
+	}
+
+	public static void main(String[] args) {
+		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
+		System.out.println(student_ScheduleDAO.checkDayST("1a", "18130005"));
 	}
 }

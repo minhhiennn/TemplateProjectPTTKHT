@@ -8,7 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/CourseRegisterServlet"})
+import httt.DoAnHTTT.database.ScheduleDAO;
+import httt.DoAnHTTT.database.SemesterDAO;
+import httt.DoAnHTTT.database.StudentDAO;
+import httt.DoAnHTTT.database.Student_ScheduleDAO;
+import httt.DoAnHTTT.model.Student_Schedule;
+
+@WebServlet(urlPatterns = { "/CourseRegisterServlet" })
 public class CourseRegisterServlet extends HttpServlet {
 
 	/**
@@ -21,19 +27,40 @@ public class CourseRegisterServlet extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-    
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(req, resp);
+		String action = req.getParameter("action");
+		String referer = req.getHeader("Referer");
+		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
+		SemesterDAO semesterDAO = new SemesterDAO();
+		ScheduleDAO scheduleDAO = new ScheduleDAO();
+		StudentDAO studentDAO = new StudentDAO();
+		if (action.equals("Add")) {
+			String ID_Schedule = req.getParameter("ID_Schedule");
+			String ID_Student = req.getParameter("ID_Student");
+			String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+			if (student_ScheduleDAO.checkDayST(ID_Schedule, ID_Student)) {
+				student_ScheduleDAO.insert(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
+						scheduleDAO.getByKey(ID_Schedule), studentDAO.getByKey(ID_Student)));
+				resp.sendRedirect(referer);
+			} else {
+				req.setAttribute("err", "Môn học này đã bị trùng lịch học");
+				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+			}
+		} else if (action.equals("Delete")) {
+			String ID_Schedule = req.getParameter("ID_Schedule");
+			String ID_Student = req.getParameter("ID_Student");
+			String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+			student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
+					scheduleDAO.getByKey(ID_Schedule), studentDAO.getByKey(ID_Student)));
+			resp.sendRedirect(referer);
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String test = req.getParameter("myCheck");
-		System.out.println(test);
-		System.out.println("ahihi");
+		doGet(req, resp);
 	}
-	
+
 }

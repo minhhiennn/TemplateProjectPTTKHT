@@ -340,7 +340,7 @@ insert into TimeForCourseRegister Values(N'1_2020','6/1/2021','12/1/2021')
 insert into TimeForCourseRegister Values(N'2_2020','3/5/2021','12/5/2021')
 insert into TimeForCourseRegister Values(N'1_2021','6/1/2022','12/1/2022')
 insert into TimeForCourseRegister Values(N'2_2021','3/5/2022','12/5/2022')
---update TimeForCourseRegister set startDate = '1/4/2021' where ID_Semester = '2_2020';
+update TimeForCourseRegister set startDate = '1/4/2021' where ID_Semester = '2_2020';
 select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
@@ -416,7 +416,7 @@ insert into Schedule values(N'17',N'16',N'228','LT',5,'20/10/2021','20/11/2021',
 insert into Schedule values(N'18',N'17',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'19',N'19',N'228','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-
+update Schedule set Teaching_Day = 7 where ID_Schedule = '11';
 -- insert into Student_Schedule
 -- 
 --insert into Student_Schedule values('1_2021',N'1',N'18130005')
@@ -426,11 +426,13 @@ insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',
 --insert into Student_Schedule values('2_2021',N'1',N'18130004')
 --insert into Student_Schedule values('2_2022',N'3',N'18130005')
 --insert into Student_Schedule values('1_2021',N'1',N'18130006')
-insert into Student_Schedule values('2_2020',N'1',N'18130005')
-insert into Student_Schedule values('2_2020',N'2',N'18130005')
-insert into Student_Schedule values('2_2020',N'3',N'18130005')
-insert into Student_Schedule values('2_2020',N'4',N'18130005')
-
+--insert into Student_Schedule values('2_2020',N'1',N'18130005')
+--insert into Student_Schedule values('2_2020',N'2',N'18130005')
+--insert into Student_Schedule values('2_2020',N'3',N'18130005')
+--insert into Student_Schedule values('2_2020',N'4',N'18130005')
+select * from Student_Schedule;
+delete from Student_Schedule where ID_Semester='2_2020' and ID_Schedule='11' and ID_Student='18130005';
+delete from Student_Schedule;
 
 -- insert into front_Sub
 insert into front_Sub values(N'214331',N'214321')
@@ -542,7 +544,7 @@ select c.ID_Course from Schedule sc join Student_Schedule stc on sc.ID_Schedule 
 						where stc.ID_Student  = @ID_User and stc.ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate)
 go
 
-alter FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
+create FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
 RETURNS TABLE 
 as
 RETURN  
@@ -561,17 +563,19 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
 --insert into Schedule values(N'1c',N'1',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 --insert into Schedule values(N'1b',N'20',N'224','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 --insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+--select * from Schedule;
 
 --insert into Student_Schedule values('2_2020',N'1',N'18130005')
 --insert into Student_Schedule values('2_2020',N'2',N'18130005')
 --insert into Student_Schedule values('2_2020',N'3',N'18130005')
 --insert into Student_Schedule values('2_2020',N'4',N'18130005')
+--select * from Student_Schedule
 
  select * from checkDayST(N'1a','18130005');
- select * from checkDayST(N'1b','18130005');
- select * from checkDayST(N'1c','18130005');
- select * from checkDayST(N'20','18130005');
- select * from Student_Schedule
+-- select * from checkDayST(N'1b','18130005');
+-- select * from checkDayST(N'1c','18130005');
+-- select * from checkDayST(N'20','18130005');
+-- select * from Student_Schedule
  go
 
 -- tạo trigger cho course_offering

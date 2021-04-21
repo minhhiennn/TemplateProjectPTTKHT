@@ -51,7 +51,7 @@
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="home">Home</a></li>
+							<li><a href="/DoAnHTTT/student/home">Home</a></li>
 							<!--          <li><a href="#">Pages</a>
                                     <ul class="dropdown">
                                         <li><a href="index.jsp">Home</a></li>
@@ -64,12 +64,12 @@
                                         <li><a href="contact.jsp">Contact</a></li>
                                     </ul>
                                 </li> -->
-							<li><a href="CourseRegister">Courses register</a></li>
-							<li><a href="TKBStudent">TimeTable</a></li>
-							<li><a href="single-course">Examination Schedule</a></li>
-							<li><a href="instructors">View School Fee</a></li>
-							<li><a href="blog">Student Mark</a></li>
-							<li><a href="contact">Course Program</a></li>
+							<li><a href="/DoAnHTTT/student/CourseRegister">Courses register</a></li>
+							<li><a href="/DoAnHTTT/student/TKBStudent">TimeTable</a></li>
+							<li><a href="/DoAnHTTT/student/single-course">Examination Schedule</a></li>
+							<li><a href="/DoAnHTTT/student/instructors">View School Fee</a></li>
+							<li><a href="/DoAnHTTT/student/blog">Student Mark</a></li>
+							<li><a href="/DoAnHTTT/student/contact">Course Program</a></li>
 						</ul>
 
 						<!-- Search Button -->

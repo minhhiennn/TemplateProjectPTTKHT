@@ -7,8 +7,7 @@
 	class="httt.DoAnHTTT.database.TimeForCourseRegisterDao" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
-<c:set var="count" value="0" scope="page" />
-<c:set var="count" value="${count + 1}" scope="page" />
+<c:set var="err" value='${requestScope["err"]}' />
 
 
 <!DOCTYPE html>
@@ -50,7 +49,6 @@
 	</div>
 
 	<!-- ##### Popular Course Area Start ##### -->
-
 	<section class="popular-courses-area section-padding-100">
 		<div class="container">
 			<c:choose>
@@ -90,8 +88,7 @@
 											items="${scheduleItems.getSubAvailableST(idU)}">
 											<tr>
 												<td><input type="checkbox" id="myCheck${count}"
-													onclick="myFunction()" value="${item.getiD_Schedule()}"
-													class="messageCheckbox"></td>
+													onclick="myFunction()" value="${item.getiD_Schedule()}"></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
@@ -112,45 +109,50 @@
 									<tfoot>
 									</tfoot>
 								</table>
+								<c:if test="${err != null }">
+									<h3 style="color: red">
+										<c:out value="${err}" />
+									</h3>
+								</c:if>
 							</div>
+
 							<div>
 								<h3 style="padding-top: 30px">Danh Sách môn học đã chọn</h3>
 								<table id="tableahihi2" class="" style="width: 100%;">
 									<thead>
 										<tr style="border: none">
-											<th class="th-sm"></th>
 											<th class="th-sm">Mã MH</th>
 											<th class="th-sm">Tên MH</th>
 											<th class="th-sm">STC</th>
 											<th class="th-sm">Mã lớp</th>
-											<th class="th-sm">Sĩ số</th>
-											<th class="th-sm">CL</th>
 											<th class="th-sm">Theoretical</th>
 											<th class="th-sm">Thứ</th>
 											<th class="th-sm">Tiết BD</th>
 											<th class="th-sm">ST</th>
 											<th class="th-sm">Phòng</th>
-											<th class="th-sm">Giảng Viên</th>
+											<th class="th-sm">CBGD</th>
+											<th class="th-sm">Delete</th>
 										</tr>
 									</thead>
 									<tbody>
+										<c:set var="count2" value="0" scope="page" />
 										<c:forEach var="item"
-											items="${scheduleItems.getSubAvailableST(idU)}">
+											items="${scheduleItems.getTimeTableItem(idU)}">
 											<tr>
-												<td><input type="checkbox"></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
 												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
-												<td>${item.getCourse_Offering().getMax_Size()}</td>
-												<td>${item.getCourse_Offering().getCurrent_Size()}</td>
 												<td>${item.getTheoretical()}</td>
 												<td>${item.getTeaching_Day()}</td>
 												<td>${item.getStart_Slot()}</td>
 												<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
 												<td>${item.getStudy_place()}</td>
-												<td>${item.getProfessor().getProfessor_Name()}</td>
+												<td>${item.getProfessor().getUser().getiD_User()}"</td>
+												<td><input type="checkbox" id="myDelete${count2}"
+													onclick="myFunction2()" value="${item.getiD_Schedule()}"></td>
 											</tr>
+											<c:set var="count2" value="${count2 + 1}" scope="page" />
 										</c:forEach>
 									</tbody>
 									<tfoot>
@@ -173,20 +175,28 @@
 	</section>
 	<script type="text/javascript">
 		function myFunction() {
-			for(var i=0; ${count}; ++i){
+			for(var i=0; i<${count}; i++){
 				var checkBox = document.getElementById("myCheck"+i);
-				var text = document.getElementById("text");
 				var ID_Student = ${idU};
-				var ID_Course = document.getElementById("ID_Course");
-				var checkedValue = document.getElementById("myCheck"+i).value;
+				var ID_Schedule = document.getElementById("myCheck"+i).value;
 				if (checkBox.checked == true) {
-					window.location.href = ("${pageContext.request.contextPath}/CourseRegisterServlet?myCheck="+checkedValue);
-				} else {
-				}
+					window.location.href = ("${pageContext.request.contextPath}/CourseRegisterServlet?ID_Schedule="+ID_Schedule+"&ID_Student="+ID_Student+"&action=Add");
+				} 
 			}			
 		}
 	</script>
-
+	<script type="text/javascript">
+          function myFunction2(){
+        	  for(var i=0; i<${count2}; i++){
+  				var checkBox = document.getElementById("myDelete"+i);
+  				var ID_Student = ${idU};
+  				var ID_Schedule = document.getElementById("myDelete"+i).value;
+  				if (checkBox.checked == true) {
+  					window.location.href = ("${pageContext.request.contextPath}/CourseRegisterServlet?ID_Schedule="+ID_Schedule+"&ID_Student="+ID_Student+"&action=Delete");
+  				 } 
+  			 }			
+          }
+    </script>
 </body>
 
 </html>

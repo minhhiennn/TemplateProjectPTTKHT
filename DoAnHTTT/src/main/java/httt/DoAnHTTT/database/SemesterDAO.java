@@ -74,8 +74,25 @@ public class SemesterDAO implements IDAO<Semester> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+    
+	// Lấy ID_Semester bằng GETDATE();
+	public String getID_SemesterByGetDate() {
+		String ID_Semester = null;
+		try {
+			pstmt = conn.prepareStatement("select ID_Semester from Semester where GETDATE() between startDate and endDate ");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ID_Semester = rs.getString("ID_Semester");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ID_Semester;
+		
+	}
 	public static void main(String[] args) {
          SemesterDAO semesterDAO = new SemesterDAO();
+         System.out.println(semesterDAO.getID_SemesterByGetDate());
 	}
 }
