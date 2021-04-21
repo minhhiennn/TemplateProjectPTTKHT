@@ -25,12 +25,14 @@ public class CourseRegisterServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("ahihi");
+		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String test = req.getParameter("myCheck");
+		System.out.println(test);
 		System.out.println("ahihi");
 	}
 	
