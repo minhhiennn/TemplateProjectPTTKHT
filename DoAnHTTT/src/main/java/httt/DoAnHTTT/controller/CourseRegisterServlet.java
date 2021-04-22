@@ -50,8 +50,10 @@ public class CourseRegisterServlet extends HttpServlet {
 				Course_Offering course_Offering = course_OfferingDAO
 						.getByKey(scheduleDAO.getByKey(ID_Schedule).getCourse_Offering().getiD_Course_Offering());
 				course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() + 1);
-				course_OfferingDAO.update(course_Offering);
+				boolean bool = course_OfferingDAO.update(course_Offering);
+
 				resp.sendRedirect(referer);
+
 			} else {
 				req.setAttribute("err", "ma nay sai");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
@@ -66,8 +68,13 @@ public class CourseRegisterServlet extends HttpServlet {
 			Course_Offering course_Offering = course_OfferingDAO
 					.getByKey(scheduleDAO.getByKey(ID_Schedule).getCourse_Offering().getiD_Course_Offering());
 			course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
-			course_OfferingDAO.update(course_Offering);
-			resp.sendRedirect(referer);
+			boolean bool = course_OfferingDAO.update(course_Offering);
+			if (bool == true) {
+				resp.sendRedirect(referer);
+			} else {
+				req.setAttribute("err", "Lỗi hệ thống");
+				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+			}
 		}
 	}
 

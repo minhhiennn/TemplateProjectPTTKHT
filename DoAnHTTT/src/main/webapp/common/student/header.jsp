@@ -99,7 +99,7 @@
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
                                             <a class="dropdown-item" href="#">Profile</a>
                                             <a class="dropdown-item" href="#">Account Info</a>
-                                            <a class="dropdown-item" href="index.html">Logout</a>
+                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
                                         </div>
                                     </div>
                                 </div>

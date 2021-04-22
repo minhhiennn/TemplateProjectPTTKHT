@@ -99,7 +99,7 @@
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
 												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
 												<td>${item.getCourse_Offering().getMax_Size()}</td>
-												<td>${item.getCourse_Offering().getCurrent_Size()}</td>
+												<td>${item.getCourse_Offering().getMax_Size() - item.getCourse_Offering().getCurrent_Size()}</td>
 												<td>${item.getTheoretical()}</td>
 												<td>${item.getTeaching_Day()}</td>
 												<td>${item.getStart_Slot()}</td>

@@ -389,7 +389,7 @@ insert into Course_Offering Values(N'18',N'214241','DH18DTA',80,0)
 insert into Course_Offering Values(N'19',N'214441','DH18DTA',80,0)
 insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
-
+UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
 -- insert into Schedule
 -- lười chèn vc
 insert into Schedule values(N'1',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
@@ -505,7 +505,7 @@ RETURN
 select sc.ID_Schedule from Course_Offering co join Course c on c.ID_Course = co.ID_Course
 													 join Schedule sc on sc.ID_Course_Offering = co.ID_Course_Offering
 													 
-where co.Current_Size < co.Max_Size and 
+where  
 c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select ID_Faculty from Student where ID_Student = @ID_User)  end and
 c.years <=  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
 c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and
@@ -630,3 +630,18 @@ delete Student where ID_Student like '18135%'
 delete class where Class_code like 'DH18TY%'
 select * from Course_Offering
 UPDATE dbo.Course_Offering SET ID_Course = '213603', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 0 WHERE ID_Course_Offering = '1'
+---
+alter Trigger checkCourse_Offering
+on Course_Offering
+for insert,update
+as
+begin
+Declare @CurrentSizeI tinyint = (select I.Current_Size from inserted I);
+Declare @MaxSizeI tinyint = (select I.Max_Size from inserted I );
+if @CurrentSizeI > @MaxSizeI
+begin
+RAISERROR(N'lớp đã đầy',11,1)
+ROLLBACK TRANSACTION
+end
+end
+go

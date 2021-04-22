@@ -9,7 +9,8 @@ public class Connect {
 		Connection conn = null;
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=CourseRegistration;integratedSecurity=true");
+			conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "databaseName=CourseRegistration;",
+					"sa", "sa");
 //			jdbc:sqlserver://localhost:1433;databaseName=CourseRegistration;integratedSecurity=true
 
 //			Class.forName("org.hsqldb.jdbcDriver");
@@ -20,11 +21,12 @@ public class Connect {
 		}
 		return conn;
 	}
+
 	public static void main(String[] args) {
 		Connection connection = Connect.getConnection();
-		if(connection != null) {
+		if (connection != null) {
 			System.out.println("true");
-		}else {
+		} else {
 			System.out.println("false");
 		}
 	}

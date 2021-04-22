@@ -82,9 +82,11 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 			pstmt.setInt(3, key.getMax_Size());
 			pstmt.setInt(4, key.getCurrent_Size());
 			pstmt.setString(5, key.getiD_Course_Offering());
-			int bb = pstmt.executeUpdate();
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				if (pstmt != null) {
