@@ -367,7 +367,6 @@ insert into Course Values(N'202622','DT',N'Pháp luật đại cương',2,2,1)
 --
 select Course_certificate from Course where ID_Course = '213603';
 --
-
 -- insert into Course_Offering
 insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)
 insert into Course_Offering Values(N'2',N'214201','DH18DTA',80,0)
@@ -551,7 +550,7 @@ RETURN
 select sc.ID_Schedule from Schedule sc  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
 						  
 where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User)) and sc.Start_Slot   in (select Start_Slot from checkStart_Slot(@ID_User)))
- or co.ID_Course   in (select ID_Course from checkSubExist(@ID_User)))
+ or co.ID_Course   in (select ID_Course from checkSubExist(@ID_User))) and (co.Current_Size < co.Max_Size)
  and sc.ID_Schedule = @ID_Schedule
  go
  -- a là y chang nên ko được
@@ -579,20 +578,10 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
  go
 
 -- tạo trigger cho course_offering
-alter Trigger checkCourse_Offering
-on Course_Offering
-for insert,update
-as
-begin
-Declare @CurrentSizeI tinyint = (select I.Current_Size from inserted I);
-Declare @MaxSizeI tinyint = (select I.Max_Size from inserted I );
-if @CurrentSizeI > @MaxSizeI
-RAISERROR(N'lớp đã đầy',11,1)
-ROLLBACK TRANSACTION
-end
-go
+
+
 -- tạo function dk môn học giáo viên
-alter function checkSubjectForProfessor(@ID_Professor nvarchar(50))
+create function checkSubjectForProfessor(@ID_Professor nvarchar(50))
 returns table 
 as
 return
@@ -639,3 +628,5 @@ select * from class
 select * from Student
 delete Student where ID_Student like '18135%'
 delete class where Class_code like 'DH18TY%'
+select * from Course_Offering
+UPDATE dbo.Course_Offering SET ID_Course = '213603', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 0 WHERE ID_Course_Offering = '1'

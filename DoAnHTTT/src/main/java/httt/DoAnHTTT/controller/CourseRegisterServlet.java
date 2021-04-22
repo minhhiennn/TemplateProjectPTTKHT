@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import httt.DoAnHTTT.database.CourseDAO;
+import httt.DoAnHTTT.database.Course_OfferingDAO;
 import httt.DoAnHTTT.database.ScheduleDAO;
 import httt.DoAnHTTT.database.SemesterDAO;
 import httt.DoAnHTTT.database.StudentDAO;
 import httt.DoAnHTTT.database.Student_ScheduleDAO;
+import httt.DoAnHTTT.model.Course_Offering;
 import httt.DoAnHTTT.model.Student_Schedule;
 
 @WebServlet(urlPatterns = { "/CourseRegisterServlet" })
@@ -43,9 +46,14 @@ public class CourseRegisterServlet extends HttpServlet {
 			if (student_ScheduleDAO.checkDayST(ID_Schedule, ID_Student)) {
 				student_ScheduleDAO.insert(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 						scheduleDAO.getByKey(ID_Schedule), studentDAO.getByKey(ID_Student)));
+				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+				Course_Offering course_Offering = course_OfferingDAO
+						.getByKey(scheduleDAO.getByKey(ID_Schedule).getCourse_Offering().getiD_Course_Offering());
+				course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() + 1);
+				course_OfferingDAO.update(course_Offering);
 				resp.sendRedirect(referer);
 			} else {
-				req.setAttribute("err", "Môn học này đã bị trùng lịch học");
+				req.setAttribute("err", "ma nay sai");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 			}
 		} else if (action.equals("Delete")) {
@@ -54,6 +62,11 @@ public class CourseRegisterServlet extends HttpServlet {
 			String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
 			student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 					scheduleDAO.getByKey(ID_Schedule), studentDAO.getByKey(ID_Student)));
+			Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+			Course_Offering course_Offering = course_OfferingDAO
+					.getByKey(scheduleDAO.getByKey(ID_Schedule).getCourse_Offering().getiD_Course_Offering());
+			course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
+			course_OfferingDAO.update(course_Offering);
 			resp.sendRedirect(referer);
 		}
 	}

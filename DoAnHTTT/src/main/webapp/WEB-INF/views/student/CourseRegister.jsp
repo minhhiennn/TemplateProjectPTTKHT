@@ -86,9 +86,14 @@
 										<c:set var="count" value="0" scope="page" />
 										<c:forEach var="item"
 											items="${scheduleItems.getSubAvailableST(idU)}">
+											<c:set var="disable" value="" scope="page" />
+												<c:if
+												test="${item.getCourse_Offering().getMax_Size() == item.getCourse_Offering().getCurrent_Size()}">
+												<c:set var="disable" value="disabled" scope="page" />
+											</c:if>
 											<tr>
 												<td><input type="checkbox" id="myCheck${count}"
-													onclick="myFunction()" value="${item.getiD_Schedule()}"></td>
+													onclick="myFunction()" value="${item.getiD_Schedule()}" ${disable}></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>

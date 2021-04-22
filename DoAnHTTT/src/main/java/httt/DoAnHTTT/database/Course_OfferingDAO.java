@@ -74,8 +74,30 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 
 	@Override
 	public boolean update(Course_Offering key) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			pstmt = conn.prepareStatement(
+					"UPDATE dbo.Course_Offering SET ID_Course = ?, Class_code = ?, Max_Size = ?,Current_Size = ? WHERE ID_Course_Offering = ?");
+			pstmt.setString(1, key.getCourse().getiD_Course());
+			pstmt.setString(2, key.getClass1().getClass_Code());
+			pstmt.setInt(3, key.getMax_Size());
+			pstmt.setInt(4, key.getCurrent_Size());
+			pstmt.setString(5, key.getiD_Course_Offering());
+			int bb = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
 	}
 
 	@Override
