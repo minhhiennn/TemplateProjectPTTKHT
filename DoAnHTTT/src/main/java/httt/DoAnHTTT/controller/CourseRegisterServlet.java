@@ -51,9 +51,12 @@ public class CourseRegisterServlet extends HttpServlet {
 						.getByKey(scheduleDAO.getByKey(ID_Schedule).getCourse_Offering().getiD_Course_Offering());
 				course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() + 1);
 				boolean bool = course_OfferingDAO.update(course_Offering);
-
-				resp.sendRedirect(referer);
-
+				if (bool == false) {
+					req.setAttribute("err", "Môn này đã full chỗ");
+					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+				} else {
+					resp.sendRedirect(referer);
+				}
 			} else {
 				req.setAttribute("err", "ma nay sai");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);

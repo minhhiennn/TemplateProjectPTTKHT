@@ -631,7 +631,7 @@ delete class where Class_code like 'DH18TY%'
 select * from Course_Offering
 UPDATE dbo.Course_Offering SET ID_Course = '213603', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 0 WHERE ID_Course_Offering = '1'
 ---
-alter Trigger checkCourse_Offering
+create Trigger checkCourse_Offering
 on Course_Offering
 for insert,update
 as
@@ -645,3 +645,5 @@ ROLLBACK TRANSACTION
 end
 end
 go
+---
+select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130005') tt on sa.ID_Schedule = tt.ID_Schedule where sa.ID_Schedule = '12'; 

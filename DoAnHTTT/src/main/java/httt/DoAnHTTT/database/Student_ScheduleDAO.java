@@ -96,6 +96,24 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return bool;
 	}
 
+	public boolean checkSubExistInTimeTable(String ID_Student, String ID_Schedule) {
+		boolean bool = false;
+		try {
+			pstmt = conn.prepareStatement(
+					"select sa.ID_Schedule from SubAvailableST(?) sa join TimeTableSt(?) tt on sa.ID_Schedule = tt.ID_Schedule where sa.ID_Schedule = ?; ");
+			pstmt.setString(1, ID_Student);
+			pstmt.setString(2, ID_Student);
+			pstmt.setString(3, ID_Schedule);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				bool = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bool;
+	}
+
 	@Override
 	public Student_Schedule getByKey(String key) {
 		// TODO Auto-generated method stub
@@ -195,6 +213,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		System.out.println(student_ScheduleDAO.checkDayST("1a", "18130005"));
+//		System.out.println(student_ScheduleDAO.checkDayST("1a", "18130005"));
+//		System.out.println(student_ScheduleDAO.checkSubExistInTimeTable("18130005", "16"));
 	}
 }

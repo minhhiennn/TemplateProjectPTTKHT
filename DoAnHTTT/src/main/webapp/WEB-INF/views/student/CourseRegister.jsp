@@ -87,13 +87,19 @@
 										<c:forEach var="item"
 											items="${scheduleItems.getSubAvailableST(idU)}">
 											<c:set var="disable" value="" scope="page" />
-												<c:if
+											<c:set var="check" value="" scope="page"></c:set>
+											<c:if
 												test="${item.getCourse_Offering().getMax_Size() == item.getCourse_Offering().getCurrent_Size()}">
 												<c:set var="disable" value="disabled" scope="page" />
 											</c:if>
+											<c:if test="${scheduleItems.checkSubExistInTimeTable(idU,item.getiD_Schedule()) == true }">
+											<c:set var="check" value="checked" scope="page"></c:set>
+											<c:set var="disable" value="disabled" scope="page" />
+											</c:if>
 											<tr>
 												<td><input type="checkbox" id="myCheck${count}"
-													onclick="myFunction()" value="${item.getiD_Schedule()}" ${disable}></td>
+													onclick="myFunction()" value="${item.getiD_Schedule()}"
+													${disable} ${check}></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
