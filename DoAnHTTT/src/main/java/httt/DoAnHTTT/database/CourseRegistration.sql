@@ -646,4 +646,9 @@ end
 end
 go
 ---
-select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130005') tt on sa.ID_Schedule = tt.ID_Schedule where sa.ID_Schedule = '12'; 
+select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130005') tt on sa.ID_Schedule = tt.ID_Schedule where sa.ID_Schedule = '12';
+SELECT * 
+FROM USERS 
+ORDER BY ID_User 
+      OFFSET 10 ROWS
+      FETCH NEXT 20 ROWS ONLY
