@@ -85,5 +85,12 @@ public class Schedule {
 	public void setEnd_Slot(int end_Slot) {
 		this.end_Slot = end_Slot;
 	}
+	@Override
+	public String toString() {
+		return "Schedule [iD_Schedule=" + iD_Schedule + ", course_Offering=" + course_Offering + ", professor="
+				+ professor + ", theoretical=" + theoretical + ", teaching_Day=" + teaching_Day + ", start_Day="
+				+ start_Day + ", end_Day=" + end_Day + ", study_place=" + study_place + ", start_Slot=" + start_Slot
+				+ ", end_Slot=" + end_Slot + "]";
+	}
 	
 }

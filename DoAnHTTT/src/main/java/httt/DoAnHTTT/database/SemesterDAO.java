@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +13,6 @@ import httt.DoAnHTTT.model.Semester;
 
 public class SemesterDAO implements IDAO<Semester> {
 	private Connection conn = null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
 
 	public SemesterDAO() {
 		conn = Connect.getConnection();
@@ -22,6 +21,8 @@ public class SemesterDAO implements IDAO<Semester> {
 	@Override
 	public Semester getByKey(String key) {
 		Semester semester = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement("select * from Semester where ID_Semester = ?");
 			pstmt.setString(1, key);
@@ -36,7 +37,7 @@ public class SemesterDAO implements IDAO<Semester> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			try {
 				if (pstmt != null) {
 					pstmt.close();
@@ -74,25 +75,97 @@ public class SemesterDAO implements IDAO<Semester> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-    
+
 	// Lấy ID_Semester bằng GETDATE();
 	public String getID_SemesterByGetDate() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String ID_Semester = null;
 		try {
-			pstmt = conn.prepareStatement("select ID_Semester from Semester where GETDATE() between startDate and endDate ");
+			pstmt = conn
+					.prepareStatement("select ID_Semester from Semester where GETDATE() between startDate and endDate");
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				ID_Semester = rs.getString("ID_Semester");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return ID_Semester;
-		
 	}
-	public static void main(String[] args) {
-         SemesterDAO semesterDAO = new SemesterDAO();
-         System.out.println(semesterDAO.getID_SemesterByGetDate());
+    // Lấy ID_Semester bằng get top 1;
+	public String getID_SemesterByGetTop1(String id_User) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String ID_Semester = null;
+		try {
+			pstmt = conn
+					.prepareStatement("select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+			pstmt.setString(1, id_User);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ID_Semester = rs.getString("ID_Semester");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ID_Semester;
+	}
+	// Lấy Semester bằng years
+	public ArrayList<Semester> getSemesterByTop3(String id_User){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Semester> list = new ArrayList<Semester>();
+		try {
+			pstmt = conn.prepareStatement("select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+			pstmt.setString(1, id_User);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Semester = rs.getString("ID_Semester");
+				Semester semester = getByKey(ID_Semester);
+				list.add(semester);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		SemesterDAO semesterDAO = new SemesterDAO();
 	}
 }

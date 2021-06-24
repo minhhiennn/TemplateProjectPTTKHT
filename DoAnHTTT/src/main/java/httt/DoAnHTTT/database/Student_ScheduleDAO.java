@@ -50,7 +50,35 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return arrList;
 	}
-
+    // Get TimeTable By ID_Semester And ID_User
+	public ArrayList<Schedule> getTimeTableBySemesterAndUser(String id_semester,String id_user) {
+		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
+		try {
+			pstmt = conn.prepareStatement("select st.ID_Schedule from Student_Schedule st where st.ID_Semester=? and st.ID_Student=?");
+			pstmt.setString(1, id_semester);
+			pstmt.setString(2, id_user);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Schedule = rs.getString("ID_Schedule");
+				Schedule schedule = new ScheduleDAO().getByKey(ID_Schedule);
+				arrList.add(schedule);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return arrList;
+	}
 	// Test function SubAvailableST(OK het nhe)
 	public ArrayList<Schedule> getSubAvailableST(String user_id) {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
@@ -213,7 +241,9 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-//		System.out.println(student_ScheduleDAO.checkDayST("1a", "18130005"));
-//		System.out.println(student_ScheduleDAO.checkSubExistInTimeTable("18130005", "16"));
+		ArrayList<Schedule> list = student_ScheduleDAO.getTimeTableBySemesterAndUser("2_2020", "18130006");
+		for (Schedule schedule : list) {
+			System.out.println(schedule);
+		}
 	}
 }

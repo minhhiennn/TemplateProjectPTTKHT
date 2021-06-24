@@ -30,7 +30,6 @@ public class ManagerServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("ahihi");
 		doPost(req, resp);
 	}
 

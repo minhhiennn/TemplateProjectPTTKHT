@@ -58,7 +58,7 @@ public class CourseRegisterServlet extends HttpServlet {
 					resp.sendRedirect(referer);
 				}
 			} else {
-				req.setAttribute("err", "ma nay sai");
+				req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 			}
 		} else if (action.equals("Delete")) {

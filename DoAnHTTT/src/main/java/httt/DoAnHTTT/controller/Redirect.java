@@ -58,4 +58,9 @@ public class Redirect {
 		ModelAndView mav = new ModelAndView("student/TKBStudent");
 		return mav;
 	}
+	@RequestMapping(value = "/student/TKBStudent", method = RequestMethod.POST)
+	public ModelAndView tablePage3() {
+		ModelAndView mav = new ModelAndView("student/TKBStudent");
+		return mav;
+	}
 }

@@ -44,5 +44,10 @@ public class Semester {
 	public void setNumberS(int numberS) {
 		this.numberS = numberS;
 	}
-	
+	@Override
+	public String toString() {
+		return "Semester [iD_Semester=" + iD_Semester + ", startDate=" + startDate + ", endDate=" + endDate + ", years="
+				+ years + ", numberS=" + numberS + "]";
 	}
+	
+}

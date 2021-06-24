@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:useBean id="scheduleItems" scope="request"
-	class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
+<jsp:useBean id="semesterDao" scope="request"
+	class="httt.DoAnHTTT.database.SemesterDAO" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
+<c:set var="idSemester" value="${requestScope['idSemester']}"></c:set>
+<c:set var="timeTable" value="${requestScope['listTimeTable']}"></c:set>
 <!DOCTYPE html>
 <html>
 
@@ -50,35 +52,47 @@
 		<div class="container">
 			<c:choose>
 				<c:when test="${currentUser != null}">
+					<form action="/DoAnHTTT/TimeTableServlet"
+						method="post">
+						<span>Chọn học kỳ xem thời khóa biểu</span> 
+						<select name="select"
+							onchange="this.form.submit()">
+							<c:forEach var="item" items="${semesterDao.getSemesterByTop3(idU)}">
+								<option value="${item.getiD_Semester()}"
+									<c:if test="${item.getiD_Semester().equals(idSemester)}"> selected </c:if>>Học
+									kỳ ${item.getNumberS()} - Năm học ${item.getYears()}</option>
+							</c:forEach>
+						</select>
+					</form>
 					<table id="tableahihi" class="" style="width: 100%;">
 						<thead>
 							<tr style="border: none">
 								<th class="th-sm">Mã MH</th>
-                                <th class="th-sm">Tên MH</th>
-                                <th class="th-sm">STC</th>
-                                <th class="th-sm">Mã lớp</th>
-                                <th class="th-sm">Theoretical</th>
-                                <th class="th-sm">Thứ</th>
-                                <th class="th-sm">Tiết BD</th>
-                                <th class="th-sm">ST</th>
-                                <th class="th-sm">Phòng</th>
-                                <th class="th-sm">CBGD</th>
+								<th class="th-sm">Tên MH</th>
+								<th class="th-sm">STC</th>
+								<th class="th-sm">Mã lớp</th>
+								<th class="th-sm">Theoretical</th>
+								<th class="th-sm">Thứ</th>
+								<th class="th-sm">Tiết BD</th>
+								<th class="th-sm">ST</th>
+								<th class="th-sm">Phòng</th>
+								<th class="th-sm">CBGD</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="item"
-								items="${scheduleItems.getTimeTableItem(idU)}">
+								items="${timeTable}">
 								<tr>
 									<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
-                                    <td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
-                                    <td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
-                                    <td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
-                                    <td>${item.getTheoretical()}</td>
-                                    <td>${item.getTeaching_Day()}</td>
-                                    <td>${item.getStart_Slot()}</td>
-                                    <td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
-                                    <td>${item.getStudy_place()}</td>
-                                    <td>${item.getProfessor().getUser().getiD_User()}"</td>
+									<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
+									<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
+									<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
+									<td>${item.getTheoretical()}</td>
+									<td>${item.getTeaching_Day()}</td>
+									<td>${item.getStart_Slot()}</td>
+									<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
+									<td>${item.getStudy_place()}</td>
+									<td>${item.getProfessor().getUser().getiD_User()}"</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -87,7 +101,8 @@
 					</table>
 				</c:when>
 				<c:otherwise>
-					<h3 style="color: red;text-align: center;">Vui Lòng Đăng Nhập Để Xem Được TKB</h3>
+					<h3 style="color: red; text-align: center;">Vui Lòng Đăng Nhập
+						Để Xem Được TKB</h3>
 				</c:otherwise>
 			</c:choose>
 			<!-- <div class="row">
@@ -100,5 +115,8 @@
 			</div> -->
 		</div>
 	</section>
+	<script type="text/javascript">
+		
+	</script>
 </body>
 </html>

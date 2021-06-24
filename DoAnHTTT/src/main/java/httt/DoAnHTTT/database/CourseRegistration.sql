@@ -90,9 +90,7 @@ create table Professor
 	-- Cách tính khóa học lấy năm nộp hồ sơ (trong đây là năm tạo tài khoản) trừ cho năm mốc (năm 2000)
 	Create_date date not null,
 	-- Degree là cái vẹo gì
-	Degree Nvarchar(50),
-	
-	
+	Degree Nvarchar(50),	
 	Primary key (ID_Professor)
 )
     ----
@@ -108,6 +106,9 @@ create table Semester
 	numberS smallint not null
 	Primary key (ID_Semester)
 )
+select * from Semester;
+select ID_Semester from Semester where GETDATE() between startDate and endDate
+select * from Semester where YEAR(GETDATE()) = years;
 -- bảng tính thời gian đăng ký môn học
 create table TimeForCourseRegister
 (
@@ -117,12 +118,12 @@ create table TimeForCourseRegister
     Primary key(ID_Semester)
 )
 --
+select * from Semester;
 select * from TimeForCourseRegister tf join Semester se on tf.ID_Semester = se.ID_Semester where GETDATE() between tf.startDate and tf.endDate;
 --
 -- mô tả chi tiết học phần
 create table Course
-(
-    
+(    
     ID_Course nvarchar(50)  not null,
     ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
     Name_Course nvarchar(50) not null,
@@ -131,8 +132,7 @@ create table Course
     -- học viên năm bao nhiêu có thể học
     years int not null,
     -- học kì cố định có môn này sẽ mở nếu/ hk sẽ là 1, 2  / nếu ko thì sẽ là 0
-    numberS smallint
-    
+    numberS smallint    
     Primary key (ID_Course)    
 )
 --
@@ -196,6 +196,7 @@ create table Student_Schedule
 	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student),
 	Primary key (ID_Student,ID_Semester,ID_Schedule)
 )
+select * from Student_Schedule;
 -- mon hoc trước
 create table front_Sub
 (
@@ -273,6 +274,7 @@ insert into USERS Values(N'228','pr',N'228@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'229','pr',N'229@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'220','pr',N'220@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'300','pr',N'300@st.hcmuaf.edu.vn',N'123456')
+
 --
 delete from USERS where ID_User in ('301','302');
 --
@@ -300,6 +302,7 @@ insert into Student Values(N'18130002',N'Nguyễn Văn B','DT','20/10/2018',N'DH
 insert into Student Values(N'18130003',N'Nguyễn Văn C','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130004',N'Nguyễn Văn D','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH18DTA',136,0)
+update Student set Create_date = '20/10/2018' where ID_Student = '18130006';
 --
 select * from Student;
 delete from Student where ID_Student = '18130009';
@@ -322,25 +325,25 @@ delete from Professor where ID_Professor in ('301','302');
 select top 1 ID_Professor from Professor order by ID_Professor DESC; 
 --
 -- insert into Semester
-insert into Semester Values(N'1_2018','1/9/2018','31/1/2019',2021,1)
-insert into Semester Values(N'2_2018','1/3/2019','30/6/2019',2021,2)
-insert into Semester Values(N'1_2019','1/9/2019','31/1/2020',2022,1)
-insert into Semester Values(N'2_2019','1/3/2020','30/6/2020',2022,2)
-insert into Semester Values(N'1_2020','1/9/2020','31/1/2021',2022,1)
-insert into Semester Values(N'2_2020','1/3/2021','30/6/2021',2022,2)
-insert into Semester Values(N'1_2021','1/9/2021','31/1/2022',2022,1)
-insert into Semester Values(N'2_2021','1/3/2022','30/6/2022',2022,2)
+insert into Semester Values(N'2018_1','1/9/2018','31/1/2019',2018,1)
+insert into Semester Values(N'2018_2','1/3/2019','30/6/2019',2018,2)
+insert into Semester Values(N'2019_1','1/9/2019','31/1/2020',2019,1)
+insert into Semester Values(N'2019_2','1/3/2020','30/6/2020',2019,2)
+insert into Semester Values(N'2020_1','1/9/2020','31/1/2021',2020,1)
+insert into Semester Values(N'2020_2','1/3/2021','30/6/2021',2020,2)
+insert into Semester Values(N'2021_1','1/9/2021','31/1/2022',2021,1)
+insert into Semester Values(N'2021_2','1/3/2022','30/6/2022',2021,2)
 
 -- insert into TimeForCourseRegister
-insert into TimeForCourseRegister Values(N'1_2018','6/1/2019','12/1/2019')
-insert into TimeForCourseRegister Values(N'2_2018','3/5/2019','12/5/2019')
-insert into TimeForCourseRegister Values(N'1_2019','6/1/2020','6/1/2020')
-insert into TimeForCourseRegister Values(N'2_2019','3/5/2020','12/5/2020')
-insert into TimeForCourseRegister Values(N'1_2020','6/1/2021','12/1/2021')
-insert into TimeForCourseRegister Values(N'2_2020','3/5/2021','12/5/2021')
-insert into TimeForCourseRegister Values(N'1_2021','6/1/2022','12/1/2022')
-insert into TimeForCourseRegister Values(N'2_2021','3/5/2022','12/5/2022')
-update TimeForCourseRegister set startDate = '1/4/2021' where ID_Semester = '2_2020';
+insert into TimeForCourseRegister Values(N'2018_1','6/1/2019','12/1/2019')
+insert into TimeForCourseRegister Values(N'2018_2','3/5/2019','12/5/2019')
+insert into TimeForCourseRegister Values(N'2019_1','6/1/2020','6/1/2020')
+insert into TimeForCourseRegister Values(N'2019_2','3/5/2020','12/5/2020')
+insert into TimeForCourseRegister Values(N'2020_1','6/1/2021','12/1/2021')
+insert into TimeForCourseRegister Values(N'2020_2','3/5/2021','12/5/2021')
+insert into TimeForCourseRegister Values(N'2021_1','6/1/2022','12/1/2022')
+insert into TimeForCourseRegister Values(N'2021_2','3/5/2022','12/5/2022')
+update TimeForCourseRegister set endDate = '01/07/2021' where ID_Semester = '2020_2';
 select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
@@ -363,6 +366,28 @@ insert into Course Values(N'202121','DT',N'Xác suất thống kê',3,2,1)
 insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2,1)
 insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2,1)
 insert into Course Values(N'202622','DT',N'Pháp luật đại cương',2,2,1)
+insert into Course Values(N'202620','DT',N'Kỹ năng giao tiếp',2,2,1)
+insert into Course Values(N'214361','DT',N'Giao tiếp người máy',2,2,2)
+insert into Course Values(N'214351','DT',N'Lý thuyết đồ thị',2,2,2)
+insert into Course Values(N'200105','DT',N'Lịch sử đảng',2,2,2)
+insert into Course Values(N'214442','DT',N'Nhập môn cơ sở dữ liệu',2,2,2)
+insert into Course Values(N'214352','DT',N'Thiết kế hướng đối tượng',2,2,2)
+insert into Course Values(N'214462','DT',N'Lập trình Web',2,3,1)
+insert into Course Values(N'214463','DT',N'Nhập môn trí tuệ nhân tạo',2,3,1)
+insert into Course Values(N'214372','DT',N'Lập trình.NET',2,3,1)
+insert into Course Values(N'214353','DT',N'Đồ họa máy tính',2,3,1)
+insert into Course Values(N'214386','DT',N'Lập trình PHP',2,3,1)
+insert into Course Values(N'214451','DT',N'Hệ quản trị cơ sở dữ liệu',2,3,1)
+insert into Course Values(N'200107','DT',N'Tư tưởng Hồ Chí Minh',2,3,1)
+insert into Course Values(N'214252','DT',N'Lập trình mạng',2,3,1)
+insert into Course Values(N'214370','DT',N'Nhập môn CN phần mềm',2,3,2)
+insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',2,3,2)
+insert into Course Values(N'214282','DT',N'Mạng máy tính nâng cao',2,3,2)
+insert into Course Values(N'214461','DT',N'Phân tích và thiết kế HTTT',2,3,2)
+insert into Course Values(N'214492','DT',N'Máy học',2,3,2)
+insert into Course Values(N'214273','DT',N'Lập trình mạng nâng cao',2,3,2)
+insert into Course Values(N'214388','DT',N'Lập trình Front End',2,3,2)
+insert into Course Values(N'214274','DT',N'Lập trình trên TB di động',2,3,2)
 
 --
 select Course_certificate from Course where ID_Course = '213603';
@@ -388,6 +413,29 @@ insert into Course_Offering Values(N'17',N'202121','DH18DTA',80,0)
 insert into Course_Offering Values(N'18',N'214241','DH18DTA',80,0)
 insert into Course_Offering Values(N'19',N'214441','DH18DTA',80,0)
 insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
+insert into Course_Offering Values(N'21',N'202620','DH18DTA',80,0)
+insert into Course_Offering Values(N'22',N'214361','DH18DTA',80,0)
+insert into Course_Offering Values(N'23',N'214351','DH18DTA',80,0)
+insert into Course_Offering Values(N'24',N'200105','DH18DTA',80,0)
+insert into Course_Offering Values(N'25',N'214442','DH18DTA',80,0)
+insert into Course_Offering Values(N'26',N'214352','DH18DTA',80,0)
+insert into Course_Offering Values(N'27',N'214462','DH18DTA',80,0)
+insert into Course_Offering Values(N'28',N'214463','DH18DTA',80,0)
+insert into Course_Offering Values(N'29',N'214372','DH18DTA',80,0)
+insert into Course_Offering Values(N'30',N'214353','DH18DTA',80,0)
+insert into Course_Offering Values(N'31',N'214386','DH18DTA',80,0)
+insert into Course_Offering Values(N'32',N'214451','DH18DTA',80,0)
+insert into Course_Offering Values(N'33',N'200107','DH18DTA',80,0)
+insert into Course_Offering Values(N'34',N'214252','DH18DTA',80,0)
+insert into Course_Offering Values(N'35',N'214370','DH18DTA',80,0)
+insert into Course_Offering Values(N'36',N'214471','DH18DTA',80,0)
+insert into Course_Offering Values(N'37',N'214282','DH18DTA',80,0)
+insert into Course_Offering Values(N'38',N'214461','DH18DTA',80,0)
+insert into Course_Offering Values(N'39',N'214492','DH18DTA',80,0)
+insert into Course_Offering Values(N'40',N'214273','DH18DTA',80,0)
+insert into Course_Offering Values(N'41',N'214388','DH18DTA',80,0)
+insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
+
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
 -- insert into Schedule
@@ -414,23 +462,48 @@ insert into Schedule values(N'16',N'15',N'227','LT',7,'20/10/2021','20/11/2021',
 insert into Schedule values(N'17',N'16',N'228','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'18',N'17',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'19',N'19',N'228','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'20',N'19',N'229','TH',5,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'21',N'20',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',4,4)
+insert into Schedule values(N'22',N'21',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'23',N'22',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'24',N'23',N'229','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'25',N'24',N'229','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'26',N'25',N'229','LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'27',N'26',N'229','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'28',N'27',N'229','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'29',N'28',N'229','LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'30',N'29',N'229','LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'31',N'30',N'229','LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'32',N'31',N'229','LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'33',N'32',N'229','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'34',N'33',N'229','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'35',N'34',N'229','LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'36',N'35',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',4,4)
+insert into Schedule values(N'37',N'36',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'38',N'37',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'39',N'38',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
+insert into Schedule values(N'40',N'39',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
+insert into Schedule values(N'41',N'40',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+
+
 update Schedule set Teaching_Day = 7 where ID_Schedule = '11';
 -- insert into Student_Schedule
 -- 
---insert into Student_Schedule values('1_2021',N'1',N'18130005')
---insert into Student_Schedule values('2_2021',N'2',N'18130077')
---insert into Student_Schedule values('1_2022',N'3',N'18130002')
---insert into Student_Schedule values('3_2022',N'2',N'18130003')
---insert into Student_Schedule values('2_2021',N'1',N'18130004')
---insert into Student_Schedule values('2_2022',N'3',N'18130005')
---insert into Student_Schedule values('1_2021',N'1',N'18130006')
---insert into Student_Schedule values('2_2020',N'1',N'18130005')
---insert into Student_Schedule values('2_2020',N'2',N'18130005')
---insert into Student_Schedule values('2_2020',N'3',N'18130005')
---insert into Student_Schedule values('2_2020',N'4',N'18130005')
-select * from Student_Schedule;
-delete from Student_Schedule where ID_Semester='2_2020' and ID_Schedule='11' and ID_Student='18130005';
+--
+insert into Student_Schedule values('2019_2',N'28',N'18130006')
+insert into Student_Schedule values('2019_2',N'29',N'18130006')
+insert into Student_Schedule values('2019_2',N'30',N'18130006')
+insert into Student_Schedule values('2019_2',N'31',N'18130006')
+insert into Student_Schedule values('2019_2',N'32',N'18130006')
+insert into Student_Schedule values('2020_1',N'36',N'18130006')
+insert into Student_Schedule values('2020_1',N'37',N'18130006')
+insert into Student_Schedule values('2020_1',N'38',N'18130006')
+insert into Student_Schedule values('2020_1',N'39',N'18130006')
+insert into Student_Schedule values('2020_1',N'40',N'18130006')
+select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
+select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
+select st.ID_Schedule from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
+delete from Student_Schedule where ID_Semester='2020_2' and ID_Schedule='11' and ID_Student='18130005';
 delete from Student_Schedule;
 
 -- insert into front_Sub
@@ -445,15 +518,15 @@ select * from Sub_Pass;
 --insert into Sub_Pass values('2_2022',N'2142',N'18130006',7.5,N'khá')
 --insert into Sub_Pass values('1_2022',N'2122',N'18130005',5.5,N'Trung bình')
 --insert into Sub_Pass values('3_2022',N'4111',N'18130004',7.5,N'Khá')
---insert into Sub_Pass values('2_2021',N'2142',N'18130005',7.5,N'Khá')
+--insert into Sub_Pass values('2021_2',N'2142',N'18130005',7.5,N'Khá')
 
 -- insert into semester_Result
 -- như cc
---insert into semester_Result values('1_2021',N'18130005',5.6,20)
+--insert into semester_Result values('2021_1',N'18130005',5.6,20)
 --insert into semester_Result values('1_2022',N'18130002',5.6,20)
 --insert into semester_Result values('2_2022',N'18130003',7.6,16)
 --insert into semester_Result values('3_2022',N'18130006',8.6,18)
---insert into semester_Result values('2_2021',N'18130005',2.6,17)
+--insert into semester_Result values('2021_2',N'18130005',2.6,17)
 --insert into semester_Result values('3_2021',N'18130002',6.6,12)
 
 -- insert into Final_Result
@@ -474,10 +547,9 @@ RETURN
 select sd.* from Schedule sd join Course_Offering co on sd.ID_Course_Offering = co.ID_Course_Offering
 									 join Student_Schedule stc on stc.ID_Schedule = sd.ID_Schedule 
 			where stc.ID_Student = @ID_User and stc.ID_Semester in (select ID_Semester from Semester where GETDATE() between startDate and endDate )
-
-
 go
-select * from TimeTableSt('18130005');
+
+select * from TimeTableSt('18130006');
 go
 create FUNCTION subPassed (@ID_CourseB nvarchar(50),@ID_User nvarchar(50))
 RETURNS nvarchar(50) 
@@ -507,12 +579,12 @@ select sc.ID_Schedule from Course_Offering co join Course c on c.ID_Course = co.
 													 
 where  
 c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select ID_Faculty from Student where ID_Student = @ID_User)  end and
-c.years <=  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
+c.years =  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
 c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and
 c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
 go
-select * from SubAvailableST('18130005');
+select * from SubAvailableST('18130006');
 
 go
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
@@ -564,10 +636,10 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
 --insert into Schedule values(N'20',N'19',N'229','TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 --select * from Schedule;
 
---insert into Student_Schedule values('2_2020',N'1',N'18130005')
---insert into Student_Schedule values('2_2020',N'2',N'18130005')
---insert into Student_Schedule values('2_2020',N'3',N'18130005')
---insert into Student_Schedule values('2_2020',N'4',N'18130005')
+--insert into Student_Schedule values('2020_2',N'1',N'18130005')
+--insert into Student_Schedule values('2020_2',N'2',N'18130005')
+--insert into Student_Schedule values('2020_2',N'3',N'18130005')
+--insert into Student_Schedule values('2020_2',N'4',N'18130005')
 --select * from Student_Schedule
 
  select * from checkDayST(N'1a','18130005');
@@ -647,8 +719,3 @@ end
 go
 ---
 select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130005') tt on sa.ID_Schedule = tt.ID_Schedule where sa.ID_Schedule = '12';
-SELECT * 
-FROM USERS 
-ORDER BY ID_User 
-      OFFSET 10 ROWS
-      FETCH NEXT 20 ROWS ONLY
