@@ -34,7 +34,6 @@ public class CourseRegisterServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String action = req.getParameter("action");
-		String referer = req.getHeader("Referer");
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
 		SemesterDAO semesterDAO = new SemesterDAO();
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
@@ -55,11 +54,13 @@ public class CourseRegisterServlet extends HttpServlet {
 					req.setAttribute("err", "Môn này đã full chỗ");
 					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 				} else {
-					resp.sendRedirect(referer);
+					System.out.println("nhu dau buoi");
+					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				}
 			} else {
 				req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+				System.out.println("nhu cc");
 			}
 		} else if (action.equals("Delete")) {
 			String ID_Schedule = req.getParameter("ID_Schedule");
@@ -73,7 +74,7 @@ public class CourseRegisterServlet extends HttpServlet {
 			course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
 			boolean bool = course_OfferingDAO.update(course_Offering);
 			if (bool == true) {
-				resp.sendRedirect(referer);
+				resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 			} else {
 				req.setAttribute("err", "Lỗi hệ thống");
 				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
@@ -83,7 +84,7 @@ public class CourseRegisterServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
+		
 	}
 
 }

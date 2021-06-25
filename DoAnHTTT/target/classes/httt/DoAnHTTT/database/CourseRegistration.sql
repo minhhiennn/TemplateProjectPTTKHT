@@ -484,33 +484,26 @@ insert into Schedule values(N'38',N'37',N'229','LT',3,'20/10/2021','20/11/2021',
 insert into Schedule values(N'39',N'38',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
 insert into Schedule values(N'40',N'39',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'41',N'40',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-
-
+insert into Schedule values(N'42',N'40',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'43',N'36',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'44',N'38',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+delete from Schedule where ID_Schedule = '44';
 update Schedule set Teaching_Day = 7 where ID_Schedule = '11';
 -- insert into Student_Schedule
 -- 
-insert into Student_Schedule values('2020_1',N'19',N'18130006')
-insert into Student_Schedule values('2020_1',N'20',N'18130006')
-insert into Student_Schedule values('2020_1',N'21',N'18130006')
-insert into Student_Schedule values('2020_1',N'22',N'18130006')
-insert into Student_Schedule values('2020_1',N'23',N'18130006')
-insert into Student_Schedule values('2020_2',N'24',N'18130006')
-insert into Student_Schedule values('2020_2',N'25',N'18130006')
-insert into Student_Schedule values('2020_2',N'26',N'18130006')
-insert into Student_Schedule values('2020_2',N'27',N'18130006')
-insert into Student_Schedule values('2020_2',N'18',N'18130006')
 --
-insert into Student_Schedule values('2020_1',N'28',N'18130006')
-insert into Student_Schedule values('2020_1',N'29',N'18130006')
-insert into Student_Schedule values('2020_1',N'30',N'18130006')
-insert into Student_Schedule values('2020_1',N'31',N'18130006')
-insert into Student_Schedule values('2020_1',N'32',N'18130006')
-insert into Student_Schedule values('2020_2',N'36',N'18130006')
-insert into Student_Schedule values('2020_2',N'37',N'18130006')
-insert into Student_Schedule values('2020_2',N'38',N'18130006')
-insert into Student_Schedule values('2020_2',N'39',N'18130006')
-insert into Student_Schedule values('2020_2',N'40',N'18130006')
-select TOP 3 st.ID_Semester from Student_Schedule st group by st.ID_Semester order by st.ID_Semester desc
+insert into Student_Schedule values('2019_2',N'28',N'18130006')
+insert into Student_Schedule values('2019_2',N'29',N'18130006')
+insert into Student_Schedule values('2019_2',N'30',N'18130006')
+insert into Student_Schedule values('2019_2',N'31',N'18130006')
+insert into Student_Schedule values('2019_2',N'32',N'18130006')
+insert into Student_Schedule values('2020_1',N'36',N'18130006')
+insert into Student_Schedule values('2020_1',N'37',N'18130006')
+insert into Student_Schedule values('2020_1',N'38',N'18130006')
+insert into Student_Schedule values('2020_1',N'39',N'18130006')
+insert into Student_Schedule values('2020_1',N'40',N'18130006')
+select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
+select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select st.ID_Schedule from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
 delete from Student_Schedule where ID_Semester='2020_2' and ID_Schedule='11' and ID_Student='18130005';
 delete from Student_Schedule;

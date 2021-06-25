@@ -484,8 +484,10 @@ insert into Schedule values(N'38',N'37',N'229','LT',3,'20/10/2021','20/11/2021',
 insert into Schedule values(N'39',N'38',N'229','LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
 insert into Schedule values(N'40',N'39',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
 insert into Schedule values(N'41',N'40',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-
-
+insert into Schedule values(N'42',N'40',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'43',N'36',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'44',N'38',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+delete from Schedule where ID_Schedule = '44';
 update Schedule set Teaching_Day = 7 where ID_Schedule = '11';
 -- insert into Student_Schedule
 -- 

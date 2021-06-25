@@ -92,13 +92,14 @@
 												test="${item.getCourse_Offering().getMax_Size() == item.getCourse_Offering().getCurrent_Size()}">
 												<c:set var="disable" value="disabled" scope="page" />
 											</c:if>
-											<c:if test="${scheduleItems.checkSubExistInTimeTable(idU,item.getiD_Schedule()) == true }">
-											<c:set var="check" value="checked" scope="page"></c:set>
-											<c:set var="disable" value="disabled" scope="page" />
+											<c:if
+												test="${scheduleItems.checkSubExistInTimeTable(idU,item.getiD_Schedule()) == true }">
+												<c:set var="check" value="checked" scope="page"></c:set>
+												<c:set var="disable" value="disabled" scope="page" />
 											</c:if>
 											<tr>
 												<td><input type="checkbox" id="myCheck${count}"
-													onclick="myFunction()" value="${item.getiD_Schedule()}"
+													onclick="test(this)" value="${item.getiD_Schedule()}"
 													${disable} ${check}></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
@@ -161,7 +162,7 @@
 												<td>${item.getStudy_place()}</td>
 												<td>${item.getProfessor().getUser().getiD_User()}"</td>
 												<td><input type="checkbox" id="myDelete${count2}"
-													onclick="myFunction2()" value="${item.getiD_Schedule()}"></td>
+													onclick="test2(this)" value="${item.getiD_Schedule()}"></td>
 											</tr>
 											<c:set var="count2" value="${count2 + 1}" scope="page" />
 										</c:forEach>
@@ -185,28 +186,19 @@
 		</div>
 	</section>
 	<script type="text/javascript">
-		function myFunction() {
-			for(var i=0; i<${count}; i++){
-				var checkBox = document.getElementById("myCheck"+i);
-				var ID_Student = ${idU};
-				var ID_Schedule = document.getElementById("myCheck"+i).value;
-				if (checkBox.checked == true) {
-					window.location.href = ("${pageContext.request.contextPath}/CourseRegisterServlet?ID_Schedule="+ID_Schedule+"&ID_Student="+ID_Student+"&action=Add");
-				} 
-			}			
-		}
-	</script>
-	<script type="text/javascript">
-          function myFunction2(){
-        	  for(var i=0; i<${count2}; i++){
-  				var checkBox = document.getElementById("myDelete"+i);
-  				var ID_Student = ${idU};
-  				var ID_Schedule = document.getElementById("myDelete"+i).value;
-  				if (checkBox.checked == true) {
-  					window.location.href = ("${pageContext.request.contextPath}/CourseRegisterServlet?ID_Schedule="+ID_Schedule+"&ID_Student="+ID_Student+"&action=Delete");
-  				 } 
-  			 }			
-          }
+        function test(ele){
+        	if(ele.checked == true){
+        		let ID_Student = ${idU};
+        	//	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?ID_Schedule="+ele.value+"&ID_Student="+ID_Student+"&action=Add");
+        	}
+        }
+        function test2(ele){
+        	if(ele.checked == true){
+        		var ID_Student = ${idU};
+        		console.log(ele.value);	
+        	//	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?ID_Schedule="+ele.value+"&ID_Student="+ID_Student+"&action=Delete");
+        	}
+        }
     </script>
 </body>
 
