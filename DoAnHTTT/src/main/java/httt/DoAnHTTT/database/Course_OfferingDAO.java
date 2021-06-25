@@ -100,11 +100,40 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		}
 		return true;
 	}
-
+    // Lấy id_CourseOffering by id_Course
+	public String getIDCourseOfferingByIdCourse(String id_Course) {
+		String ID_CourseOffering = null;
+		try {
+			pstmt = conn.prepareStatement("select co.ID_Course_Offering from Course_Offering co where co.ID_Course = ?");
+			pstmt.setString(1, id_Course);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course_Offering = rs.getString("ID_Course_Offering");
+				ID_CourseOffering = ID_Course_Offering;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ID_CourseOffering;
+	}
 	@Override
 	public boolean delete(Course_Offering key) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	}
+public static void main(String[] args) {
+	Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+	System.out.println(course_OfferingDAO.getIDCourseOfferingByIdCourse("214274"));
+}
+}

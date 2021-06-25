@@ -436,6 +436,8 @@ insert into Course_Offering Values(N'40',N'214273','DH18DTA',80,0)
 insert into Course_Offering Values(N'41',N'214388','DH18DTA',80,0)
 insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
 
+select co.ID_Course_Offering from Course_Offering co where co.ID_Course = '214274';
+
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
 -- insert into Schedule
@@ -621,8 +623,7 @@ create FUNCTION checkDayST (@ID_Schedule nvarchar(50),@ID_User varchar(50))
 RETURNS TABLE 
 as
 RETURN  
-select sc.ID_Schedule from Schedule sc  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering
-						  
+select sc.ID_Schedule from Schedule sc  join Course_Offering co on co.ID_Course_Offering = sc.ID_Course_Offering						  
 where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User)) and sc.Start_Slot   in (select Start_Slot from checkStart_Slot(@ID_User)))
  or co.ID_Course   in (select ID_Course from checkSubExist(@ID_User))) and (co.Current_Size < co.Max_Size)
  and sc.ID_Schedule = @ID_Schedule
