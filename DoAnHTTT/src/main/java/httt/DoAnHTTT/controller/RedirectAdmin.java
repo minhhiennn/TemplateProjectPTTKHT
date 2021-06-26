@@ -18,4 +18,9 @@ public class RedirectAdmin {
 		ModelAndView mav = new ModelAndView("admin/AddStudent");
 		return mav;
 	}
+	@RequestMapping(value = "/admin/TKBProfessor", method = RequestMethod.GET)
+	public ModelAndView TKB_Professor() {
+		ModelAndView mav = new ModelAndView("admin/TKBProfessor");
+		return mav;
+	}
 }

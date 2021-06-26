@@ -196,7 +196,6 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 			pstmt.setString(2, ID_Schedule);
 			pstmt.setString(3, ID_Student);
 			int row = pstmt.executeUpdate();
-			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

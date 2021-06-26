@@ -31,7 +31,6 @@ public class CourseRegisterServlet extends HttpServlet {
 	// Constructor
 	public CourseRegisterServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -81,6 +80,7 @@ public class CourseRegisterServlet extends HttpServlet {
 					ArrayList<Student_Schedule> list = new ArrayList<Student_Schedule>();
 					for (int i = 0; i < stringSplit.length; i++) {
 						if (student_ScheduleDAO.checkDayST(stringSplit[i], ID_Student)) {
+							System.out.println(stringSplit[i]);
 							list.add(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 									scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
 						} else {

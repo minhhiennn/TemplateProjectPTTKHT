@@ -43,7 +43,8 @@ public class ScheduleDAO implements IDAO<Schedule> {
 				String Study_place = rs.getString("Study_place");
 				int Start_Slot = rs.getInt("Start_Slot");
 				int End_Slot = rs.getInt("End_Slot");
-				schedule = new Schedule(key, course_Offering, professor, Theoretical, Teaching_Day, Start_Day, End_Day, Study_place, Start_Slot, End_Slot);
+				schedule = new Schedule(key, course_Offering, professor, Theoretical, Teaching_Day, Start_Day, End_Day,
+						Study_place, Start_Slot, End_Slot);
 
 			}
 		} catch (SQLException e) {
@@ -63,6 +64,48 @@ public class ScheduleDAO implements IDAO<Schedule> {
 		return schedule;
 	}
 
+	public void updateProfessorForSchedule(String id_Schedule, String id_Professor) {
+		try {
+			pstmt = conn.prepareStatement("update Schedule set Id_Profeesor = ? where ID_Schedule = ?");
+			pstmt.setString(1, id_Professor);
+			pstmt.setString(2, id_Schedule);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+    // Update xóa professor ra khỏi schedule
+	public void updateProfessorForScheduleDelete(String id_Schedule) {
+		try {
+			pstmt = conn.prepareStatement("update Schedule set Id_Profeesor = null where ID_Schedule = ?");
+			pstmt.setString(1, id_Schedule);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	@Override
 	public Schedule getByKeyS(List<String> key) {
 		return null;
@@ -73,6 +116,7 @@ public class ScheduleDAO implements IDAO<Schedule> {
 		return false;
 	}
 
+	// update này bùn
 	@Override
 	public boolean update(Schedule key) {
 		return false;

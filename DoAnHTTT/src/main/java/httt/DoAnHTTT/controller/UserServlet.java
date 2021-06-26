@@ -16,9 +16,7 @@ import httt.DoAnHTTT.model.User;
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet(
-		  name = "UserServlet", 
-		  urlPatterns = "/UserServlet")
+@WebServlet(name = "UserServlet", urlPatterns = "/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +25,6 @@ public class UserServlet extends HttpServlet {
 	 */
 	public UserServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -36,27 +33,37 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		String referer = request.getHeader("Referer");
 		String iAction = request.getParameter("action");
+		String id_UserKind = "";
 		if (iAction != null && !iAction.equals("")) {
 			if (iAction.equals("Login")) {
-				login(request, response);
+				id_UserKind = login(request, response);
 			}
 
 		}
-		String referer = request.getHeader("Referer");
-		response.sendRedirect(referer);
+		if (id_UserKind.equals("st")) {
+			response.sendRedirect(referer);
+		} else if (id_UserKind.equals("pr")) {
+			response.sendRedirect("/DoAnHTTT/admin/index");
+		} else {
+			response.sendRedirect(referer);
+		}
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response) {
+	private String login(HttpServletRequest request, HttpServletResponse response) {
+		String id_UserKind = "";
 		HttpSession session = request.getSession();
 		UserDAO dao = new UserDAO();
 		String ID_User = request.getParameter("ID_User");
 		String password = request.getParameter("password");
 		User user = dao.check(ID_User, password);
 		if (user != null) {
+			id_UserKind = user.getiD_UserKind();
 			session.setAttribute("currentUser", user);
 		}
+		return id_UserKind;
 	}
 
 	/**

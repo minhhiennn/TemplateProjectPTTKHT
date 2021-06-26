@@ -489,6 +489,7 @@ insert into Schedule values(N'41',N'40',N'229','LT',2,'20/10/2021','20/11/2021',
 insert into Schedule values(N'42',N'40',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'43',N'36',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'44',N'38',N'229','TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+insert into Schedule values(N'45',N'42',N'229','LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 delete from Schedule where ID_Schedule = '44';
 update Schedule set Teaching_Day = 7 where ID_Schedule = '11';
 -- insert into Student_Schedule
@@ -645,7 +646,7 @@ where  ((sc.Teaching_Day   in (select Teaching_Day from checkTeachDay(@ID_User))
 --insert into Student_Schedule values('2020_2',N'4',N'18130005')
 --select * from Student_Schedule
 
- select * from checkDayST(N'1a','18130005');
+ select * from checkDayST(N'1a','18130006');
 -- select * from checkDayST(N'1b','18130005');
 -- select * from checkDayST(N'1c','18130005');
 -- select * from checkDayST(N'20','18130005');

@@ -25,13 +25,21 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
 	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/common/admin/header.jsp"%>
-	<dec:body />
-	<%@ include file="/common/admin/footer.jsp"%>
+	<div id="layoutSidenav">
+		<%@ include file="/common/admin/sidenav-menu.jsp"%>
+		<div id="layoutSidenav_content">
+			<dec:body />
+			<%@ include file="/common/admin/footer.jsp"%>
+		</div>
+	</div>
 
 	<!-- JS cho admin -->
+
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		crossorigin="anonymous"></script>
 	<script
@@ -39,19 +47,30 @@
 		crossorigin="anonymous"></script>
 	<script src="<c:url value='/template/admin/js/scripts.js'/>"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="<c:url value='/template/admin/assets/demo/chart-area-demo.js'/>"></script>
-	<script
-		src="<c:url value='/template/admin/assets/demo/chart-bar-demo.js'/>"></script>
-	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"
 		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script
-		src="<c:url value='/template/admin/assets/demo/datatables-demo.js'/>"></script>
+		src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#myTable').DataTable({
+				"bInfo" : false,
+				"scrollY" : "300px",
+				"scrollCollapse" : false,
+				"paging" : false
+			});
+		});
+		$(document).ready(function() {
+			$('#myTable2').DataTable({
+				"bInfo" : false,
+				"scrollY" : "300px",
+				"scrollCollapse" : false,
+				"paging" : false
+			});
+		});
+	</script>
 </body>
 </html>
