@@ -11,6 +11,7 @@ import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.Schedule;
 import httt.DoAnHTTT.model.Semester;
 import httt.DoAnHTTT.model.Student;
+import httt.DoAnHTTT.model.StudentMapDTO;
 import httt.DoAnHTTT.model.Student_Schedule;
 import httt.DoAnHTTT.model.TimeTableItem;
 
@@ -50,11 +51,13 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return arrList;
 	}
-    // Get TimeTable By ID_Semester And ID_User
-	public ArrayList<Schedule> getTimeTableBySemesterAndUser(String id_semester,String id_user) {
+
+	// Get TimeTable By ID_Semester And ID_User
+	public ArrayList<Schedule> getTimeTableBySemesterAndUser(String id_semester, String id_user) {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
 		try {
-			pstmt = conn.prepareStatement("select st.ID_Schedule from Student_Schedule st where st.ID_Semester=? and st.ID_Student=?");
+			pstmt = conn.prepareStatement(
+					"select st.ID_Schedule from Student_Schedule st where st.ID_Semester=? and st.ID_Student=?");
 			pstmt.setString(1, id_semester);
 			pstmt.setString(2, id_user);
 			rs = pstmt.executeQuery();
@@ -79,6 +82,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return arrList;
 	}
+
 	// Test function SubAvailableST(OK het nhe)
 	public ArrayList<Schedule> getSubAvailableST(String user_id) {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
@@ -138,8 +142,55 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return bool;
+	}
+
+	// Lấy ra danh sách student của 1 môn học
+	public ArrayList<StudentMapDTO> getListStudentBySubject(String ID_Course, String id_Semester) {
+		ArrayList<StudentMapDTO> list = new ArrayList<StudentMapDTO>();
+		try {
+			pstmt = conn.prepareStatement(
+					"select st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
+							+ "                                                             join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
+							+ "                                                             join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "                                                             join Student s on st.ID_Student = s.ID_Student\r\n"
+							+ "where c.ID_Course = ? and st.ID_Semester = ?");
+			pstmt.setString(1, ID_Course);
+			pstmt.setString(2, id_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Student = rs.getString("ID_Student");
+				String Student_Name = rs.getString("Student_Name");
+				StudentMapDTO studentMapDTO = new StudentMapDTO(ID_Student, Student_Name);
+				list.add(studentMapDTO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -240,9 +291,9 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		ArrayList<Schedule> list = student_ScheduleDAO.getTimeTableBySemesterAndUser("2_2020", "18130006");
-		for (Schedule schedule : list) {
-			System.out.println(schedule);
+		ArrayList<StudentMapDTO> list = student_ScheduleDAO.getListStudentBySubject("214282", "2020_2");
+		for (StudentMapDTO studentMapDTO : list) {
+			System.out.println(studentMapDTO);
 		}
 	}
 }

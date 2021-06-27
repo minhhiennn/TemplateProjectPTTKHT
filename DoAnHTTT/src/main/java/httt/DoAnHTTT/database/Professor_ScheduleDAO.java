@@ -9,6 +9,7 @@ import java.util.List;
 
 import httt.DoAnHTTT.model.Professor_Schedule;
 import httt.DoAnHTTT.model.Schedule;
+import httt.DoAnHTTT.model.SubjectMapDTO;
 
 public class Professor_ScheduleDAO implements IDAO<Professor_Schedule> {
 	private Connection conn = null;
@@ -131,6 +132,40 @@ public class Professor_ScheduleDAO implements IDAO<Professor_Schedule> {
 		return result;
 	}
 
+	// Lấy ds môn học trong kỳ đã đăng ký
+	public ArrayList<SubjectMapDTO> getListSubject(String id_Professor) {
+		ArrayList<SubjectMapDTO> list = new ArrayList<SubjectMapDTO>();
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT c.ID_Course,c.Name_Course,pr.ID_Semester from Professor_Schedule pr join Schedule sc on pr.ID_Schedule = sc.ID_Schedule join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering join Course c on co.ID_Course = c.ID_Course\r\n" + 
+					"where pr.ID_Semester = (select s.ID_Semester from Semester s where GETDATE() between s.startDate and s.endDate) and pr.ID_Professor = ?");
+			pstmt.setString(1, id_Professor);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course = rs.getString("ID_Course");
+				String Name_Course = rs.getString("Name_Course");
+				String ID_Semester = rs.getString("ID_Semester");
+				SubjectMapDTO subjectMapDTO = new SubjectMapDTO(ID_Course, Name_Course, ID_Semester);
+				list.add(subjectMapDTO);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 	@Override
 	public Professor_Schedule getByKey(String key) {
 		// TODO Auto-generated method stub
@@ -198,6 +233,9 @@ public class Professor_ScheduleDAO implements IDAO<Professor_Schedule> {
 
 	public static void main(String[] args) {
 		Professor_ScheduleDAO professor_ScheduleDao = new Professor_ScheduleDAO();
-		System.out.println(professor_ScheduleDao.checkDayPr("37", "224"));
+		ArrayList<SubjectMapDTO> list = professor_ScheduleDao.getListSubject("224");
+		for (SubjectMapDTO subjectMapDTO : list) {
+			System.out.println(subjectMapDTO);
+		}
 	}
 }

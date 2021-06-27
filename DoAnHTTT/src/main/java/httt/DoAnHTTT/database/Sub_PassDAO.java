@@ -22,6 +22,68 @@ public class Sub_PassDAO implements IDAO<Sub_Pass> {
 		conn = Connect.getConnection();
 	}
 
+	// Lấy điểm của học sinh theo môn học và học kỳ
+	public String getScoreStudentByCourseAndSemester(String id_Student, String id_Course, String id_Semester) {
+		String result = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select sp.Score from Sub_Pass sp where sp.ID_Student = ? and sp.ID_Course = ? and sp.ID_Semester = ?");
+			pstmt.setString(1, id_Student);
+			pstmt.setString(2, id_Course);
+			pstmt.setString(3, id_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int score = rs.getInt("Score");
+				result = String.valueOf(score);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	// Tìm nếu đã tồn tại trong database
+	public boolean checkExist(String id_Student, String id_Course, String id_Semester) {
+		boolean exist = false;
+		try {
+			pstmt = conn.prepareStatement(
+					"select sp.Score from Sub_Pass sp where sp.ID_Student = ? and sp.ID_Course = ? and sp.ID_Semester = ?");
+			pstmt.setString(1, id_Student);
+			pstmt.setString(2, id_Course);
+			pstmt.setString(3, id_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				exist = true;
+				break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return exist;
+	}
+
 	@Override
 	public Sub_Pass getByKey(String key) {
 		return null;
@@ -87,12 +149,54 @@ public class Sub_PassDAO implements IDAO<Sub_Pass> {
 			System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public boolean update(Sub_Pass key) {
+		String id_Semester = key.getSemester().getiD_Semester();
+		String id_Course = key.getCourse().getiD_Course();
+		String id_Student = key.getStudent().getUser().getiD_User();
+		double score = key.getScore();
+		double scoreSystem4 = key.getScoreSystem4();
+		String Rated = key.getRated();
+		try {
+			pstmt = conn.prepareStatement(
+					"update Sub_Pass set Score = ?, ScoreSystem4 = ?,Rated = ? where ID_Student = ? and ID_Course = ? and ID_Semester = ?");
+			pstmt.setDouble(1, score);
+			pstmt.setDouble(2, scoreSystem4);
+			pstmt.setString(3, Rated);
+			pstmt.setString(4, id_Student);
+			pstmt.setString(5, id_Course);
+			pstmt.setString(6, id_Semester);
+			int row = pstmt.executeUpdate();
+			System.out.println(row);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -121,6 +225,6 @@ public class Sub_PassDAO implements IDAO<Sub_Pass> {
 
 	public static void main(String[] args) {
 		Sub_PassDAO sub_PassDAO = new Sub_PassDAO();
-		System.out.println(sub_PassDAO.checkScoreSub_Pass("18130005", "213604"));
+		System.out.println(sub_PassDAO.checkExist("18130006", "214282", "2020_2"));
 	}
 }

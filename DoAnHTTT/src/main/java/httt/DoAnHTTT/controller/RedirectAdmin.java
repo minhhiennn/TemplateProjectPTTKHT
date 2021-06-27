@@ -23,4 +23,19 @@ public class RedirectAdmin {
 		ModelAndView mav = new ModelAndView("admin/TKBProfessor");
 		return mav;
 	}
+	@RequestMapping(value = "/admin/DSMonHoc", method = RequestMethod.GET)
+	public ModelAndView DSMonHoc() {
+		ModelAndView mav = new ModelAndView("admin/DSMonHoc");
+		return mav;
+	}
+	@RequestMapping(value = "/admin/DSHocSinh", method = RequestMethod.GET)
+	public ModelAndView DSHocSinh() {
+		ModelAndView mav = new ModelAndView("admin/DSHocSinh");
+		return mav;
+	}
+	@RequestMapping(value = "/admin/DSHocSinh", method = RequestMethod.POST)
+	public ModelAndView DSHocSinhPost() {
+		ModelAndView mav = new ModelAndView("admin/DSHocSinh");
+		return mav;
+	}
 }

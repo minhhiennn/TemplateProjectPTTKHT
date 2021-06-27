@@ -16,7 +16,7 @@
 						<i class="fas fa-chart-area"></i>
 					</div> View TimeTable
 				</a> 
-				<a class="nav-link" href="tables.html">
+				<a class="nav-link" href="/DoAnHTTT/admin/DSMonHoc">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-table"></i>
 					</div> Add Student Score

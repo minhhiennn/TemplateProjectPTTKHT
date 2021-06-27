@@ -13,5 +13,6 @@
 	<decorator name="admin" page="MasterPageForAdmin.jsp">
 		<pattern>/admin/*</pattern>
 		<pattern>/CourseRegisterProfessorServlet</pattern>
+		<pattern>/AddStudentScore</pattern>
 	</decorator>
 </decorators>
