@@ -496,7 +496,7 @@ insert into Schedule values(N'42',N'40',null,'TH',2,'20/10/2021','20/11/2021',N'
 insert into Schedule values(N'43',N'36',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 delete from Schedule where ID_Schedule in ('1a','1b','1c');
-update Schedule set Id_Profeesor = null where ID_Schedule = '15';
+update Schedule set Id_Profeesor = null where ID_Schedule = '43';
 select * from Schedule;
 -- insert into Student_Schedule
 -- 
@@ -807,7 +807,7 @@ select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130
 select DISTINCT c.ID_Course,c.Name_Course,pr.ID_Semester from Professor_Schedule pr join Schedule sc on pr.ID_Schedule = sc.ID_Schedule join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering join Course c on co.ID_Course = c.ID_Course
 where pr.ID_Semester = (select s.ID_Semester from Semester s where GETDATE() between s.startDate and s.endDate) and pr.ID_Professor = '224';
 
-select st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule
+select DISTINCT st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule
                                                              join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
                                                              join Course c on co.ID_Course = c.ID_Course
                                                              join Student s on st.ID_Student = s.ID_Student
