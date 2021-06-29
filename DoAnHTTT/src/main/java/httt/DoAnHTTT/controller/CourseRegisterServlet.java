@@ -67,14 +67,14 @@ public class CourseRegisterServlet extends HttpServlet {
 								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
 					} else {
 						req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
-						resp.sendRedirect("/student/CourseRegister");
+						req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 						return;
 					}
 					for (Student_Schedule student_Schedule : list) {
 						student_ScheduleDAO.insert(student_Schedule);
 					}
-					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				}
+				resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 			}
 		} else if (action.equals("Delete")) {
 			String list_ID_Schedule = req.getParameter("list_ID_Schedule");
@@ -86,6 +86,11 @@ public class CourseRegisterServlet extends HttpServlet {
 				student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 						scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
 				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+					Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+					String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
+					Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
+					course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
+					course_OfferingDAO.update(course_Offering);
 					student_ScheduleDAO.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 							scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
 
@@ -99,6 +104,11 @@ public class CourseRegisterServlet extends HttpServlet {
 							scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
 				}
 				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+					Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+					String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
+					Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
+					course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
+					course_OfferingDAO.update(course_Offering);
 					for (int i = 0; i < stringSplit.length; i++) {
 						student_ScheduleDAO.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
@@ -122,14 +132,16 @@ public class CourseRegisterServlet extends HttpServlet {
 						list.add(ID_Student);
 						Student_Schedule student_Schedule = student_ScheduleDAO.getByKeyS(list);
 						Schedule schedule = scheduleDAO.getByKey(string);
-						Course_Offering course_Offering = course_OfferingDAO.getByKey(schedule.getCourse_Offering().getiD_Course_Offering());
+						Course_Offering course_Offering = course_OfferingDAO
+								.getByKey(schedule.getCourse_Offering().getiD_Course_Offering());
 						course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() + 1);
 						boolean bool = course_OfferingDAO.update(course_Offering);
 						if (bool == false) {
-							//chỗ này sẽ cho tất cả những môn full chỗ vào cái list rồi xử lý sao đó tui ko bik
+							// chỗ này sẽ cho tất cả những môn full chỗ vào cái list rồi xử lý sao đó tui ko
+							// bik
 						} else {
 							student_ScheduleDAO.addToReal(student_Schedule);
-							
+
 						}
 					}
 				}

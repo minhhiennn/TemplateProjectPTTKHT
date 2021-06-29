@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
-
 	<!-- apply student template (những thằng student lấy header footer này) -->
 	<!-- name đặt theo pattern -->
 	<decorator name="student" page="MasterPageForStudent.jsp">
@@ -14,5 +13,8 @@
 		<pattern>/admin/*</pattern>
 		<pattern>/CourseRegisterProfessorServlet</pattern>
 		<pattern>/AddStudentScore</pattern>
+	</decorator>
+	<decorator name="pdt" page="MasterPageForPDT.jsp">
+		<pattern>/pdt/*</pattern>
 	</decorator>
 </decorators>
