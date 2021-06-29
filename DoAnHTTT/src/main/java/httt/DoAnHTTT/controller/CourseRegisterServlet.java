@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import httt.DoAnHTTT.database.CourseDAO;
 import httt.DoAnHTTT.database.Course_OfferingDAO;
 import httt.DoAnHTTT.database.ScheduleDAO;
 import httt.DoAnHTTT.database.SemesterDAO;

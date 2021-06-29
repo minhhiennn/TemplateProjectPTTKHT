@@ -112,7 +112,7 @@ public class SemesterDAO implements IDAO<Semester> {
 		String ID_Semester = null;
 		try {
 			pstmt = conn
-					.prepareStatement("select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+					.prepareStatement("select TOP 1 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
 			pstmt.setString(1, id_User);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -140,7 +140,7 @@ public class SemesterDAO implements IDAO<Semester> {
 		ResultSet rs = null;
 		ArrayList<Semester> list = new ArrayList<Semester>();
 		try {
-			pstmt = conn.prepareStatement("select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+			pstmt = conn.prepareStatement("select TOP 3 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
 			pstmt.setString(1, id_User);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

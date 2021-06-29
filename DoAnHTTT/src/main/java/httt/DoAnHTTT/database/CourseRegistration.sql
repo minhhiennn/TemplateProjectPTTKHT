@@ -536,7 +536,7 @@ insert into Student_Schedule values('2021_1',N'40',N'18130005')
 insert into Student_Schedule values('2021_1',N'41',N'18130005')
 select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
-select st.* from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
+select st.ID_Semester from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
 delete from Student_Schedule where ID_Semester='2020_2' and ID_Schedule='11' and ID_Student='18130005';
 delete from Student_Schedule;
 --

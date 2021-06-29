@@ -57,7 +57,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
 		try {
 			pstmt = conn.prepareStatement(
-					"select st.ID_Schedule from Student_Schedule st where st.ID_Semester=? and st.ID_Student=?");
+					"select st.ID_Schedule from Student_ScheduleR st where st.ID_Semester=? and st.ID_Student=?");
 			pstmt.setString(1, id_semester);
 			pstmt.setString(2, id_user);
 			rs = pstmt.executeQuery();
