@@ -57,7 +57,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
 		try {
 			pstmt = conn.prepareStatement(
-					"select st.ID_Schedule from Student_Schedule st where st.ID_Semester=? and st.ID_Student=?");
+					"select st.ID_Schedule from Student_ScheduleR st where st.ID_Semester=? and st.ID_Student=?");
 			pstmt.setString(1, id_semester);
 			pstmt.setString(2, id_user);
 			rs = pstmt.executeQuery();
@@ -230,6 +230,36 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		try {
 			pstmt = conn.prepareStatement(
 					"select Count(DISTINCT c.ID_Course) as dem from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
+							+ "                                               join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
+							+ "                                               join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "where st.ID_Semester = ? and st.ID_Student = ?");
+			pstmt.setString(1, id_Semester);
+			pstmt.setString(2, id_Student);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt("dem");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public int countSubjectInTimeTableReal(String id_Semester, String id_Student) {
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select Count(DISTINCT c.ID_Course) as dem from Student_ScheduleR st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
 							+ "                                               join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
 							+ "                                               join Course c on co.ID_Course = c.ID_Course\r\n"
 							+ "where st.ID_Semester = ? and st.ID_Student = ?");
