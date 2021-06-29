@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<jsp:useBean id="semesterDao" scope="request"
+	class="httt.DoAnHTTT.database.SemesterDAO" />
+	<jsp:useBean id="studen_schedule" scope="page" class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
+	<jsp:useBean id="Sub_pass" scope="page" class="httt.DoAnHTTT.database.Sub_PassDAO" />
+	<jsp:useBean id="semester_resultdao" scope="page" class="httt.DoAnHTTT.database.Semester_ResultDAO" />
+		<jsp:useBean id="final_resultdao" scope="page" class="httt.DoAnHTTT.database.Final_ResultDAO" />
+<c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
+<c:set var="idU" value='${currentUser.iD_User}'></c:set>
+<c:set var="timeTable" value="${requestScope['listTimeTable']}"></c:set>
+<c:set var="idses" value="${semesterDao.getID_SemesterByGetTop1(idU)}"></c:set>
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -8,735 +22,256 @@
 <meta charset="UTF-8">
 
 <title>Home Page</title>
-
+    <style>
+.my-custom-scrollbar {
+position: relative;
+height: 300px;
+overflow: auto;
+background:red;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+      </style>
+  
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
+   <!-- Preloader -->
+	<div id="preloader">
+		<div class="spinner"></div>
+	</div>
 
-    <!-- ##### Header Area Start ##### -->
-    <!-- ##### Header Area End ##### -->
+	<!-- ##### Header Area Start ##### -->
+	<!-- ##### Header Area End ##### -->
 
-    <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb-area">
-        <!-- Breadcumb -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Courses</a></li>
-                <li class="breadcrumb-item"><a href="#">Art &amp; Design</a></li>
-                <li class="breadcrumb-item active" aria-current="page">English Grammer</li>
-            </ol>
-        </nav>
-    </div>
-    <!-- ##### Breadcumb Area End ##### -->
+	<!-- ##### Breadcumb Area Start ##### -->
+	<div class="breadcumb-area">
+		<!-- Breadcumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Courses</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Art
+					&amp; Design</li>
+			</ol>
+		</nav>
+	</div>
+	<!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Single Course Intro Start ##### -->
-    <div class="single-course-intro d-flex align-items-center justify-content-center" style="background-image: url(img/bg-img/bg3.jpg);">
-        <!-- Content -->
-        <div class="single-course-intro-content text-center">
-            <!-- Ratings -->
-            <div class="ratings">
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star-o" aria-hidden="true"></i>
-            </div>
-            <h3>English Grammar</h3>
-            <div class="meta d-flex align-items-center justify-content-center">
-                <a href="#">Sarah Parker</a>
-                <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                <a href="#">Art &amp; Design</a>
-            </div>
-            <div class="price">Free</div>
-        </div>
-    </div>
-    <!-- ##### Single Course Intro End ##### -->
+	<!-- ##### Catagory ##### -->
+	<div
+		class="clever-catagory bg-img d-flex align-items-center justify-content-center p-3"
+		style="background-image: url(img/bg-img/bg2.jpg);">
+		<h3>Art &amp; Design</h3>
+	</div>
 
-    <!-- ##### Courses Content Start ##### -->
-    <div class="single-course-content section-padding-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-8">
-                    <div class="course--content">
+	<!-- ##### Popular Course Area Start ##### -->
 
-                        <div class="clever-tabs-content">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">Description</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab--2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="true">Curriculum</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab--3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="true">Reviews</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab--4" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="true">Members</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab--5" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="true">Forum</a>
-                                </li>
-                            </ul>
+	<section class="popular-courses-area section-padding-100">
+		<div class="container">
+			<c:choose>
+				<c:when test="${currentUser != null}">
+				
+				<button  id="demo" style="color: blue;margin-left: 500px;">xem điểm tất cả các kỳ</button>
+			
+				 <table border="2" id="table" class="table table-bordered table-striped mb-0"  style="border-collapse: separate;empty-cells:show;">
+    <thead>
+        <tr style="color: blue;">
+        <th scope="col">STT</th>
+        <th scope="col">Mã môn</th>
+        <th scope="col">Tên Môn</th>
+        <th scope="col">Tc</th>
+         <th scope="col">% KT</th>
+          <th scope="col">%thi</th>
+           <th scope="col">thi L1</th>
+            <th scope="col">thi l2</th>
+             <th scope="col">Tk (10)</th>
+              <th scope="col">Tk (ck)</th>
+      </tr>
+   
+     <tr>
+     
+     <td  colspan="10" style="background: #ffe69c"><span> <c:out value="${idses }" />  </span> </td>
+     </tr>
+  
+    </thead>
+    <tbody>
+    <c:set var="count" value="1" scope="page" />
+							
+								
+								<c:forEach var="item"
+								items="${studen_schedule.getTimeTableBySemesterAndUser(idses,idU)}">
+								
+								
+								
+								<tr>
+								<td><c:out value="${count }"/></td>
+									<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
+									<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
+									<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
+									<td></td>
+									<td></td>
+									<c:forEach var="itemss" 
+								items="${Sub_pass.getDataScore(idU,item.getCourse_Offering().getCourse().getiD_Course(),idses)}">
+									
+								<td>${itemss.getScore()}</td>
+									<td></td>
+										<td>${itemss.getScore()}</td>
+									<td>${itemss.getRated()}</td>
+										</c:forEach>
+									
+								
+									
+									
+									
+									
+									
+							
+								
+									
+								</tr>
+								
+									<c:set var="count" value="${count + 1}" scope="page" />
+								
+						
+							</c:forEach>
 
-                            <div class="tab-content" id="myTabContent">
-                                <!-- Tab Text -->
-                                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab--1">
-                                    <div class="clever-description">
+						</tbody>
+    
+      </table>
+					<button  id="demo2" style="color: blue;margin-left: 500px;display: none;">xem điểm kỳ hiện tại</button>
+					
 
-                                        <!-- About Course -->
-                                        <div class="about-course mb-30">
-                                            <h4>About this course</h4>
-                                            <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum lorem dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas quis ultrices ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam eget vehicula lorem, vitae porta nisi. Ut vel quam erat. Ut vitae erat tincidunt, tristique mi ac, pharetra dolor. In et suscipit ex. Pellentesque aliquet velit tortor, eget placerat mi scelerisque a. Aliquam eu dui efficitur purus posuere viverra. Proin ut elit mollis, euismod diam et, fermentum enim.</p>
-                                        </div>
+  <div class="table-wrapper-scroll-y my-custom-scrollbar" style="position: relative;
+height: 900px;
+overflow: auto;display: block;">
 
-                                        <!-- All Instructors -->
-                                        <div class="all-instructors mb-30">
-                                            <h4>All Instructors</h4>
+  <table id="table2" class="table table-bordered table-striped mb-0" style="display: none;">
+    <thead>
+								<tr style="color: blue;">
+									<th scope="col">STT</th>
+									<th scope="col">Mã môn</th>
+									<th scope="col">Tên Môn</th>
+									<th scope="col">Tc</th>
+									<th scope="col">% KT</th>
+									<th scope="col">%thi</th>
+									<th scope="col">thi L1</th>
+									<th scope="col">thi l2</th>
+									<th scope="col">Tk (10)</th>
+									<th scope="col">Tk (ck)</th>
+								</tr>
+								
 
-                                            <div class="row">
-                                                <!-- Single Instructor -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+							</thead>
+    <tbody>
+    <c:set var="count" value="1" scope="page" />
+								<c:forEach var="itemssss"
+									items="${semester_resultdao.getIDsemester(idU)}">
+									<tr>
+										<td colspan="10" style="background:#ffe69c"><span>hoc
+												kì:${itemssss.getNumberS()} - Năm học:
+												${itemssss.getYears()} </span></td>
+									</tr>
 
-                                                <!-- Single Instructor -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t2.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+									<c:forEach var="itemtable2"
+										items="${studen_schedule.getTimeTableBySemesterAndUser(itemssss.getiD_Semester(),idU)}">
 
-                                                <!-- Single Instructor -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t3.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <!-- Single Instructor -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t4.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- FAQ -->
-                                        <div class="clever-faqs">
-                                            <h4>FAQs</h4>
+										<tr>
+											<td><c:out value="${count }" /></td>
+											<td>${itemtable2.getCourse_Offering().getCourse().getiD_Course()}</td>
+											<td>${itemtable2.getCourse_Offering().getCourse().getName_Course()}</td>
+											<td>${itemtable2.getCourse_Offering().getCourse().getCourse_certificate()}</td>
+											<td></td>
+											<td></td>
+											<c:forEach var="itemtable3"
+												items="${Sub_pass.getDataScore(idU,itemtable2.getCourse_Offering().getCourse().getiD_Course(),itemssss.getiD_Semester())}">
 
-                                            <div class="accordions" id="accordion" role="tablist" aria-multiselectable="true">
+												<td><span>${itemtable3.getScore()}</span></td>
+												<td></td>
+												<td>${itemtable3.getScore()}</td>
+												<td>${itemtable3.getRated()}</td>
+											</c:forEach>
+										</tr>
 
-                                                <!-- Single Accordian Area -->
-                                                <div class="panel single-accordion">
-                                                    <h6><a role="button" class="" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Can I just enroll in a single course? I'm not interested in the entire Specialization?
-                                                    <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                                    <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                    </a></h6>
-                                                    <div id="collapseOne" class="accordion-content collapse show">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis fringilla tortor.</p>
-                                                    </div>
-                                                </div>
+										<c:set var="count" value="${count + 1}" scope="page" />
 
-                                                <!-- Single Accordian Area -->
-                                                <div class="panel single-accordion">
-                                                    <h6>
-                                                        <a role="button" class="collapsed" aria-expanded="true" aria-controls="collapseTwo" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo">What is the refund policy?
-                                                        <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                                        <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                        </a>
-                                                    </h6>
-                                                    <div id="collapseTwo" class="accordion-content collapse">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel lectus eu felis semper finibus ac eget ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vulputate id justo quis facilisis.</p>
-                                                    </div>
-                                                </div>
 
-                                                <!-- Single Accordian Area -->
-                                                <div class="panel single-accordion">
-                                                    <h6>
-                                                        <a role="button" aria-expanded="true" aria-controls="collapseThree" class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseThree">What background knowledge is necessary?
-                                                        <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                                        <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                        </a>
-                                                    </h6>
-                                                    <div id="collapseThree" class="accordion-content collapse">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel lectus eu felis semper finibus ac eget ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vulputate id justo quis facilisis.</p>
-                                                    </div>
-                                                </div>
+									</c:forEach>
+									<c:if test="${ semester_resultdao.getDiemTB(idU,itemssss.getiD_Semester())!=0.0 }">
+									<tr>
+										<td colspan="10"><span style="width: 500px">Điểm
+												trung bình học kỳ hệ 10/100:</span><span style="margin-left: 70px"><c:out
+													value="${semester_resultdao.getDiemTB(idU,itemssss.getiD_Semester()) }" /></span></td>
+									</tr>
+									<tr>
+										<td colspan="10"><span style="width: 500px"> Điểm
+												trung bình học kỳ hệ 4:</span><span style="margin-left: 108px"><c:out
+													value="${semester_resultdao.getDiemTBHe4(idU,itemssss.getiD_Semester()) }" /></span></td>
+									</tr>
+									<tr>
+										<td colspan="10"><span style="width: 500px">Điểm
+												trung bình tích lũy:</span><span style="margin-left: 135px"><c:out
+													value="${final_resultdao.sumScore(idU,itemssss.getiD_Semester()) }" /></span></td>
+									</tr>
+									<tr>
+										<td colspan="10"><span style="width: 500px">Điểm
+												trung bình tích lũy (hệ 4):</span><span style="margin-left: 95px"><c:out
+													value="${final_resultdao.sumScoreav4(idU,itemssss.getiD_Semester()) }" /></span></td>
+									</tr>
+									<tr>
+										<td colspan="10"><span style="width: 500px">Số tín
+												chỉ đạt:</span><span style="margin-left: 205px"><c:out value="${semester_resultdao.getSoTinChiDaDat(idU,itemssss.getiD_Semester())}"/></span></td>
+									</tr>
+									<tr>
+										<td colspan="10"><span style="width: 500px">Số tín
+												chỉ tích lũy:</span><span style="margin-left: 180px"><c:out value="${final_resultdao.SumcreditGet(idU,itemssss.getiD_Semester())}"/></span></td>
+									</tr>
+									 </c:if>	
+								</c:forEach>
 
-                                                <!-- Single Accordian Area -->
-                                                <div class="panel single-accordion">
-                                                    <h6>
-                                                        <a role="button" aria-expanded="true" aria-controls="collapseFour" class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseFour">Do i need to take the courses in a specific order?
-                                                        <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                                        <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                        </a>
-                                                    </h6>
-                                                    <div id="collapseFour" class="accordion-content collapse">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel lectus eu felis semper finibus ac eget ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vulputate id justo quis facilisis.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Tab Text -->
-                                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab--2">
-                                    <div class="clever-curriculum">
 
-                                        <!-- About Curriculum -->
-                                        <div class="about-curriculum mb-30">
-                                            <h4>Syllabus</h4>
-                                            <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum lorem dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas quis ultrices ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam eget vehicula lorem, vitae porta nisi. Ut vel quam erat. Ut vitae erat tincidunt, tristique mi ac, pharetra dolor. In et suscipit ex. Pellentesque aliquet velit tortor, eget placerat mi scelerisque a. Aliquam eu dui efficitur purus posuere viverra. Proin ut elit mollis, euismod diam et, fermentum enim.</p>
-                                        </div>
 
-                                        <!-- Curriculum Level -->
-                                        <div class="curriculum-level mb-30">
-                                            <h4 class="d-flex justify-content-between"><span>Week 1</span> <span>0/4</span></h4>
-                                            <h5>Beginners Level</h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis fringilla.</p>
 
-                                            <ul class="curriculum-list">
-                                                <li><i class="fa fa-file" aria-hidden="true"></i> 1 video, 1 audio, 1 reading
-                                                    <ul>
-                                                        <li>
-                                                            <span><i class="fa fa-video-camera" aria-hidden="true"></i> Video: <span>Greetings and Introductions</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="fa fa-file-text" aria-hidden="true"></i> Reading: <span>Word Types</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="fa fa-volume-down" aria-hidden="true"></i> Audio: <span>Listening Exercise</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="d-flex justify-content-between">
-                                                    <span><i class="fa fa-graduation-cap" aria-hidden="true"></i> Graded: Cumulative Language Quiz</span>
-                                                    <span>3 Questions</span>
-                                                </li>
-                                            </ul>
-                                        </div>
 
-                                        <!-- Curriculum Level -->
-                                        <div class="curriculum-level mb-30">
-                                            <h4 class="d-flex justify-content-between"><span>Week 2</span> <span>0/5</span></h4>
-                                            <h5>Intermediate Level</h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis fringilla.</p>
 
-                                            <ul class="curriculum-list">
-                                                <li><i class="fa fa-file" aria-hidden="true"></i> 1 video, 1 audio, 1 reading
-                                                    <ul>
-                                                        <li>
-                                                            <span><i class="fa fa-video-camera" aria-hidden="true"></i> Video: <span>Greetings and Introductions</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="fa fa-file-text" aria-hidden="true"></i> Reading: <span>Word Types</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="fa fa-volume-down" aria-hidden="true"></i> Audio: <span>Listening Exercise</span></span>
-                                                            <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 minutes</span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="d-flex justify-content-between">
-                                                    <span><i class="fa fa-graduation-cap" aria-hidden="true"></i> Graded: Cumulative Language Quiz</span>
-                                                    <span>3 Questions</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Tab Text -->
-                                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab--3">
-                                    <div class="clever-review">
 
-                                        <!-- About Review -->
-                                        <div class="about-review mb-30">
-                                            <h4>Reviews</h4>
-                                            <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum lorem dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas quis ultrices</p>
-                                        </div>
 
-                                        <!-- Ratings -->
-                                        <div class="clever-ratings d-flex align-items-center mb-30">
 
-                                            <div class="total-ratings text-center d-flex align-items-center justify-content-center">
-                                                <div class="ratings-text">
-                                                    <h2>4.5</h2>
-                                                    <div class="ratings--">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                                    </div>
-                                                    <span>Rated 5 out of 3 Ratings</span>
-                                                </div>
-                                            </div>
 
-                                            <div class="rating-viewer">
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>5 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>80%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>4 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>20%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>3 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>2 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>1 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- Single Review -->
-                                        <div class="single-review mb-30">
-                                            <div class="d-flex justify-content-between mb-30">
-                                                <!-- Review Admin -->
-                                                <div class="review-admin d-flex">
-                                                    <div class="thumb">
-                                                        <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6>Sarah Parker</h6>
-                                                        <span>Sep 29, 2017 at 9:48 am</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis.</p>
-                                        </div>
 
-                                        <!-- Single Review -->
-                                        <div class="single-review mb-30">
-                                            <div class="d-flex justify-content-between mb-30">
-                                                <!-- Review Admin -->
-                                                <div class="review-admin d-flex">
-                                                    <div class="thumb">
-                                                        <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6>Sarah Parker</h6>
-                                                        <span>Sep 29, 2017 at 9:48 am</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis.</p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Tab Text -->
-                                <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab--4">
-                                    <div class="clever-members">
 
-                                        <!-- About Members -->
-                                        <div class="about-members mb-30">
-                                            <h4>Members</h4>
-                                            <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum lorem dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas quis ultrices</p>
-                                        </div>
 
-                                        <!-- All Members -->
-                                        <div class="all-instructors mb-30">
-                                            <div class="row">
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+							</tbody>
+  </table>
 
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t2.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+</div>
 
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t3.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t4.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+				</c:when>
+				<c:otherwise>
+					<h3 style="color: red; text-align: center;">Vui Lòng Đăng Nhập
+						Để Xem Được điểm </h3>
+				</c:otherwise>
+			</c:choose>
+			<!-- <div class="row">
+				<div class="col-12">
+					<div class="load-more text-center wow fadeInUp"
+						data-wow-delay="1000ms">
+						<a href="#" class="btn clever-btn btn-2">Load More</a>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</section>
 
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t2.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t3.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Single Members -->
-                                                <div class="col-lg-6">
-                                                    <div class="single-instructor d-flex align-items-center mb-30">
-                                                        <div class="instructor-thumb">
-                                                            <img src="/DoAnHTTT/template/student/img/bg-img/t4.png" alt="">
-                                                        </div>
-                                                        <div class="instructor-info">
-                                                            <h5>Sarah Parker</h5>
-                                                            <span>Teacher</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tab Text -->
-                                <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab--5">
-                                    <div class="clever-review">
-
-                                        <!-- About Review -->
-                                        <div class="about-review mb-30">
-                                            <h4>Reviews</h4>
-                                            <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum lorem dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas quis ultrices</p>
-                                        </div>
-
-                                        <!-- Ratings -->
-                                        <div class="clever-ratings d-flex align-items-center mb-30">
-
-                                            <div class="total-ratings text-center d-flex align-items-center justify-content-center">
-                                                <div class="ratings-text">
-                                                    <h2>4.5</h2>
-                                                    <div class="ratings--">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                                    </div>
-                                                    <span>Rated 5 out of 3 Ratings</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="rating-viewer">
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>5 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>80%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>4 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>20%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>3 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>2 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                                <!-- Rating -->
-                                                <div class="single-rating mb-15 d-flex align-items-center">
-                                                    <span>1 STARS</span>
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <span>0%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Single Review -->
-                                        <div class="single-review mb-30">
-                                            <div class="d-flex justify-content-between mb-30">
-                                                <!-- Review Admin -->
-                                                <div class="review-admin d-flex">
-                                                    <div class="thumb">
-                                                        <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6>Sarah Parker</h6>
-                                                        <span>Sep 29, 2017 at 9:48 am</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis.</p>
-                                        </div>
-
-                                        <!-- Single Review -->
-                                        <div class="single-review mb-30">
-                                            <div class="d-flex justify-content-between mb-30">
-                                                <!-- Review Admin -->
-                                                <div class="review-admin d-flex">
-                                                    <div class="thumb">
-                                                        <img src="/DoAnHTTT/template/student/img/bg-img/t1.png" alt="">
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6>Sarah Parker</h6>
-                                                        <span>Sep 29, 2017 at 9:48 am</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-4">
-                    <div class="course-sidebar">
-                        <!-- Buy Course -->
-                        <a href="#" class="btn clever-btn mb-30 w-100">Buy course</a>
-
-                        <!-- Widget -->
-                        <div class="sidebar-widget">
-                            <h4>Course Features</h4>
-                            <ul class="features-list">
-                                <li>
-                                    <h6><i class="fa fa-clock-o" aria-hidden="true"></i> Duration</h6>
-                                    <h6>2 Weeks</h6>
-                                </li>
-                                <li>
-                                    <h6><i class="fa fa-bell" aria-hidden="true"></i> Lectures</h6>
-                                    <h6>10</h6>
-                                </li>
-                                <li>
-                                    <h6><i class="fa fa-file" aria-hidden="true"></i> Quizzes</h6>
-                                    <h6>3</h6>
-                                </li>
-                                <li>
-                                    <h6><i class="fa fa-thumbs-up" aria-hidden="true"></i> Pass Percentage</h6>
-                                    <h6>60</h6>
-                                </li>
-                                <li>
-                                    <h6><i class="fa fa-thumbs-down" aria-hidden="true"></i> Max Retakes</h6>
-                                    <h6>5</h6>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Widget -->
-                        <div class="sidebar-widget">
-                            <h4>Certification</h4>
-                            <img src="/DoAnHTTT/template/student/img/bg-img/cer.png" alt="">
-                        </div>
-
-                        <!-- Widget -->
-                        <div class="sidebar-widget">
-                            <h4>You may like</h4>
-
-                            <!-- Single Courses -->
-                            <div class="single--courses d-flex align-items-center">
-                                <div class="thumb">
-                                    <img src="/DoAnHTTT/template/student/img/bg-img/yml.jpg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h5>Vocabulary</h5>
-                                    <h6>$20</h6>
-                                </div>
-                            </div>
-
-                            <!-- Single Courses -->
-                            <div class="single--courses d-flex align-items-center">
-                                <div class="thumb">
-                                    <img src="/DoAnHTTT/template/student/img/bg-img/yml2.jpg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h5>Expository writing</h5>
-                                    <h6>$45</h6>
-                                </div>
-                            </div>
-
-                            <!-- Single Courses -->
-                            <div class="single--courses d-flex align-items-center">
-                                <div class="thumb">
-                                    <img src="/DoAnHTTT/template/student/img/bg-img/yml3.jpg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h5>Vocabulary</h5>
-                                    <h6>$20</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

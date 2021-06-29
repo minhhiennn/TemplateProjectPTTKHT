@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Course;
@@ -222,9 +223,46 @@ public class Sub_PassDAO implements IDAO<Sub_Pass> {
 		}
 		return bool;
 	}
-
+	public ArrayList<Sub_Pass> getDataScore(String ID_Student, String ID_Course,String ID_semester) {
+		ArrayList<Sub_Pass> list=new ArrayList<Sub_Pass>();
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from Sub_Pass where ID_Semester = ? and ID_Course = ? and ID_Student = ?");
+			pstmt.setString(1, ID_semester);
+			pstmt.setString(2, ID_Course);
+			pstmt.setString(3, ID_Student);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				SemesterDAO semesterDAO = new SemesterDAO();
+				Semester semester = semesterDAO.getByKey(ID_semester);
+				CourseDAO courseDAO = new CourseDAO();
+				Course course = courseDAO.getByKey(ID_Course);
+				StudentDAO studentDAO = new StudentDAO();
+				Student student = studentDAO.getByKey(ID_Student);
+				double Score = rs.getDouble("Score");
+				double ScoreSystem4 = rs.getDouble("ScoreSystem4");
+				String Rated = rs.getString("Rated");
+				Sub_Pass sub_Pass = new Sub_Pass(semester, course, student, Score, ScoreSystem4, Rated);
+				list.add(sub_Pass);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	public static void main(String[] args) {
 		Sub_PassDAO sub_PassDAO = new Sub_PassDAO();
-		System.out.println(sub_PassDAO.checkExist("18130006", "214282", "2020_2"));
+		System.out.println(sub_PassDAO.checkExist("18130006", "214370", "2020_2"));
 	}
 }

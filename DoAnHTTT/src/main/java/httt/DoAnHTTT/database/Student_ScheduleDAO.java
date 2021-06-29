@@ -157,7 +157,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return bool;
 	}
 
-	// Lấy ra danh sách student của 1 môn học
+	// Láº¥y ra danh sÃ¡ch student cá»§a 1 mÃ´n há»�c
 	public ArrayList<StudentMapDTO> getListStudentBySubject(String ID_Course, String id_Semester) {
 		ArrayList<StudentMapDTO> list = new ArrayList<StudentMapDTO>();
 		try {
@@ -291,8 +291,8 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		ArrayList<StudentMapDTO> list = student_ScheduleDAO.getListStudentBySubject("214282", "2020_2");
-		for (StudentMapDTO studentMapDTO : list) {
+		ArrayList<Schedule> list = student_ScheduleDAO.getTimeTableBySemesterAndUser("2020_2", "18130005");
+		for (Schedule studentMapDTO : list) {
 			System.out.println(studentMapDTO);
 		}
 	}

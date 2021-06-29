@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/httt/DoAnHTTT/config/WebMvcConfig.java=UTF-8
 encoding//src/main/java/httt/DoAnHTTT/controller/CourseRegisterServlet.java=UTF-8
+encoding//src/main/java/httt/DoAnHTTT/database/Student_ScheduleDAO.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/admin/TKBProfessor.jsp=UTF-8

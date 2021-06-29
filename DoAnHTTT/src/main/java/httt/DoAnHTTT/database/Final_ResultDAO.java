@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Final_Result;
@@ -93,16 +94,19 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 		return false;
 	}
 
-	public float sumScore(String key) {
-		float sum = 0;
+	public double sumScore(String key,String ID_Semester) {
+		double sum = 0;
+	
 		int numbersemester = 0;
 		try {
 			pstmt = conn.prepareStatement(
-					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=?");
+					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=? and sr.ID_Semester<=? order by sr.ID_Semester ");
+			
 			pstmt.setString(1, key);
+			pstmt.setString(2, ID_Semester);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				sum += (rs.getFloat("gradeAv"));
+				sum = (rs.getDouble("gradeAv"));
 				numbersemester++;
 			}
 		} catch (SQLException e) {
@@ -119,19 +123,21 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 				e.printStackTrace();
 			}
 		}
-		return sum / numbersemester;
+		double roundOff = (double) Math.round((sum / numbersemester) * 100) / 100;
+		return roundOff;
 	}
 
-	public float sumScoreav4(String key) {
-		float sum = 0;
+	public double sumScoreav4(String key,String ID_Semester) {
+		double sum = 0;
 		int numbersemester = 0;
 		try {
 			pstmt = conn.prepareStatement(
-					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=?");
+					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=? and sr.ID_Semester<=? order by sr.ID_Semester ");
 			pstmt.setString(1, key);
+			pstmt.setString(2, ID_Semester);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				sum += (rs.getFloat("gradeAv4"));
+				sum += (rs.getDouble("gradeAv4"));
 				numbersemester++;
 			}
 		} catch (SQLException e) {
@@ -148,6 +154,44 @@ public class Final_ResultDAO implements IDAO<Final_Result> {
 				e.printStackTrace();
 			}
 		}
-		return sum / numbersemester;
+		double roundOff = (double) Math.round((sum / numbersemester) * 100) / 100;
+		return roundOff;
+		
 	}
+	public int SumcreditGet(String key,String ID_Semester) {
+		int sum = 0;
+		
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student=? and sr.ID_Semester<=? order by sr.ID_Semester ");
+			pstmt.setString(1, key);
+			pstmt.setString(2, ID_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sum += (rs.getInt("creditGet"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
+		return sum;
+		
+	}
+public static void main(String[] args) {
+	Final_ResultDAO final_ResultDAO=new Final_ResultDAO();
+	System.out.println(final_ResultDAO.sumScore("18130005","2020_2"));
+	
+}
 }

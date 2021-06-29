@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import httt.DoAnHTTT.database.CourseDAO;
 import httt.DoAnHTTT.database.SemesterDAO;
+import httt.DoAnHTTT.database.Semester_ResultDAO;
 import httt.DoAnHTTT.database.StudentDAO;
 import httt.DoAnHTTT.database.Student_ScheduleDAO;
 import httt.DoAnHTTT.database.Sub_PassDAO;
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Semester;
+import httt.DoAnHTTT.model.Semester_Result;
 import httt.DoAnHTTT.model.Student;
 import httt.DoAnHTTT.model.StudentMapDTO;
 import httt.DoAnHTTT.model.Sub_Pass;
@@ -60,6 +62,7 @@ public class AddStudentScore extends HttpServlet {
 		String id_Semester = new SemesterDAO().getID_SemesterByGetDate();
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
 		Sub_PassDAO sub_PassDAO = new Sub_PassDAO();
+		Semester_ResultDAO resultDAO=new Semester_ResultDAO();
 		ArrayList<StudentMapDTO> list = student_ScheduleDAO.getListStudentBySubject(id_Course, id_Semester);
 		for (StudentMapDTO studentMapDTO : list) {
 			String scoreS = request.getParameter(studentMapDTO.getId_Student());
@@ -80,16 +83,32 @@ public class AddStudentScore extends HttpServlet {
 					Rate = "F";
 				}
 				boolean exits = sub_PassDAO.checkExist(id_Student, id_Course, id_Semester);
-				if(exits == false) {
+				boolean exitsemeterDao=resultDAO.checkExistResult(id_Student, id_Semester);
+				if(exits == false ) {
 					Semester semester = new SemesterDAO().getByKey(id_Semester);
 					Course course = new CourseDAO().getByKey(id_Course);
 					Student student = new StudentDAO().getByKey(id_Student);
 					sub_PassDAO.insert(new Sub_Pass(semester, course, student, score, scoreHe4, Rate));
+					if(exitsemeterDao==false) {
+					Semester_Result semester_Result=new Semester_Result(semester, student, resultDAO.getDiemTB(id_Student, id_Semester), resultDAO.getDiemTBHe4(id_Student, id_Semester), resultDAO.getSoTinChiDaDat(id_Student, id_Semester));
+					resultDAO.insert(semester_Result);
+					}else {
+						Semester_Result semester_Result=new Semester_Result(semester, student, resultDAO.getDiemTB(id_Student, id_Semester), resultDAO.getDiemTBHe4(id_Student, id_Semester), resultDAO.getSoTinChiDaDat(id_Student, id_Semester));
+						resultDAO.update(semester_Result);
+					}
 				}else {
 					Semester semester = new SemesterDAO().getByKey(id_Semester);
 					Course course = new CourseDAO().getByKey(id_Course);
 					Student student = new StudentDAO().getByKey(id_Student);
 					sub_PassDAO.update(new Sub_Pass(semester, course, student, score, scoreHe4, Rate));
+					
+					if(exitsemeterDao==false) {
+						Semester_Result semester_Result=new Semester_Result(semester, student, resultDAO.getDiemTB(id_Student, id_Semester), resultDAO.getDiemTBHe4(id_Student, id_Semester), resultDAO.getSoTinChiDaDat(id_Student, id_Semester));
+						resultDAO.insert(semester_Result);
+						}else {
+							Semester_Result semester_Result=new Semester_Result(semester, student, resultDAO.getDiemTB(id_Student, id_Semester), resultDAO.getDiemTBHe4(id_Student, id_Semester), resultDAO.getSoTinChiDaDat(id_Student, id_Semester));
+							resultDAO.update(semester_Result);
+						}
 				}
 			}
 		}
