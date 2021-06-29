@@ -157,7 +157,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		return bool;
 	}
 
-	// Lấy ra danh sách student của 1 môn học
+	// Láº¥y ra danh sÃ¡ch student cá»§a 1 mÃ´n há»�c
 	public ArrayList<StudentMapDTO> getListStudentBySubject(String ID_Course, String id_Semester) {
 		ArrayList<StudentMapDTO> list = new ArrayList<StudentMapDTO>();
 		try {
@@ -175,6 +175,155 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 				String Student_Name = rs.getString("Student_Name");
 				StudentMapDTO studentMapDTO = new StudentMapDTO(ID_Student, Student_Name);
 				list.add(studentMapDTO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	// Tìm xem nó đã được lưu cái bảng real chưa
+	public boolean checkExitsInRealTimeTable(String id_Semester, String id_Student, String id_Schedule) {
+		boolean result = false;
+		try {
+			pstmt = conn.prepareStatement("select strr.* from Student_ScheduleR strr\r\n"
+					+ "where strr.ID_Semester = ? and strr.ID_Student = ? and strr.ID_Schedule = ?");
+			pstmt.setString(1, id_Semester);
+			pstmt.setString(2, id_Student);
+			pstmt.setString(3, id_Schedule);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result = true;
+				break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	// Đếm xem kỳ này đã đăng ký đủ 4 tín ở bảng ko real ko để đưa vô bảng real
+	public int countSubjectInTimeTableFake(String id_Semester, String id_Student) {
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(
+					"select Count(DISTINCT c.ID_Course) as dem from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
+							+ "                                               join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
+							+ "                                               join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "where st.ID_Semester = ? and st.ID_Student = ?");
+			pstmt.setString(1, id_Semester);
+			pstmt.setString(2, id_Student);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt("dem");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	// lưu hết dữ liệu vô bảng real
+	public void addToReal(Student_Schedule key) {
+		String ID_Semester = key.getSemester().getiD_Semester();
+		String ID_Schedule = key.getSchedule().getiD_Schedule();
+		String ID_Student = key.getStudent().getUser().getiD_User();
+		try {
+			pstmt = conn.prepareStatement("insert into Student_ScheduleR values(?,?,?)");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Schedule);
+			pstmt.setString(3, ID_Student);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// xóa ở bảng real
+	public boolean deleteInRealTable(Student_Schedule key) {
+		String ID_Semester = key.getSemester().getiD_Semester();
+		String ID_Schedule = key.getSchedule().getiD_Schedule();
+		String ID_Student = key.getStudent().getUser().getiD_User();
+		try {
+			pstmt = conn.prepareStatement(
+					"delete from Student_ScheduleR where ID_Semester=? and ID_Schedule=? and ID_Student=?");
+			pstmt.setString(1, ID_Semester);
+			pstmt.setString(2, ID_Schedule);
+			pstmt.setString(3, ID_Student);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	// lấy id_Schedule trong bảng Student_Schedule bởi id_Semester và id_Student
+	public ArrayList<String> getId_Schedule(String id_Semester, String id_Student) {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			pstmt = conn.prepareStatement("select st.ID_Schedule from Student_Schedule st\r\n"
+					+ "where st.ID_Semester = ? and st.ID_Student = ?");
+			pstmt.setString(1, id_Semester);
+			pstmt.setString(2, id_Student);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String id_Schedule = rs.getString("ID_Schedule");
+				list.add(id_Schedule);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -285,15 +434,23 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		ArrayList<StudentMapDTO> list = student_ScheduleDAO.getListStudentBySubject("214282", "2020_2");
-		for (StudentMapDTO studentMapDTO : list) {
-			System.out.println(studentMapDTO);
-		}
+		System.out.println(student_ScheduleDAO.countSubjectInTimeTableFake("2020_2", "18130006"));
 	}
 }

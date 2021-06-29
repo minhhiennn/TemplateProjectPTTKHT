@@ -47,7 +47,7 @@ public class CourseRegisterServlet extends HttpServlet {
 			String list_ID_Schedule = req.getParameter("list_ID_Schedule");
 			String[] stringSplit = list_ID_Schedule.split("-");
 			String id_Course = req.getParameter("id_Course");
-			String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
 			if (stringSplit.length == 1) {
 				if (student_ScheduleDAO.checkDayST(stringSplit[0], ID_Student)) {
 					Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
@@ -99,7 +99,7 @@ public class CourseRegisterServlet extends HttpServlet {
 			String list_ID_Schedule = req.getParameter("list_ID_Schedule");
 			String[] stringSplit = list_ID_Schedule.split("-");
 			String id_Course = req.getParameter("id_Course");
-			String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
 			if (stringSplit.length == 1) {
 				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
 				String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
@@ -109,27 +109,58 @@ public class CourseRegisterServlet extends HttpServlet {
 				if (bool == true) {
 					student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 							scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
-					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
-				} else {
-					req.setAttribute("err", "Lỗi hệ thống");
-					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
-				}
-			}else if(stringSplit.length == 2) {
-				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-				String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
-				Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
-				course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
-				boolean bool = course_OfferingDAO.update(course_Offering);
-				if (bool == true) {
-					for(int i = 0;i<stringSplit.length;i++) {
-						student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+					if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+						student_ScheduleDAO.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
+								scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
 					}
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {
 					req.setAttribute("err", "Lỗi hệ thống");
 					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 				}
+			} else if (stringSplit.length == 2) {
+				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+				String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
+				Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
+				course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
+				boolean bool = course_OfferingDAO.update(course_Offering);
+				if (bool == true) {
+					for (int i = 0; i < stringSplit.length; i++) {
+						student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
+								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+					}
+					if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+						for (int i = 0; i < stringSplit.length; i++) {
+							student_ScheduleDAO
+									.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
+											scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+						}
+					}
+					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
+				} else {
+					req.setAttribute("err", "Lỗi hệ thống");
+					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+				}
+			}
+		} else if (action.equals("AddToReal")) {
+			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
+			ArrayList<String> id_Schedule = student_ScheduleDAO.getId_Schedule(ID_Semester, ID_Student);
+			int count = student_ScheduleDAO.countSubjectInTimeTableFake(ID_Semester, ID_Student);
+			if (count >= 4) {
+				for (String string : id_Schedule) {
+					if(student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, string) == false) {
+						ArrayList<String> list = new ArrayList<>();
+						list.add(ID_Semester);
+						list.add(string);
+						list.add(ID_Student);
+						Student_Schedule student_Schedule = student_ScheduleDAO.getByKeyS(list);
+						student_ScheduleDAO.addToReal(student_Schedule);	
+					}
+				}
+				resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
+			} else {
+				req.setAttribute("err", "Đăng ký bắt buộc phải có ít nhất 4 môn");
+				req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 			}
 		}
 	}

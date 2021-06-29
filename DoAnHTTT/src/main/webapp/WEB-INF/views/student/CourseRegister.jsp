@@ -5,10 +5,12 @@
 	class="httt.DoAnHTTT.database.Student_ScheduleDAO" />
 <jsp:useBean id="TimeRegister" scope="request"
 	class="httt.DoAnHTTT.database.TimeForCourseRegisterDao" />
+<jsp:useBean id="semester" scope="request"
+	class="httt.DoAnHTTT.database.SemesterDAO" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
 <c:set var="err" value='${requestScope["err"]}' />
-
+<c:set var="id_Semester" value='${semester.getID_SemesterByGetDate()}'></c:set>
 
 <!DOCTYPE html>
 <html>
@@ -131,8 +133,9 @@
 									</h3>
 								</div>
 							</c:if>
-							<div style="padding-top: 10px;display: flex; justify-content: flex-end">
-								<button>Lưu đăng ký</button>
+							<div
+								style="padding-top: 10px; display: flex; justify-content: flex-end">
+								<button onclick="test3()">Lưu đăng ký</button>
 							</div>
 							<div>
 								<h3 style="padding-top: 30px">Danh Sách môn học đã chọn</h3>
@@ -159,7 +162,11 @@
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
 												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
 												<td>${item.getTheoretical()}</td>
-												<td>Chưa lưu vào cơ sở dữ liệu</td>
+												<td><c:choose>
+														<c:when
+															test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,item.getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+														<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+													</c:choose></td>
 												<td><input type="checkbox" id="myDelete${count2}"
 													onclick="test2(this)"
 													value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"></td>
@@ -238,7 +245,9 @@
 						+ listId_Schedule + "&id_Course=" + id_Course + "&action=Delete");
 			}
 		}
+	    function test3(){
+	    	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?action=AddToReal");
+	    }
 	</script>
 </body>
-
 </html>

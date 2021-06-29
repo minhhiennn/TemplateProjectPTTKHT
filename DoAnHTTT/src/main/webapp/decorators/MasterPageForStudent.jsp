@@ -85,5 +85,19 @@
 			});
 		});
 	</script>
+		<script type="text/javascript">
+	$("#demo").click(function() {
+		document.getElementById("table2").style.display = 'table';
+		document.getElementById("demo2").style.display = 'block';
+		document.getElementById("table").style.display = 'none';
+		document.getElementById("demo").style.display = 'none';
+	});</script>
+			<script type="text/javascript">
+	$("#demo2").click(function() {
+		document.getElementById("table").style.display = 'table';
+		document.getElementById("demo").style.display = 'block';
+		document.getElementById("table2").style.display = 'none';
+		document.getElementById("demo2").style.display = 'none';
+	});</script>
 </body>
 </html>

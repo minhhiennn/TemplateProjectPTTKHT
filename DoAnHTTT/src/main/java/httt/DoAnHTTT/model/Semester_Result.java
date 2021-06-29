@@ -56,4 +56,10 @@ public class Semester_Result {
 		this.creditGet = creditGet;
 	}
 
+	@Override
+	public String toString() {
+		return "Semester_Result [semester=" + semester + ", student=" + student + ", gradeAv=" + gradeAv + ", gradeAv4="
+				+ gradeAv4 + ", creditGet=" + creditGet + "]";
+	}
+
 }

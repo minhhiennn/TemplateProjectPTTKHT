@@ -359,7 +359,7 @@ insert into TimeForCourseRegister Values(N'2020_1','6/1/2021','12/1/2021')
 insert into TimeForCourseRegister Values(N'2020_2','3/5/2021','12/5/2021')
 insert into TimeForCourseRegister Values(N'2021_1','6/1/2022','12/1/2022')
 insert into TimeForCourseRegister Values(N'2021_2','3/5/2022','12/5/2022')
-update TimeForCourseRegister set endDate = '01/07/2021' where ID_Semester = '2020_2';
+update TimeForCourseRegister set startDate='3/5/2021' ,endDate = '04/05/2021' where ID_Semester = '2020_2';
 select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
@@ -397,7 +397,8 @@ insert into Course Values(N'214451','DT',N'Hệ quản trị cơ sở dữ liệ
 insert into Course Values(N'200107','DT',N'Tư tưởng Hồ Chí Minh',2,3,1)
 insert into Course Values(N'214252','DT',N'Lập trình mạng',2,3,1)
 insert into Course Values(N'214370','DT',N'Nhập môn CN phần mềm',2,3,2)
-insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',2,3,2)
+insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',2,3,4)
+
 insert into Course Values(N'214282','DT',N'Mạng máy tính nâng cao',2,3,2)
 insert into Course Values(N'214461','DT',N'Phân tích và thiết kế HTTT',2,3,2)
 insert into Course Values(N'214492','DT',N'Máy học',2,3,2)
@@ -452,7 +453,7 @@ insert into Course_Offering Values(N'40',N'214273','DH18DTA',80,0)
 insert into Course_Offering Values(N'41',N'214388','DH18DTA',80,0)
 insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
 
-select co.ID_Course_Offering from Course_Offering co where co.ID_Course = '214274';
+select * from Course_Offering co where co.ID_Course = '214274';
 
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
@@ -503,7 +504,10 @@ insert into Schedule values(N'42',N'40',null,'TH',2,'20/10/2021','20/11/2021',N'
 insert into Schedule values(N'43',N'36',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 delete from Schedule where ID_Schedule in ('1a','1b','1c');
+
 update Schedule set Id_Profeesor = null where ID_Schedule = '42';
+update Schedule set Id_Profeesor = null where ID_Schedule = '1';
+
 select * from Schedule;
 -- insert into Student_Schedule
 -- 
@@ -528,6 +532,8 @@ insert into Student_Schedule values('2020_2',N'37',N'18130005')
 insert into Student_Schedule values('2020_2',N'38',N'18130005')
 insert into Student_Schedule values('2020_2',N'39',N'18130005')
 insert into Student_Schedule values('2020_2',N'40',N'18130005')
+insert into Student_Schedule values('2021_1',N'40',N'18130005')
+insert into Student_Schedule values('2021_1',N'41',N'18130005')
 select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select st.* from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
@@ -571,19 +577,23 @@ insert into front_Sub values(N'214331',N'214321')
 insert into front_Sub values(N'214441',N'214331')
 
 -- insert into Sub_Pass
-
+select st.ID_Schedule from Student_Schedule st where st.ID_Semester=N'2020_2' and st.ID_Student='18130005'
+delete from Sub_Pass where ID_Student='18130005' and ID_Course='214282';
 select * from Sub_Pass;
---delete from Sub_Pass where ID_Course = '200102';
+
 --insert into Sub_Pass values('2_2022',N'2142',N'18130006',7.5,N'khá')
---insert into Sub_Pass values('1_2022',N'2122',N'18130005',5.5,N'Trung bình')
+insert into Sub_Pass values('2021_1',N'214492',N'18130005',6.5,2.5,N'C')
 --insert into Sub_Pass values('3_2022',N'4111',N'18130004',7.5,N'Khá')
 --insert into Sub_Pass values('2021_2',N'2142',N'18130005',7.5,N'Khá')
-
+select  * from semester_Result ;
+delete from semester_Result where ID_Semester='2021_1'
+select * from semester_Result sr join Student st on sr.ID_Student=st.ID_Student where st.ID_Student='18130005' and sr.ID_Semester<'2021_1' order by sr.ID_Semester 
 -- insert into semester_Result
 -- như cc
---insert into semester_Result values('2021_1',N'18130005',5.6,20)
---insert into semester_Result values('1_2022',N'18130002',5.6,20)
---insert into semester_Result values('2_2022',N'18130003',7.6,16)
+insert into semester_Result values('2020_2',N'18130005',6.37,2.23,4)
+insert into semester_Result values('2021_1',N'18130005',6.0,2.0,4)
+insert into semester_Result values('2021_2',N'18130005',7.6,2.5,16)
+select se.ID_Semester from semester_Result se where ID_Student='18130005' order by  se.ID_Semester;
 --insert into semester_Result values('3_2022',N'18130006',8.6,18)
 --insert into semester_Result values('2021_2',N'18130005',2.6,17)
 --insert into semester_Result values('3_2021',N'18130002',6.6,12)
@@ -608,7 +618,8 @@ select sd.* from Schedule sd join Course_Offering co on sd.ID_Course_Offering = 
 			where stc.ID_Student = @ID_User and stc.ID_Semester in (select ID_Semester from Semester where GETDATE() between startDate and endDate )
 go
 
-select * from TimeTableSt('18130006');
+select * from TimeTableSt('18130005');
+DROP FUNCTION TimeTableSt;
 go
 create FUNCTION subPassed (@ID_CourseB nvarchar(50),@ID_User nvarchar(50))
 RETURNS nvarchar(50) 
@@ -643,7 +654,8 @@ c.numberS =  case when c.numberS is null then  c.numberS else (select numberS fr
 c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
 go
-select * from SubAvailableST('18130006');
+select * from SubAvailableST('18130005');
+
 
 go
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
@@ -763,7 +775,7 @@ select sp.* ,c.Course_certificate from Sub_Pass sp join Course c on sp.ID_Course
 go
 
 --Phương thức đk cho giáo viên
-alter FUNCTION checkDayPr (@ID_Schedule nvarchar(50),@ID_Professor varchar(50))
+create FUNCTION checkDayPr (@ID_Schedule nvarchar(50),@ID_Professor varchar(50))
 RETURNS TABLE 
 as
 RETURN  
@@ -776,15 +788,19 @@ where  (sc.Start_Slot in (select Start_Slot from checkStart_Slot_TeachDayPR(@ID_
  select * from checkDayPr('36','224');
  go
 -- tạo function semester_Result
+select st.* from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130005'
+DROP FUNCTION get_Semester_Reuslt;
 create function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
 returns table
 as
 return 
-select sp.ID_Student,c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4 from Sub_Pass sp join Course c on sp.ID_Course = c.ID_Course
+select  c.ID_Course,c.Name_Course,c.Course_certificate,sp.Score,sp.ScoreSystem4,st.* from Sub_Pass sp 
+																					join Course c on sp.ID_Course = c.ID_Course
+																					join Student_Schedule st on sp.ID_Student=st.ID_Student
 where sp.ID_Student = @ID_Student and sp.ID_Semester = @ID_Semester
 go
 --
-select * from get_Semester_Reuslt('18130005','2_2018');
+select * from get_Semester_Reuslt('18130005','2020_2');
 -- tính điểm TB từ semester_Result
 select SUM(gr.Score * gr.Course_certificate)/SUM(gr.Course_certificate) Diem_TB from get_Semester_Reuslt('18130005','2_2018') gr;
 -- tính điểm TB từ semester_Result(hệ 4)
@@ -827,7 +843,7 @@ select sa.ID_Schedule from SubAvailableST('18130005') sa join TimeTableSt('18130
 select DISTINCT c.ID_Course,c.Name_Course,pr.ID_Semester from Professor_Schedule pr join Schedule sc on pr.ID_Schedule = sc.ID_Schedule join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering join Course c on co.ID_Course = c.ID_Course
 where pr.ID_Semester = (select s.ID_Semester from Semester s where GETDATE() between s.startDate and s.endDate) and pr.ID_Professor = '224';
 
-select DISTINCT st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule
+select st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule
                                                              join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
                                                              join Course c on co.ID_Course = c.ID_Course
                                                              join Student s on st.ID_Student = s.ID_Student
@@ -835,8 +851,39 @@ where c.ID_Course = '214282' and st.ID_Semester = '2020_2';
 
 insert into Sub_Pass values('2020_2','214282','18130005',8.0,3.6,'A');
 select sp.Score from Sub_Pass sp where sp.ID_Student = '18130005' and sp.ID_Course = '214282' and sp.ID_Semester = '2020_2';
+
 ------ xét nó có trong cơ sỡ dữ liệu hay chưa
+delete from Student_ScheduleR;
 select strr.* from Student_ScheduleR strr
 where strr.ID_Semester = '2020_2' and strr.ID_Student = '18130005' and strr.ID_Schedule = '36'
+insert into Student_ScheduleR values('2020_2','36','18130005')
+select st.ID_Schedule from Student_Schedule st
+where st.ID_Semester = '2020_2' and st.ID_Student = '18130005'
+
+select Count(DISTINCT c.ID_Course) as dem from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule
+                                               join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+                                               join Course c on co.ID_Course = c.ID_Course
+where st.ID_Semester = '2020_2' and st.ID_Student = '18130005'
                                           
-  
+
+
+  ---test
+go
+create FUNCTION laytinchi (@ID_User varchar(50),@ID_semeseter varchar(50))
+RETURNS TABLE
+as
+RETURN  
+select c.Course_certificate,c.ID_Course,sp.Score from Course_Offering co join Course c on c.ID_Course = co.ID_Course
+													 join Schedule sc on sc.ID_Course_Offering = co.ID_Course_Offering
+													 join Sub_Pass sp on c.ID_Course=sp.ID_Course
+													 
+where  
+c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select ID_Faculty from Student where ID_Student = @ID_User)  end and
+c.years =  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
+c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester=@ID_semeseter )  end and
+c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
+when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
+
+select * from laytinchi('18130005','2020_2');
+DROP FUNCTION laytinchi;
+
