@@ -69,10 +69,10 @@ public class CourseRegisterServlet extends HttpServlet {
 						req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
 						req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 						return;
-					}
-					for (Student_Schedule student_Schedule : list) {
-						student_ScheduleDAO.insert(student_Schedule);
-					}
+					}		
+				}
+				for (Student_Schedule student_Schedule : list) {
+					student_ScheduleDAO.insert(student_Schedule);
 				}
 				resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 			}
@@ -82,7 +82,6 @@ public class CourseRegisterServlet extends HttpServlet {
 			String id_Course = req.getParameter("id_Course");
 			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
 			if (stringSplit.length == 1) {
-
 				student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
 						scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
 				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
@@ -96,7 +95,7 @@ public class CourseRegisterServlet extends HttpServlet {
 
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {
-					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				}
 			} else if (stringSplit.length == 2) {
 				for (int i = 0; i < stringSplit.length; i++) {
@@ -115,7 +114,7 @@ public class CourseRegisterServlet extends HttpServlet {
 					}
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {
-					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
+					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				}
 			}
 		} else if (action.equals("AddToReal")) {
@@ -135,7 +134,10 @@ public class CourseRegisterServlet extends HttpServlet {
 						Course_Offering course_Offering = course_OfferingDAO
 								.getByKey(schedule.getCourse_Offering().getiD_Course_Offering());
 						course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() + 1);
-						boolean bool = course_OfferingDAO.update(course_Offering);
+						boolean bool = true;
+						if (schedule.getTheoretical().equals("LT")) {
+							bool = course_OfferingDAO.update(course_Offering);
+						}
 						if (bool == false) {
 							// chỗ này sẽ cho tất cả những môn full chỗ vào cái list rồi xử lý sao đó tui ko
 							// bik

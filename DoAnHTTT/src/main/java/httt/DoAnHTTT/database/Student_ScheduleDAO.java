@@ -162,7 +162,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		ArrayList<StudentMapDTO> list = new ArrayList<StudentMapDTO>();
 		try {
 			pstmt = conn.prepareStatement(
-					"select DISTINCT st.ID_Student,s.Student_Name from Student_Schedule st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
+					"select DISTINCT st.ID_Student,s.Student_Name from Student_ScheduleR st join Schedule sc on st.ID_Schedule = sc.ID_Schedule\r\n"
 							+ "                                                             join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
 							+ "                                                             join Course c on co.ID_Course = c.ID_Course\r\n"
 							+ "                                                             join Student s on st.ID_Student = s.ID_Student\r\n"
