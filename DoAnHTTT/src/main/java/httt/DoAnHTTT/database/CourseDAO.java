@@ -20,7 +20,7 @@ public class CourseDAO implements IDAO<Course> {
 	public CourseDAO() {
 		conn = Connect.getConnection();
 	}
-
+	
 	@Override
 	public Course getByKey(String key) {
 		Course course = null;
@@ -32,7 +32,7 @@ public class CourseDAO implements IDAO<Course> {
 				String ID_Faculty = rs.getString("ID_Faculty");
 				FacultyDAO dao = new FacultyDAO();
 				Faculty faculty = dao.getByKey(ID_Faculty);
-				String Name_Course = rs.getString("ID_Faculty");
+				String Name_Course = rs.getString("Name_Course");
 				int Course_certificate = rs.getInt("Course_certificate");
 				int years = rs.getInt("years");
 				int numberS = rs.getInt("numberS");

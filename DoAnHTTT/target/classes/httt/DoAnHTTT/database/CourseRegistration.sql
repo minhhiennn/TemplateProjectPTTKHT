@@ -197,6 +197,13 @@ create table Student_Schedule
 	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student),
 	Primary key (ID_Student,ID_Semester,ID_Schedule)
 )
+create table Student_ScheduleR
+(
+    ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
+    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule),
+	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student),
+	Primary key (ID_Student,ID_Semester,ID_Schedule)
+)
 create table Professor_Schedule
 (
     ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
@@ -496,7 +503,7 @@ insert into Schedule values(N'42',N'40',null,'TH',2,'20/10/2021','20/11/2021',N'
 insert into Schedule values(N'43',N'36',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 delete from Schedule where ID_Schedule in ('1a','1b','1c');
-update Schedule set Id_Profeesor = null where ID_Schedule = '43';
+update Schedule set Id_Profeesor = null where ID_Schedule = '42';
 select * from Schedule;
 -- insert into Student_Schedule
 -- 
@@ -523,9 +530,22 @@ insert into Student_Schedule values('2020_2',N'39',N'18130005')
 insert into Student_Schedule values('2020_2',N'40',N'18130005')
 select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
-select st.ID_Schedule from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
+select st.* from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
 delete from Student_Schedule where ID_Semester='2020_2' and ID_Schedule='11' and ID_Student='18130005';
 delete from Student_Schedule;
+--
+insert into Student_ScheduleR values('2020_2',N'36',N'18130006')
+insert into Student_ScheduleR values('2020_2',N'37',N'18130006')
+insert into Student_ScheduleR values('2020_2',N'38',N'18130006')
+insert into Student_ScheduleR values('2020_2',N'39',N'18130006')
+insert into Student_ScheduleR values('2020_2',N'40',N'18130006')
+insert into Student_ScheduleR values('2020_2',N'36',N'18130005')
+insert into Student_ScheduleR values('2020_2',N'37',N'18130005')
+insert into Student_ScheduleR values('2020_2',N'38',N'18130005')
+insert into Student_ScheduleR values('2020_2',N'39',N'18130005')
+insert into Student_ScheduleR values('2020_2',N'41',N'18130005')
+insert into Student_ScheduleR values('2020_2',N'42',N'18130005')
+select * from Student_ScheduleR;
 --
 insert into Professor_Schedule values('2019_2',N'28',N'224')
 insert into Professor_Schedule values('2019_2',N'29',N'224')
@@ -815,5 +835,8 @@ where c.ID_Course = '214282' and st.ID_Semester = '2020_2';
 
 insert into Sub_Pass values('2020_2','214282','18130005',8.0,3.6,'A');
 select sp.Score from Sub_Pass sp where sp.ID_Student = '18130005' and sp.ID_Course = '214282' and sp.ID_Semester = '2020_2';
-                                               
+------ xét nó có trong cơ sỡ dữ liệu hay chưa
+select strr.* from Student_ScheduleR strr
+where strr.ID_Semester = '2020_2' and strr.ID_Student = '18130005' and strr.ID_Schedule = '36'
+                                          
   

@@ -64,7 +64,7 @@
 							</c:forEach>
 						</select>
 					</form>
-					<table id="tableahihi" class="" style="width: 100%;">
+					<table id="tableahihi" class="table table-bordered" style="width: 100%;">
 						<thead>
 							<tr style="border: none">
 								<th class="th-sm">Mã MH</th>

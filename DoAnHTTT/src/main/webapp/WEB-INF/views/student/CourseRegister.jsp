@@ -64,7 +64,8 @@
 						</c:when>
 						<c:otherwise>
 							<div>
-								<table id="tableahihi" class="" style="width: 100%;">
+								<table id="tableahihi" class="table table-bordered"
+									style="width: 100%;">
 									<thead>
 										<tr style="border: none">
 											<th class="th-sm"></th>
@@ -99,7 +100,8 @@
 											</c:if>
 											<tr>
 												<td><input type="checkbox" id="myCheck${count}"
-													onclick="test(this)" value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"
+													onclick="test(this)"
+													value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"
 													${disable} ${check}></td>
 												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
 												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
@@ -121,16 +123,21 @@
 									<tfoot>
 									</tfoot>
 								</table>
-								<c:if test="${err != null }">
+							</div>
+							<c:if test="${err != null }">
+								<div>
 									<h3 style="color: red">
 										<c:out value="${err}" />
 									</h3>
-								</c:if>
+								</div>
+							</c:if>
+							<div style="padding-top: 10px;display: flex; justify-content: flex-end">
+								<button>Lưu đăng ký</button>
 							</div>
-
 							<div>
 								<h3 style="padding-top: 30px">Danh Sách môn học đã chọn</h3>
-								<table id="tableahihi2" class="" style="width: 100%;">
+								<table id="tableahihi2" class="table table-bordered"
+									style="width: 100%;">
 									<thead>
 										<tr style="border: none">
 											<th class="th-sm">Mã MH</th>
@@ -138,11 +145,7 @@
 											<th class="th-sm">STC</th>
 											<th class="th-sm">Mã lớp</th>
 											<th class="th-sm">Theoretical</th>
-											<th class="th-sm">Thứ</th>
-											<th class="th-sm">Tiết BD</th>
-											<th class="th-sm">ST</th>
-											<th class="th-sm">Phòng</th>
-											<th class="th-sm">CBGD</th>
+											<th class="th-sm">Trạng thái môn học</th>
 											<th class="th-sm">Delete</th>
 										</tr>
 									</thead>
@@ -156,13 +159,10 @@
 												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
 												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
 												<td>${item.getTheoretical()}</td>
-												<td>${item.getTeaching_Day()}</td>
-												<td>${item.getStart_Slot()}</td>
-												<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
-												<td>${item.getStudy_place()}</td>
-												<td>${item.getProfessor().getUser().getiD_User()}"</td>
+												<td>Chưa lưu vào cơ sở dữ liệu</td>
 												<td><input type="checkbox" id="myDelete${count2}"
-													onclick="test2(this)" value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"></td>
+													onclick="test2(this)"
+													value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"></td>
 											</tr>
 											<c:set var="count2" value="${count2 + 1}" scope="page" />
 										</c:forEach>
@@ -186,55 +186,59 @@
 		</div>
 	</section>
 	<script type="text/javascript">
-        function test(ele){
-        	if(ele.checked == true){
-        	let listId_Schedule = "";
-        	let stringSplit = ele.value.split('-');
-        	let id_Schedule = stringSplit[0];
-        	listId_Schedule += id_Schedule;
-        	let id_Course = stringSplit[1];
-        	let id = ele.id;
-        	let count = ${count};
-        		for(let i = 0;i<count;i++){
-        			let x = "myCheck"+i;
-        			if(x != id){
-        				let x1 = document.getElementById(x);
-        				let x1_id_Schedule = x1.value.split('-')[0];
-        				let x1_id_Course = x1.value.split('-')[1];
-        				if(id_Course == x1_id_Course){
-        				   listId_Schedule = listId_Schedule + "-" + x1_id_Schedule;
-        				   break;
-        				}
-        			}
-        		}
-        	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="+listId_Schedule+"&id_Course="+id_Course+"&action=Add");
-        	}
-        }
-        function test2(ele){
-        	if(ele.checked == true){
-        		let listId_Schedule = "";
-            	let stringSplit = ele.value.split('-');
-            	let id_Schedule = stringSplit[0];
-            	listId_Schedule += id_Schedule;
-            	let id_Course = stringSplit[1];
-            	let id = ele.id;
-            	let count = ${count2};
-            		for(let i = 0;i<count;i++){
-            			let x = "myDelete"+i;
-            			if(x != id){
-            				let x1 = document.getElementById(x);
-            				let x1_id_Schedule = x1.value.split('-')[0];
-            				let x1_id_Course = x1.value.split('-')[1];
-            				if(id_Course == x1_id_Course){
-            				   listId_Schedule = listId_Schedule + "-" + x1_id_Schedule;
-            				   break;
-            				}
-            			}
-            		}
-            	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="+listId_Schedule+"&id_Course="+id_Course+"&action=Delete");
-            	}
-        }
-    </script>
+		function test(ele) {
+			if (ele.checked == true) {
+				let listId_Schedule = "";
+				let stringSplit = ele.value.split('-');
+				let id_Schedule = stringSplit[0];
+				listId_Schedule += id_Schedule;
+				let id_Course = stringSplit[1];
+				let id = ele.id;
+				let count = ${count};
+				for (let i = 0; i < count; i++) {
+					let x = "myCheck" + i;
+					if (x != id) {
+						let x1 = document.getElementById(x);
+						let x1_id_Schedule = x1.value.split('-')[0];
+						let x1_id_Course = x1.value.split('-')[1];
+						if (id_Course == x1_id_Course) {
+							listId_Schedule = listId_Schedule + "-"
+									+ x1_id_Schedule;
+							break;
+						}
+					}
+				}
+				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="
+						+ listId_Schedule + "&id_Course=" + id_Course + "&action=Add");
+			}
+		}
+		function test2(ele) {
+			if (ele.checked == true) {
+				let listId_Schedule = "";
+				let stringSplit = ele.value.split('-');
+				let id_Schedule = stringSplit[0];
+				listId_Schedule += id_Schedule;
+				let id_Course = stringSplit[1];
+				let id = ele.id;
+				let count = ${count2};
+				for (let i = 0; i < count; i++) {
+					let x = "myDelete" + i;
+					if (x != id) {
+						let x1 = document.getElementById(x);
+						let x1_id_Schedule = x1.value.split('-')[0];
+						let x1_id_Course = x1.value.split('-')[1];
+						if (id_Course == x1_id_Course) {
+							listId_Schedule = listId_Schedule + "-"
+									+ x1_id_Schedule;
+							break;
+						}
+					}
+				}
+				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="
+						+ listId_Schedule + "&id_Course=" + id_Course + "&action=Delete");
+			}
+		}
+	</script>
 </body>
 
 </html>
