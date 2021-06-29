@@ -359,7 +359,7 @@ insert into TimeForCourseRegister Values(N'2020_1','6/1/2021','12/1/2021')
 insert into TimeForCourseRegister Values(N'2020_2','3/5/2021','12/5/2021')
 insert into TimeForCourseRegister Values(N'2021_1','6/1/2022','12/1/2022')
 insert into TimeForCourseRegister Values(N'2021_2','3/5/2022','12/5/2022')
-update TimeForCourseRegister set startDate='3/5/2021' ,endDate = '04/05/2021' where ID_Semester = '2020_2';
+update TimeForCourseRegister set startDate='3/5/2021' ,endDate = '04/12/2021' where ID_Semester = '2020_2';
 select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
@@ -619,7 +619,7 @@ select sd.* from Schedule sd join Course_Offering co on sd.ID_Course_Offering = 
 go
 
 select * from TimeTableSt('18130005');
-DROP FUNCTION TimeTableSt;
+
 go
 create FUNCTION subPassed (@ID_CourseB nvarchar(50),@ID_User nvarchar(50))
 RETURNS nvarchar(50) 
@@ -789,7 +789,7 @@ where  (sc.Start_Slot in (select Start_Slot from checkStart_Slot_TeachDayPR(@ID_
  go
 -- tạo function semester_Result
 select st.* from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130005'
-DROP FUNCTION get_Semester_Reuslt;
+
 create function get_Semester_Reuslt(@ID_Student nvarchar(50),@ID_Semester nvarchar(50))
 returns table
 as
@@ -885,5 +885,5 @@ c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.I
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
 
 select * from laytinchi('18130005','2020_2');
-DROP FUNCTION laytinchi;
+
 

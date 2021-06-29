@@ -9,9 +9,9 @@ public class Connect {
 		Connection conn = null;
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//			conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=CourseRegistration;integratedSecurity=true");
 			conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "databaseName=CourseRegistration;",
-					"sa", "sa");
-//			jdbc:sqlserver://localhost:1433;databaseName=CourseRegistration;integratedSecurity=true
+			"sa", "sa");
 
 //			Class.forName("org.hsqldb.jdbcDriver");
 //			conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/examples;" + "databaseName=java;", "sa", "");
