@@ -478,7 +478,17 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return false;
 	}
-
+    // Get All Student_ScheduleDao
+	public ArrayList<Student_Schedule> getAllStudentSchedule(){
+		ArrayList<Student_Schedule> list = new ArrayList<Student_Schedule>();
+		try {
+			pstmt = conn.prepareStatement("");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
 		System.out.println(student_ScheduleDAO.countSubjectInTimeTableFake("2020_2", "18130006"));

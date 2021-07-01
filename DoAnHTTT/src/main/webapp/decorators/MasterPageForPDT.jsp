@@ -24,6 +24,9 @@
 <link href="<c:url value='/template/pdt/css/sb-admin-2.min.css'/>"
 	rel="stylesheet">
 
+<link
+	href="<c:url value='/template/pdt/vendor/datatables/dataTables.bootstrap4.min.css'/>"
+	rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -69,7 +72,7 @@
 	<!-- Bootstrap core JavaScript-->
 	<c:url value='/template/pdt/js/demo/chart-pie-demo.js' />
 	<script
-		src="<c:url value='/template/pdt/vendor/jquery/jquery.min.js'/>" ></script>
+		src="<c:url value='/template/pdt/vendor/jquery/jquery.min.js'/>"></script>
 	<script
 		src="<c:url value='/template/pdt/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
 
@@ -87,5 +90,14 @@
 	<!-- Page level custom scripts -->
 	<script src="<c:url value='/template/pdt/js/demo/chart-area-demo.js'/>"></script>
 	<script src="<c:url value='/template/pdt/js/demo/chart-pie-demo.js'/>"></script>
+
+	<!-- Page level plugins -->
+	<script
+		src="<c:url value='/template/pdt/vendor/datatables/jquery.dataTables.min.js'/>"></script>
+	<script
+		src="<c:url value='/template/pdt/vendor/vendor/datatables/dataTables.bootstrap4.min.js'/>"></script>
+
+	<!-- Page level custom scripts -->
+	<script src="<c:url value='/template/pdt/js/demo/datatables-demo.js'/>"></script>
 </body>
 </html>

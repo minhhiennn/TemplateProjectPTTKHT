@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Faculty;
@@ -93,14 +94,14 @@ public class ProfessorDAO implements IDAO<Professor> {
 		String ID_Professor = key.getUser().getiD_User();
 		String Professor_Name = key.getProfessor_Name();
 		String ID_Faculty = key.getFaculty().getiD_Faculty();
-		Date date = key.getCreate_date();
+		Date date = (Date) key.getCreate_date();
 		String Degree = key.getDegree();
 		try {
 			pstmt = conn.prepareStatement("insert into Professor Values(?,?,?,?,?)");
 			pstmt.setString(1, ID_Professor);
 			pstmt.setString(2, Professor_Name);
 			pstmt.setString(3, ID_Faculty);
-			pstmt.setDate(4, new java.sql.Date(date.getTime()));
+			pstmt.setDate(4, date);
 			pstmt.setString(5, Degree);
 			int row = pstmt.executeUpdate();
 			System.out.println(row);
@@ -133,10 +134,47 @@ public class ProfessorDAO implements IDAO<Professor> {
 		return false;
 	}
 
+	// Get All Professor
+	public HashMap<String, ArrayList<String>> getAllProfessor() {
+		HashMap<String, ArrayList<String>> hashMap = new HashMap<String, ArrayList<String>>();
+		hashMap.put("ID_Professor", new ArrayList<>());
+		hashMap.put("Professor_Name", new ArrayList<>());
+		hashMap.put("ID_Faculty", new ArrayList<>());
+		hashMap.put("Create_date", new ArrayList<>());
+		hashMap.put("Degree", new ArrayList<>());
+		try {
+			pstmt = conn.prepareStatement("select * from Professor");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Professor = rs.getString("ID_Professor");
+				hashMap.get("ID_Professor").add(ID_Professor);
+				String Professor_Name = rs.getString("Professor_Name");
+				hashMap.get("Professor_Name").add(Professor_Name);
+				String ID_Faculty = rs.getString("ID_Faculty");
+				hashMap.get("ID_Faculty").add(ID_Faculty);
+				Date create_date = rs.getDate("Create_date");
+				hashMap.get("Create_date").add(create_date.toString());
+				String Degree = rs.getString("Degree");
+				hashMap.get("Degree").add(Degree);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return hashMap;
+	}
+
 	public static void main(String[] args) {
-//		java.util.Date date1 = new Date();
-//		java.sql.Date date = new java.sql.Date(date1.getTime());
-//		System.out.println(date);
 		ProfessorDAO professorDAO = new ProfessorDAO();
 		System.out.println(professorDAO.selectTop1ID_Professor());
 	}

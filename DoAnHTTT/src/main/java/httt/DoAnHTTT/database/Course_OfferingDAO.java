@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.HashMap;
 
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Course_Offering;
@@ -100,11 +101,13 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		}
 		return true;
 	}
-    // Lấy id_CourseOffering by id_Course
+
+	// Lấy id_CourseOffering by id_Course
 	public String getIDCourseOfferingByIdCourse(String id_Course) {
 		String ID_CourseOffering = null;
 		try {
-			pstmt = conn.prepareStatement("select co.ID_Course_Offering from Course_Offering co where co.ID_Course = ?");
+			pstmt = conn
+					.prepareStatement("select co.ID_Course_Offering from Course_Offering co where co.ID_Course = ?");
 			pstmt.setString(1, id_Course);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -127,13 +130,55 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		}
 		return ID_CourseOffering;
 	}
+
 	@Override
 	public boolean delete(Course_Offering key) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-public static void main(String[] args) {
-	Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-	System.out.println(course_OfferingDAO.getIDCourseOfferingByIdCourse("214274"));
-}
+
+	// Get ALL Course_Offering
+	public HashMap<String,ArrayList<String>> getAllCourseOffering() {
+		HashMap<String,ArrayList<String>> hashMap = new HashMap<String,ArrayList<String>>();
+		hashMap.put("ID_Course_Offering", new ArrayList<String>());
+		hashMap.put("ID_Course", new ArrayList<String>());
+		hashMap.put("Class_code", new ArrayList<String>());
+		hashMap.put("Max_Size", new ArrayList<String>());
+		hashMap.put("Current_Size", new ArrayList<String>());
+		try {
+			pstmt = conn.prepareStatement("select * from Course_Offering");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course_Offering = rs.getString("ID_Course_Offering");
+				hashMap.get("ID_Course_Offering").add(ID_Course_Offering);
+				String ID_Course = rs.getString("ID_Course");
+				hashMap.get("ID_Course").add(ID_Course);
+				String Class_code = rs.getString("Class_code");
+				hashMap.get("Class_code").add(Class_code);
+				int Max_Size = rs.getInt("Max_Size");
+				hashMap.get("Max_Size").add(String.valueOf(Max_Size));
+				int Current_Size = rs.getInt("Current_Size");
+				hashMap.get("Current_Size").add(String.valueOf(Current_Size));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return hashMap;
+	}
+
+	public static void main(String[] args) {
+		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+		System.out.println(course_OfferingDAO.getIDCourseOfferingByIdCourse("214274"));
+	}
 }

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
@@ -20,7 +22,7 @@ public class CourseDAO implements IDAO<Course> {
 	public CourseDAO() {
 		conn = Connect.getConnection();
 	}
-	
+
 	@Override
 	public Course getByKey(String key) {
 		Course course = null;
@@ -105,9 +107,55 @@ public class CourseDAO implements IDAO<Course> {
 		}
 		return result;
 	}
+
+	// lấy all list
+	public HashMap<String, ArrayList<String>> getAllCourse() {
+		HashMap<String, ArrayList<String>> hashMap = new HashMap<String, ArrayList<String>>();
+		hashMap.put("ID_Course", new ArrayList<String>());
+		hashMap.put("ID_Faculty", new ArrayList<String>());
+		hashMap.put("Name_Course", new ArrayList<String>());
+		hashMap.put("Course_certificate", new ArrayList<String>());
+		hashMap.put("years", new ArrayList<String>());
+		hashMap.put("numberS", new ArrayList<String>());
+		try {
+			pstmt = conn.prepareStatement("Select * from Course");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course = rs.getString("ID_Course");
+				hashMap.get("ID_Course").add(ID_Course);
+				String ID_Faculty = rs.getString("ID_Faculty");
+				hashMap.get("ID_Faculty").add(ID_Faculty);
+				String Name_Course = rs.getString("Name_Course");
+				hashMap.get("Name_Course").add(Name_Course);
+				int Course_certificate = rs.getInt("Course_certificate");
+				hashMap.get("Course_certificate").add(String.valueOf(Course_certificate));
+				int years = rs.getInt("years");
+				hashMap.get("years").add(String.valueOf(years));
+				int numberS = rs.getInt("numberS");
+				hashMap.get("numberS").add(String.valueOf(numberS));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return hashMap;
+	}
+
 	public static void main(String[] args) {
 		CourseDAO courseDAO = new CourseDAO();
-		Course course = courseDAO.getByKey("213603");
-		System.out.println(course);
+		HashMap<String, ArrayList<String>> hashMap = courseDAO.getAllCourse();
+		for (Map.Entry m : hashMap.entrySet()) {
+			System.out.println(m.getKey() + " " + m.getValue());
+		}
 	}
 }

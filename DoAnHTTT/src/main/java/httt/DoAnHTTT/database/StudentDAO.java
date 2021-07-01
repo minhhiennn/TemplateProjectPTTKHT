@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Class;
@@ -119,7 +121,7 @@ public class StudentDAO implements IDAO<Student> {
 			Faculty faculty = facultyDAO.getByKey(maNganh);
 			ClassDAO classDAO = new ClassDAO();
 			Class class1 = classDAO.getByForNStudent(khoa, maNganh);
-			Student student = new Student(user, name, faculty, new Date(), class1, 0, 0);
+			Student student = new Student(user, name, faculty, new java.util.Date(), class1, 0, 0);
 			class1.setCurrent_Size(class1.getCurrent_Size() + 1);
 			insert(student);
 			ClassDAO classDAO1 = new ClassDAO();
@@ -129,7 +131,6 @@ public class StudentDAO implements IDAO<Student> {
 		}
 	}
 
-
 	private String getID_Student(int khoa, String maNganh) {
 		FacultyDAO facultyDAO = new FacultyDAO();
 		Faculty faculty = facultyDAO.getByKey(maNganh);
@@ -137,8 +138,7 @@ public class StudentDAO implements IDAO<Student> {
 		if (faculty != null) {
 			ID_Student = khoa + "" + faculty.getID_FacultyN() + "000";
 			try {
-				pstmt = conn.prepareStatement(
-						"select top 1 * from Users where ID_User like ? order by ID_User desc");
+				pstmt = conn.prepareStatement("select top 1 * from Users where ID_User like ? order by ID_User desc");
 				pstmt.setString(1, khoa + "" + faculty.getID_FacultyN() + "%");
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
@@ -211,10 +211,54 @@ public class StudentDAO implements IDAO<Student> {
 		}
 	}
 
+	// Get All Student
+	public HashMap<String, ArrayList<String>> getAllStudent() {
+		HashMap<String, ArrayList<String>> hashMap = new HashMap<String, ArrayList<String>>();
+		hashMap.put("ID_Student", new ArrayList<String>());
+		hashMap.put("Student_Name", new ArrayList<String>());
+		hashMap.put("ID_Faculty", new ArrayList<String>());
+		hashMap.put("Create_date", new ArrayList<String>());
+		hashMap.put("Class_code", new ArrayList<String>());
+		hashMap.put("Cert_number_required", new ArrayList<String>());
+		hashMap.put("Cert_number_accumulated", new ArrayList<String>());
+		try {
+			pstmt = conn.prepareStatement("select * from Student");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Student = rs.getString("ID_Student");
+				hashMap.get("ID_Student").add(ID_Student);
+				String Student_Name = rs.getString("Student_Name");
+				hashMap.get("Student_Name").add(Student_Name);
+				String ID_Faculty = rs.getString("ID_Faculty");
+				hashMap.get("ID_Faculty").add(ID_Faculty);
+				Date create_date = rs.getDate("Create_date");
+				hashMap.get("Create_date").add(create_date.toString());
+				String Class_code = rs.getString("Class_code");
+				hashMap.get("Class_code").add(Class_code);
+				int Cert_number_required = rs.getInt("Cert_number_required");
+				hashMap.get("Cert_number_required").add(String.valueOf(Cert_number_required));
+				int Cert_number_accumulated = rs.getInt("Cert_number_accumulated");
+				hashMap.get("Cert_number_accumulated").add(String.valueOf(Cert_number_accumulated));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return hashMap;
+	}
+
 	public static void main(String[] args) {
 		StudentDAO studentDAO = new StudentDAO();
-		// studentDAO.updateStudent("18130006", 0);
-		// System.out.println(studentDAO.getCert_number_accumulated("18130006"));
 		Student student = studentDAO.getByKey("18130005");
 	}
 }

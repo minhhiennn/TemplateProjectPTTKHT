@@ -78,7 +78,7 @@ create table Student
 	Primary key (ID_Student)
 )
 --
-select * from Student
+	
 --
 -- một giáo sư của trường
 create table Professor
@@ -267,6 +267,16 @@ gradeAv float,
 gradeAv4 float,
 Primary key (ID_Student)
 )
+-- tạo bảng bill cho học sinh 
+create table BillingSystem
+(
+ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
+ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
+Paymoney float,
+creadit smallint,
+Primary key (ID_Semester,ID_Student)
+)
+go 
 select * from Final_Result
 go
 -- insert into users
@@ -885,5 +895,3 @@ c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.I
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
 
 select * from laytinchi('18130005','2020_2');
-
-

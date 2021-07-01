@@ -13,4 +13,9 @@ public class RedirectPDT {
 		ModelAndView mav = new ModelAndView("pdt/index");
 		return mav;
 	}
+	@RequestMapping(value = "/pdt/table", method = RequestMethod.GET)
+	public ModelAndView PDTTableView() {
+		ModelAndView mav = new ModelAndView("pdt/table");
+		return mav;
+	}
 }
