@@ -16,5 +16,6 @@
 	</decorator>
 	<decorator name="pdt" page="MasterPageForPDT.jsp">
 		<pattern>/pdt/*</pattern>
+		<pattern>/getTableForPDT</pattern>
 	</decorator>
 </decorators>

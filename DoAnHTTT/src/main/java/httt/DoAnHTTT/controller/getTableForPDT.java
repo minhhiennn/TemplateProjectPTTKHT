@@ -1,11 +1,16 @@
 package httt.DoAnHTTT.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import httt.DoAnHTTT.database.ScheduleDAO;
 
 /**
  * Servlet implementation class getTableForPDT
@@ -19,23 +24,27 @@ public class getTableForPDT extends HttpServlet {
      */
     public getTableForPDT() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		ScheduleDAO scheduleDAO = new ScheduleDAO();
+	    HashMap<String,ArrayList<String>> hashMap = scheduleDAO.getAllSchedule();
+	    request.setAttribute("hashMap", hashMap);
+	    for (String string : hashMap.keySet()) {
+			 request.setAttribute("Itemlength", hashMap.get(string));
+			 break;
+		}
+	    request.getRequestDispatcher("/pdt/table").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }

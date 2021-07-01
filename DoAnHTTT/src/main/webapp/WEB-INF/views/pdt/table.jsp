@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="list" value="${requestScope['hashMap']}" />
+<c:set var="Itemlength" value="${requestScope['Itemlength']}" />
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
 	<!-- Page Heading -->
 	<h1 class="h3 mb-2 text-gray-800">Quản Lí User</h1>
 	<p class="mb-4">
@@ -55,108 +57,38 @@
 					cellspacing="0">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Họ tên</th>
-							<th>Quyền hạn</th>
+							<c:forEach var="listItem" items="${list.keySet()}">
+								<th>${listItem}</th>
+							</c:forEach>
 							<th>Xóa</th>
 							<th>Sửa</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>PhungDepTrai</td>
-							<td>Quản trị danh mục</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>PhungVipPro</td>
-							<td>Quản trị giao diện</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>PhungCún</td>
-							<td>Quản trị thông tin</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>PhungOs</td>
-							<td>Seo website</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>Phung</td>
-							<td>Quản trị danh mục</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-						</tr>
+						<c:set var="count" value="0" scope="page" />
+						<c:forEach var="listItem2" items="${Itemlength}">
+							<tr>
+								<c:forEach var="listItem" items="${list.keySet()}">
+									<td>${list.get(listItem).get(count)}</td>
+								</c:forEach>
+								<td>
+									<button type="button">
+										<i class="fas fa-trash-alt"></i>
+									</button>
+								</td>
+								<th>
+									<button type="button">
+										<i class="fas fa-tools"></i>
+									</button>
+								</th>
+							</tr>
+							<c:set var="count" value="${count + 1}" scope="page" />
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-
 </div>
 <!-- /.container-fluid -->

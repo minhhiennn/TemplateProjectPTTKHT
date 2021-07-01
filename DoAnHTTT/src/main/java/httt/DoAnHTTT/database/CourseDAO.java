@@ -154,8 +154,8 @@ public class CourseDAO implements IDAO<Course> {
 	public static void main(String[] args) {
 		CourseDAO courseDAO = new CourseDAO();
 		HashMap<String, ArrayList<String>> hashMap = courseDAO.getAllCourse();
-		for (Map.Entry m : hashMap.entrySet()) {
-			System.out.println(m.getKey() + " " + m.getValue());
+	    for (String string : hashMap.keySet()) {
+			System.out.println(hashMap.get(string).get(1));
 		}
 	}
 }

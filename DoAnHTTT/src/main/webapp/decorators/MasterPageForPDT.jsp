@@ -70,7 +70,6 @@
 		</div>
 	</div>
 	<!-- Bootstrap core JavaScript-->
-	<c:url value='/template/pdt/js/demo/chart-pie-demo.js' />
 	<script
 		src="<c:url value='/template/pdt/vendor/jquery/jquery.min.js'/>"></script>
 	<script
@@ -95,7 +94,7 @@
 	<script
 		src="<c:url value='/template/pdt/vendor/datatables/jquery.dataTables.min.js'/>"></script>
 	<script
-		src="<c:url value='/template/pdt/vendor/vendor/datatables/dataTables.bootstrap4.min.js'/>"></script>
+		src="<c:url value='/template/pdt/vendor/datatables/dataTables.bootstrap4.min.js'/>"></script>
 
 	<!-- Page level custom scripts -->
 	<script src="<c:url value='/template/pdt/js/demo/datatables-demo.js'/>"></script>
