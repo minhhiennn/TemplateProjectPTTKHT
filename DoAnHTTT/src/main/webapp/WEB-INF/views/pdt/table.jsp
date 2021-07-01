@@ -17,13 +17,13 @@
 		<div>
 			<select class="form-select" aria-label="Default select example"
 				onchange="location = this.value;">
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=schedule">Schedule</option>
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=course">Course</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=schedule" <c:if test="${tableName.equals('schedule')}"> selected </c:if>>Schedule</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=course" <c:if test="${tableName.equals('course')}"> selected </c:if>>Course</option>
 				<option
-					value="/DoAnHTTT/getTableForPDT?action=table&table=course_offering">Course_Offering</option>
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=student">Student</option>
+					value="/DoAnHTTT/getTableForPDT?action=table&table=course_offering" <c:if test="${tableName.equals('course_offering')}"> selected </c:if>>Course_Offering</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=student" <c:if test="${tableName.equals('student')}"> selected </c:if>>Student</option>
 				<option
-					value="/DoAnHTTT/getTableForPDT?action=table&table=professor">Professor</option>
+					value="/DoAnHTTT/getTableForPDT?action=table&table=professor" <c:if test="${tableName.equals('professor')}"> selected </c:if>>Professor</option>
 			</select>
 		</div>
 		<div
@@ -87,7 +87,7 @@
 										</td>
 										<th>
 											<button type="button"
-												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=update&table='">
+												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=update&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[1]).get(i)}'">
 												<i class="fas fa-tools"></i>
 											</button>
 										</th>

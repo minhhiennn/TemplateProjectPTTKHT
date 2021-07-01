@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,25 @@ public class CourseDAO implements IDAO<Course> {
 
 	@Override
 	public boolean delete(Course key) {
-		// TODO Auto-generated method stub
+		String ID_Course = key.getiD_Course();
+		try {
+			pstmt = conn.prepareStatement("delete from Course where ID_Course = ?");
+			pstmt.setString(1, ID_Course);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -110,7 +129,7 @@ public class CourseDAO implements IDAO<Course> {
 
 	// lấy all list
 	public HashMap<String, ArrayList<String>> getAllCourse() {
-		HashMap<String, ArrayList<String>> hashMap = new HashMap<String, ArrayList<String>>();
+		HashMap<String, ArrayList<String>> hashMap = new LinkedHashMap<String, ArrayList<String>>();
 		hashMap.put("ID_Course", new ArrayList<String>());
 		hashMap.put("ID_Faculty", new ArrayList<String>());
 		hashMap.put("Name_Course", new ArrayList<String>());
@@ -154,7 +173,7 @@ public class CourseDAO implements IDAO<Course> {
 	public static void main(String[] args) {
 		CourseDAO courseDAO = new CourseDAO();
 		HashMap<String, ArrayList<String>> hashMap = courseDAO.getAllCourse();
-	    for (String string : hashMap.keySet()) {
+		for (String string : hashMap.keySet()) {
 			System.out.println(hashMap.get(string).get(1));
 		}
 	}

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import httt.DoAnHTTT.model.Faculty;
@@ -136,7 +137,7 @@ public class ProfessorDAO implements IDAO<Professor> {
 
 	// Get All Professor
 	public HashMap<String, ArrayList<String>> getAllProfessor() {
-		HashMap<String, ArrayList<String>> hashMap = new HashMap<String, ArrayList<String>>();
+		HashMap<String, ArrayList<String>> hashMap = new LinkedHashMap<String, ArrayList<String>>();
 		hashMap.put("ID_Professor", new ArrayList<>());
 		hashMap.put("Professor_Name", new ArrayList<>());
 		hashMap.put("ID_Faculty", new ArrayList<>());

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,12 +129,53 @@ public class ScheduleDAO implements IDAO<Schedule> {
 
 	@Override
 	public boolean delete(Schedule key) {
+		String Id_Schedule = key.getiD_Schedule();
+		try {
+			pstmt = conn.prepareStatement("delete from Schedule where ID_Schedule = ?");
+			pstmt.setString(1, Id_Schedule);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
+	// delete schedule với id_Course_Offering
+	public void delete2(String ID_Course_Offering) {
+		try {
+			pstmt = conn.prepareStatement("delete from Schedule where ID_Course_Offering = ?");
+			pstmt.setString(1, ID_Course_Offering);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	// Get all Schedule
-	public HashMap<String,ArrayList<String>> getAllSchedule() {
-		HashMap<String,ArrayList<String>> hashMap = new HashMap<String,ArrayList<String>>();
+	public HashMap<String, ArrayList<String>> getAllSchedule() {
+		HashMap<String, ArrayList<String>> hashMap = new LinkedHashMap<String, ArrayList<String>>();
 		hashMap.put("ID_Schedule", new ArrayList<String>());
 		hashMap.put("ID_Course_Offering", new ArrayList<String>());
 		hashMap.put("Id_Profeesor", new ArrayList<String>());
@@ -185,11 +227,9 @@ public class ScheduleDAO implements IDAO<Schedule> {
 		}
 		return hashMap;
 	}
-	public static void main(String[] args) {	
+
+	public static void main(String[] args) {
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
-		HashMap<String,ArrayList<String>> hashmap = scheduleDAO.getAllSchedule();
-		for (Map.Entry m : hashmap.entrySet()) {
-			System.out.println(m.getKey() + " " + m.getValue());
-		}
+		HashMap<String, ArrayList<String>> hashmap = scheduleDAO.getAllSchedule();
 	}
 }

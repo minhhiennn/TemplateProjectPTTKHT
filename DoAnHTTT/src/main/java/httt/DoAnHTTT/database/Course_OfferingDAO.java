@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Course_Offering;
@@ -133,13 +134,53 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 
 	@Override
 	public boolean delete(Course_Offering key) {
-		// TODO Auto-generated method stub
+		String ID_Course_Offering = key.getiD_Course_Offering();
+		try {
+			pstmt = conn.prepareStatement("delete from Course_Offering where ID_Course_Offering = ?");
+			pstmt.setString(1, ID_Course_Offering);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
+	// Delete course_Offering vs id_Course
+	public void delete2(String ID_Course) {
+		try {
+			pstmt = conn.prepareStatement("delete from Course_Offering where ID_Course = ?");
+			pstmt.setString(1, ID_Course);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	// Get ALL Course_Offering
-	public HashMap<String,ArrayList<String>> getAllCourseOffering() {
-		HashMap<String,ArrayList<String>> hashMap = new HashMap<String,ArrayList<String>>();
+	public HashMap<String, ArrayList<String>> getAllCourseOffering() {
+		HashMap<String, ArrayList<String>> hashMap = new LinkedHashMap<String, ArrayList<String>>();
 		hashMap.put("ID_Course_Offering", new ArrayList<String>());
 		hashMap.put("ID_Course", new ArrayList<String>());
 		hashMap.put("Class_code", new ArrayList<String>());

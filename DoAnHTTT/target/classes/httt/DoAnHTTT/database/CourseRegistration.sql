@@ -418,6 +418,7 @@ insert into Course Values(N'214274','DT',N'Lập trình trên TB di động',2,3
 
 --
 select Course_certificate from Course where ID_Course = '213603';
+delete from Course where ID_Course = '214274';
 --
 -- insert into Course_Offering
 insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)
@@ -464,7 +465,7 @@ insert into Course_Offering Values(N'41',N'214388','DH18DTA',80,0)
 insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
 
 select * from Course_Offering co where co.ID_Course = '214274';
-
+delete from Course_Offering where ID_Course_Offering = '39';
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
 UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
 -- insert into Schedule
@@ -513,12 +514,14 @@ insert into Schedule values(N'41',N'40',null,'LT',2,'20/10/2021','20/11/2021',N'
 insert into Schedule values(N'42',N'40',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'43',N'36',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
 insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
+
 delete from Schedule where ID_Schedule in ('1a','1b','1c');
 
 update Schedule set Id_Profeesor = null where ID_Schedule = '42';
 update Schedule set Id_Profeesor = null where ID_Schedule = '1';
 
 select * from Schedule;
+delete from Schedule where ID_Schedule = '44';
 -- insert into Student_Schedule
 -- 
 --
