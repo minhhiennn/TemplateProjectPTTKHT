@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import httt.DoAnHTTT.model.Faculty;
 import httt.DoAnHTTT.model.Semester;
@@ -37,7 +39,7 @@ public class SemesterDAO implements IDAO<Semester> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				if (pstmt != null) {
 					pstmt.close();
@@ -91,7 +93,7 @@ public class SemesterDAO implements IDAO<Semester> {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				if (pstmt != null) {
 					pstmt.close();
@@ -105,14 +107,15 @@ public class SemesterDAO implements IDAO<Semester> {
 		}
 		return ID_Semester;
 	}
-    // Lấy ID_Semester bằng get top 1;
+
+	// Lấy ID_Semester bằng get top 1;
 	public String getID_SemesterByGetTop1(String id_User) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String ID_Semester = null;
 		try {
-			pstmt = conn
-					.prepareStatement("select TOP 1 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+			pstmt = conn.prepareStatement(
+					"select TOP 1 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
 			pstmt.setString(1, id_User);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -120,7 +123,7 @@ public class SemesterDAO implements IDAO<Semester> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				if (pstmt != null) {
 					pstmt.close();
@@ -134,13 +137,15 @@ public class SemesterDAO implements IDAO<Semester> {
 		}
 		return ID_Semester;
 	}
+
 	// Lấy Semester bằng years
-	public ArrayList<Semester> getSemesterByTop3(String id_User){
+	public ArrayList<Semester> getSemesterByTop3(String id_User) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Semester> list = new ArrayList<Semester>();
 		try {
-			pstmt = conn.prepareStatement("select TOP 3 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
+			pstmt = conn.prepareStatement(
+					"select TOP 3 st.ID_Semester from Student_ScheduleR st where st.ID_Student = ? group by st.ID_Semester order by st.ID_Semester desc");
 			pstmt.setString(1, id_User);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -163,6 +168,41 @@ public class SemesterDAO implements IDAO<Semester> {
 			}
 		}
 		return list;
+	}
+
+	public Map<String, ArrayList<String>> getTableMap(String tableName) {
+		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		
+		switch (tableName) {
+		case "schedule":
+			ScheduleDAO scheduleDAO = new ScheduleDAO();
+			map = scheduleDAO.getAllSchedule();
+			break;
+		case "course":
+			CourseDAO courseDAO = new CourseDAO();
+			map = courseDAO.getAllCourse();
+			break;
+		case "course_offering":
+			Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+			map = course_OfferingDAO.getAllCourseOffering();
+			break;
+		case "student":
+			StudentDAO studentDAO = new StudentDAO();
+			map = studentDAO.getAllStudent();
+			break;
+		case "professor":
+			ProfessorDAO professorDAO = new ProfessorDAO();
+			map = professorDAO.getAllProfessor();
+			System.out.println(map.get(map.keySet().toArray()[0]).size());
+			break;
+		default:
+			ScheduleDAO scheduleDAO1 = new ScheduleDAO();
+			map = scheduleDAO1.getAllSchedule();
+			break;
+			
+		}
+		
+		return map;
 	}
 
 	public static void main(String[] args) throws InterruptedException {

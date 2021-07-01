@@ -48,6 +48,7 @@ public class UserServlet extends HttpServlet {
 		} else if (id_UserKind.equals("pr")) {
 			response.sendRedirect("/DoAnHTTT/admin/index");
 		} else {
+			
 			response.sendRedirect(referer);
 		}
 	}

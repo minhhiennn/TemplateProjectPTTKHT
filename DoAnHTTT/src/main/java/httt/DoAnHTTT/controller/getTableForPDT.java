@@ -1,14 +1,20 @@
 package httt.DoAnHTTT.controller;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 
+=======
+
+import javax.mail.Session;
+>>>>>>> a7365d24b3b656fba836cddbe0282d1bdb5dd3c8
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import httt.DoAnHTTT.database.ScheduleDAO;
 
@@ -30,14 +36,17 @@ public class getTableForPDT extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ScheduleDAO scheduleDAO = new ScheduleDAO();
-	    HashMap<String,ArrayList<String>> hashMap = scheduleDAO.getAllSchedule();
-	    request.setAttribute("hashMap", hashMap);
-	    for (String string : hashMap.keySet()) {
-			 request.setAttribute("Itemlength", hashMap.get(string));
-			 break;
+		HttpSession httpSession = request.getSession();
+		String table = request.getParameter("table");
+		String action = request.getParameter("action");
+		if(action.equals("delete")) {
+			
+		}else {
+			httpSession.setAttribute("table", table);
+			String referer = request.getHeader("Referer");
+			response.sendRedirect(referer);
 		}
-	    request.getRequestDispatcher("/pdt/table").forward(request, response);
+		
 	}
 
 	/**
