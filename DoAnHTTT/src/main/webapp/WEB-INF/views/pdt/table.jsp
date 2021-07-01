@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Begin Page Content -->
+<jsp:useBean id="semesterDao" scope="request"
+	class="httt.DoAnHTTT.database.SemesterDAO" />
+
+<c:set var="tableName" value="${sessionScope['table']}"></c:set>
+<c:set var="tableMap" value="${semesterDao.getTableMap(tableName)}"></c:set>
 <div class="container-fluid">
 
 	<!-- Page Heading -->
@@ -11,12 +17,15 @@
 	<!-- Data Example -->
 	<div class="card shadow mb-4">
 		<div>
-			<select class="form-select" aria-label="Default select example">
-				<option value="schedule">Schedule</option>
-				<option value="course">Course</option>
-				<option value="course_offering">Course_Offering</option>
-				<option value="student">Student</option>
-				<option value="professor">Professor</option>
+			<select class="form-select" aria-label="Default select example"
+				onchange="location = this.value;">
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=schedule">Schedule</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=course">Course</option>
+				<option
+					value="/DoAnHTTT/getTableForPDT?action=table&table=course_offering">Course_Offering</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=student">Student</option>
+				<option
+					value="/DoAnHTTT/getTableForPDT?action=table&table=professor">Professor</option>
 			</select>
 		</div>
 		<div
@@ -55,103 +64,46 @@
 					cellspacing="0">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Họ tên</th>
-							<th>Quyền hạn</th>
-							<th>Xóa</th>
-							<th>Sửa</th>
+							<c:forEach var="entry" items="${tableMap}">
+								<th>${entry.key}</th>
+							</c:forEach>
+							<td>
+								<button type="button">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</td>
+
+							<th>
+								<button type="button">
+									<i class="fas fa-tools"></i>
+								</button>
+							</th>
 						</tr>
 					</thead>
-
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>PhungDepTrai</td>
-							<td>Quản trị danh mục</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>PhungVipPro</td>
-							<td>Quản trị giao diện</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>PhungCún</td>
-							<td>Quản trị thông tin</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>PhungOs</td>
-							<td>Seo website</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>Phung</td>
-							<td>Quản trị danh mục</td>
-							<td>
-								<button type="button">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-
-							<th>
-								<button type="button">
-									<i class="fas fa-tools"></i>
-								</button>
-							</th>
-
-						</tr>
+						<c:forEach var="i" begin="0"
+							end="${tableMap.get(tableMap.keySet().toArray()[0]).size()-1}">
+							<tr>
+								<c:set var="count" value="0"></c:set>
+								<c:forEach var="as" items="${tableMap}">
+									<td>${as.value.get(i)}</td>
+									<c:set var="count" value="${count + 1}"/>
+									<c:if test="${count == tableMap.size()}">
+										<td>
+											<button type="button"
+											 onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=delete&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[1]).get(i)}'">
+												<i class="fas fa-trash-alt"></i>
+											</button>
+										</td>
+										<th>
+											<button type="button" onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=update&table='">
+												<i class="fas fa-tools"></i>
+											</button>
+										</th>
+									</c:if>
+								</c:forEach>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
