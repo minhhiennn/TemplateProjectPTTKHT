@@ -252,6 +252,10 @@ public class SemesterDAO implements IDAO<Semester> {
 					if (!professor.getUser().getiD_User().equals(schedule.getProfessor().getUser().getiD_User())) {
 						map.get("Id_Profeesor").add(professor.getUser().getiD_User());
 					}
+				} else if (schedule.getProfessor() == null) {
+					if (!professor.getUser().getiD_User().equals(null)) {
+						map.get("Id_Profeesor").add(professor.getUser().getiD_User());
+					}
 				}
 			}
 			map.get("Theoretical").add(schedule.getTheoretical());
