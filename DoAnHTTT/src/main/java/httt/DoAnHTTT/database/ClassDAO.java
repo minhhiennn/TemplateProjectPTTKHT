@@ -20,7 +20,37 @@ public class ClassDAO implements IDAO<Class> {
 	public ClassDAO() {
 		conn = Connect.getConnection();
 	}
+	public List<Class> getAll() {
+		List<Class> class1s = new ArrayList<Class>();
+		try {
+			pstmt = conn.prepareStatement("select * from Class ");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String Class_code = rs.getString("Class_code");
+				int max_Size = rs.getInt("Max_Size");
+				int current_Size = rs.getInt("Current_Size");
+				FacultyDAO dao = new FacultyDAO();
+				Faculty faculty = dao.getByKey(rs.getString("ID_Faculty"));
+				class1s.add(new Class(Class_code, faculty, max_Size, current_Size));
 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return class1s;
+	}
 	@Override
 	public Class getByKey(String key) {
 		Class class1 = null;
@@ -220,5 +250,7 @@ public class ClassDAO implements IDAO<Class> {
 			e.printStackTrace();
 		}
 	}
+
+	
 
 }

@@ -24,7 +24,42 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 	public Course_OfferingDAO() {
 		conn = Connect.getConnection();
 	}
+	public List<Course_Offering> getAll() {
+		List<Course_Offering> list = new ArrayList<Course_Offering>();
+		try {
+			pstmt = conn.prepareStatement("select * from Course_Offering");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course_Offering = rs.getString("ID_Course_Offering");
+				String ID_Course = rs.getString("ID_Course");
+				CourseDAO courseDAO = new CourseDAO();
+				Course course = courseDAO.getByKey(ID_Course);
+				String Class_code = rs.getString("Class_code");
+				ClassDAO classDAO = new ClassDAO();
+				httt.DoAnHTTT.model.Class class1 = classDAO.getByKey(Class_code);
+				int Max_Size = rs.getInt("Max_Size");
+				int Current_Size = rs.getInt("Current_Size");
+				list.add(new Course_Offering(ID_Course_Offering, course, class1, Max_Size, Current_Size));
+				
 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	@Override
 	public Course_Offering getByKey(String key) {
 		Course_Offering course_Offering = null;
@@ -222,4 +257,6 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
 		System.out.println(course_OfferingDAO.getIDCourseOfferingByIdCourse("214274"));
 	}
+
+	
 }

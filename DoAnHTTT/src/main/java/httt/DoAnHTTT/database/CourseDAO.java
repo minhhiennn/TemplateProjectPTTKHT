@@ -24,6 +24,40 @@ public class CourseDAO implements IDAO<Course> {
 		conn = Connect.getConnection();
 	}
 
+	public List<Course> getAll() {
+		List<Course> courses = new ArrayList<Course>();
+		try {
+			pstmt = conn.prepareStatement("select * from Course where ID_Course = ?");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course = rs.getString("ID_Course");
+				String ID_Faculty = rs.getString("ID_Faculty");
+				FacultyDAO dao = new FacultyDAO();
+				Faculty faculty = dao.getByKey(ID_Faculty);
+				String Name_Course = rs.getString("Name_Course");
+				int Course_certificate = rs.getInt("Course_certificate");
+				int years = rs.getInt("years");
+				int numberS = rs.getInt("numberS");
+				courses.add( new Course(ID_Course, Name_Course, faculty, Course_certificate, years, numberS));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return courses;
+	}
 	@Override
 	public Course getByKey(String key) {
 		Course course = null;
@@ -177,4 +211,6 @@ public class CourseDAO implements IDAO<Course> {
 			System.out.println(hashMap.get(string).get(1));
 		}
 	}
+
+	
 }

@@ -48,6 +48,43 @@ public class ProfessorDAO implements IDAO<Professor> {
 		return result + 1;
 	}
 
+	public List<Professor> getAll() {
+		
+		List<Professor> professors = new ArrayList<Professor>();
+		try {
+			pstmt = conn.prepareStatement("select * from Professor");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Professor = rs.getString("ID_Professor");
+				UserDAO dao1 = new UserDAO();
+				User user = dao1.getByKey(ID_Professor);
+				String Professor_Name = rs.getString("Professor_Name");
+				String ID_Faculty = rs.getString("ID_Faculty");
+				FacultyDAO dao2 = new FacultyDAO();
+				Faculty faculty = dao2.getByKey(ID_Faculty);
+				Date create_date = new Date(rs.getDate("Create_date").getTime());
+				String Degree = rs.getString("Degree");
+				professors.add(new Professor(user, Professor_Name, faculty, create_date, Degree));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return professors;
+	}
+	
 	@Override
 	public Professor getByKey(String key) {
 		Professor professor = null;
@@ -190,4 +227,6 @@ public class ProfessorDAO implements IDAO<Professor> {
 		ProfessorDAO professorDAO = new ProfessorDAO();
 		System.out.println(professorDAO.selectTop1ID_Professor());
 	}
+
+	
 }

@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import httt.DoAnHTTT.model.Class;
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Course_Offering;
 import httt.DoAnHTTT.model.Faculty;

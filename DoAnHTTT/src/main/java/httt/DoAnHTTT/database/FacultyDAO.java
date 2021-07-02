@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,36 @@ public class FacultyDAO implements IDAO<Faculty>{
 		return null;
 	}
 
+	public List<Faculty> getAll() {
+		List<Faculty> facultys = new ArrayList<Faculty>();
+		try {
+			pstmt = conn.prepareStatement("select * from Faculty");
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Faculty = rs.getString("ID_Faculty");
+				String Name_Faculty = rs.getString("Name_Faculty");
+				int ID_FacultyN = rs.getInt("ID_FacultyN");
+				facultys.add(new Faculty(ID_Faculty, Name_Faculty,ID_FacultyN));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return facultys;
+	}
+	
 	@Override
 	public Faculty getByKey(String key) {
 		Faculty faculty = null;
@@ -77,4 +108,6 @@ public class FacultyDAO implements IDAO<Faculty>{
 		Faculty faculty = facultyDAO.getByKey("BV");
 		System.out.println(faculty);
 	}
+
+	
 }
