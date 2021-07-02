@@ -374,6 +374,8 @@ public class SemesterDAO implements IDAO<Semester> {
 		SemesterDAO semesterDAO = new SemesterDAO();
 		HashMap<String, ArrayList<String>> hashMap = (HashMap<String, ArrayList<String>>) semesterDAO
 				.getMapForPDT("schedule", "5");
-		System.out.println(hashMap);
+		for (String string : hashMap.keySet()) {
+			System.out.println(string);
+		}
 	}
 }

@@ -18,6 +18,11 @@ public class RedirectPDT {
 		ModelAndView mav = new ModelAndView("pdt/table");
 		return mav;
 	}
+	@RequestMapping(value = "/pdt/table", method = RequestMethod.POST)
+	public ModelAndView PDTTableViewPost() {
+		ModelAndView mav = new ModelAndView("pdt/table");
+		return mav;
+	}
 	@RequestMapping(value = "/pdt/updateAndInsert", method = RequestMethod.GET)
 	public ModelAndView PDTUpdateAndInsertView() {
 		ModelAndView mav = new ModelAndView("pdt/updateAndInsert");

@@ -103,7 +103,31 @@ public class StudentDAO implements IDAO<Student> {
 
 	@Override
 	public boolean update(Student key) {
-		return false;
+		try {
+			pstmt = conn.prepareStatement("update Student where Values(?,?,?,?,?,?,?)");
+			pstmt.setString(1, key.getUser().getiD_User());
+			pstmt.setString(2, key.getStudent_Name());
+			pstmt.setString(3, key.getFaculty().getiD_Faculty());
+			pstmt.setDate(4, new java.sql.Date(key.getCreate_date().getTime()));
+			pstmt.setString(5, key.getClass1().getClass_Code());
+			pstmt.setInt(6, key.getCert_number_required());
+			pstmt.setInt(7, key.getCert_number_accumulated());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
 	}
 
 	@Override
