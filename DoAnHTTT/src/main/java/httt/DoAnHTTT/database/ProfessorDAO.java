@@ -175,6 +175,17 @@ public class ProfessorDAO implements IDAO<Professor> {
 		return hashMap;
 	}
 
+	public void insertN(String ID_Faculty, String Professor_Name, String Degree) {
+		UserDAO userDAO = new UserDAO();
+		FacultyDAO facultyDAO = new FacultyDAO();
+		String ID_Professor = String.valueOf(selectTop1ID_Professor());
+		User user = new User(ID_Professor, "pr", ID_Professor + "@st.hcmuaf.edu.vn", "123456");
+		userDAO.insert(user);
+		Faculty faculty = facultyDAO.getByKey(ID_Faculty);
+		Professor professor = new Professor(user, Professor_Name, faculty, new java.util.Date(), Degree);
+		insert(professor);
+	}
+
 	public static void main(String[] args) {
 		ProfessorDAO professorDAO = new ProfessorDAO();
 		System.out.println(professorDAO.selectTop1ID_Professor());

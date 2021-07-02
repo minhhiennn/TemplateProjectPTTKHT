@@ -61,7 +61,7 @@ select * from Faculty where ID_Faculty = 'AV';
 -- một học sinh của trường
 create table Student
 (
-	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User),
+	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User) ON DELETE CASCADE,
 	Student_Name nvarchar(50) not null,
 	-- mã khoa
 	ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
@@ -83,7 +83,7 @@ create table Student
 -- một giáo sư của trường
 create table Professor
 (
-	ID_Professor nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User),
+	ID_Professor nvarchar(50)  not null FOREIGN KEY REFERENCES USERS(ID_User) ON DELETE CASCADE,
 	Professor_Name nvarchar(50) not null,
 	-- mã khoa
 	ID_Faculty nvarchar(50) not null FOREIGN KEY REFERENCES Faculty(ID_Faculty),
@@ -143,7 +143,7 @@ Select * from Course;
 create table Course_Offering
 (
 	ID_Course_Offering nvarchar(50)  not null,
-	ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course),
+	ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course) ON DELETE CASCADE,
 	-- mã lớp (VD DH18DTA)
 	Class_code nvarchar(50) not null FOREIGN KEY REFERENCES Class(Class_code),
 	-- tinyint max value là 255 (từ 0 đến 255)
@@ -165,7 +165,7 @@ select * from Course_Offering
 create table Schedule
 (
 	ID_Schedule nvarchar(50) not null,
-	ID_Course_Offering nvarchar(50) not null FOREIGN KEY REFERENCES Course_Offering(ID_Course_Offering),	
+	ID_Course_Offering nvarchar(50) not null FOREIGN KEY REFERENCES Course_Offering(ID_Course_Offering) ON DELETE CASCADE,	
 	-- Mã giáo viên
 	-- Sửa lại ID_Professor có thể là null
 	Id_Profeesor nvarchar(50) FOREIGN KEY REFERENCES Professor(ID_Professor),
@@ -193,22 +193,22 @@ create table Schedule
 create table Student_Schedule
 (
     ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
-    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule),
-	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student),
+    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule) ON DELETE CASCADE,
+	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student) ON DELETE CASCADE,
 	Primary key (ID_Student,ID_Semester,ID_Schedule)
 )
 create table Student_ScheduleR
 (
     ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
-    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule),
-	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student),
+    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule) ON DELETE CASCADE,
+	ID_Student nvarchar(50)  not null FOREIGN KEY REFERENCES Student(ID_Student) ON DELETE CASCADE,
 	Primary key (ID_Student,ID_Semester,ID_Schedule)
 )
 create table Professor_Schedule
 (
     ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
-    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule),
-	ID_Professor nvarchar(50)  not null FOREIGN KEY REFERENCES Professor(ID_Professor),
+    ID_Schedule nvarchar(50) not null FOREIGN KEY REFERENCES Schedule(ID_Schedule) ON DELETE CASCADE,
+	ID_Professor nvarchar(50)  not null FOREIGN KEY REFERENCES Professor(ID_Professor) ON DELETE CASCADE,
 	Primary key (ID_Professor,ID_Semester,ID_Schedule)
 )
 select * from Professor_Schedule;
@@ -226,8 +226,8 @@ create table Sub_Pass
 (
     -- Học kỳ
     ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
-    ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course),
-	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
+    ID_Course nvarchar(50) not null FOREIGN KEY REFERENCES Course(ID_Course) ON DELETE CASCADE,
+	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student) ON DELETE CASCADE,
 	-- Điểm	
 	Score float not null check (Score <= 10 and Score >= 0),
 	-- Điểm hệ 4
@@ -250,7 +250,7 @@ create table semester_Result
 (
 	ID_Semester nvarchar(50) not null FOREIGN KEY REFERENCES Semester(ID_Semester),
 	--
-	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student),
+	ID_Student nvarchar(50) not null FOREIGN KEY REFERENCES Student(ID_Student) ON DELETE CASCADE,
 	--diem trung binh trong ki nay 
 	gradeAv float,
 	--diem trung binh he 4 trong ki nay
@@ -408,7 +408,6 @@ insert into Course Values(N'200107','DT',N'Tư tưởng Hồ Chí Minh',2,3,1)
 insert into Course Values(N'214252','DT',N'Lập trình mạng',2,3,1)
 insert into Course Values(N'214370','DT',N'Nhập môn CN phần mềm',2,3,2)
 insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',2,3,4)
-
 insert into Course Values(N'214282','DT',N'Mạng máy tính nâng cao',2,3,2)
 insert into Course Values(N'214461','DT',N'Phân tích và thiết kế HTTT',2,3,2)
 insert into Course Values(N'214492','DT',N'Máy học',2,3,2)
@@ -760,7 +759,7 @@ go
 select * from TimeTablePr('224');
 go
 --Phương thức check những môn mà giáo viên có thể đk ký
-alter function checkSubjectForProfessor(@ID_Professor nvarchar(50))
+create function checkSubjectForProfessor(@ID_Professor nvarchar(50))
 returns table 
 as
 return

@@ -56,7 +56,6 @@
 				style="padding: 8px 15px; border: 1px solid black; background-color: #fff;">Print</button>
 		</div>
 		<div class="card-body">
-
 			<div class="table-responsive">
 				<table class="table table-bordered" id="dataTable" width="100%"
 					cellspacing="0">

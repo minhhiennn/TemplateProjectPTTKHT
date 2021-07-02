@@ -7,11 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import httt.DoAnHTTT.model.Course;
+import httt.DoAnHTTT.model.Course_Offering;
 import httt.DoAnHTTT.model.Faculty;
+import httt.DoAnHTTT.model.Professor;
+import httt.DoAnHTTT.model.Schedule;
 import httt.DoAnHTTT.model.Semester;
+import httt.DoAnHTTT.model.Student;
 
 public class SemesterDAO implements IDAO<Semester> {
 	private Connection conn = null;
@@ -204,7 +210,153 @@ public class SemesterDAO implements IDAO<Semester> {
 		
 		return map;
 	}
+	public Map<String, ArrayList<String>> getMapForPDT(String tableName, String key) {
+		Map<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
+		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+		ProfessorDAO professorDAO = new ProfessorDAO();
+		CourseDAO courseDAO = new CourseDAO();
+		FacultyDAO facultyDAO = new FacultyDAO();
+		StudentDAO studentDAO = new StudentDAO();
+		ScheduleDAO scheduleDAO = new ScheduleDAO();
+		ClassDAO classDAO = new ClassDAO();
+		switch (tableName) {
+		case "schedule":
+			Schedule schedule = scheduleDAO.getByKey(key);
+			map.put("ID_Schedule", new ArrayList<String>());
+			map.put("ID_Course_Offering", new ArrayList<String>());
+			map.put("Id_Profeesor", new ArrayList<String>());
+			map.put("Theoretical", new ArrayList<String>());
+			map.put("Teaching_Day", new ArrayList<String>());
+			map.put("Start_Day", new ArrayList<String>());
+			map.put("End_Day", new ArrayList<String>());
+			map.put("Study_place", new ArrayList<String>());
+			map.put("Start_Slot", new ArrayList<String>());
+			map.put("End_Slot", new ArrayList<String>());
+			map.get("ID_Schedule").add(schedule.getiD_Schedule());
+			map.get("ID_Course_Offering").add(schedule.getCourse_Offering().getiD_Course_Offering());
+			for (Course_Offering course_Offering : course_OfferingDAO.getAll()) {
+				if (!course_Offering.getiD_Course_Offering()
+						.equals(schedule.getCourse_Offering().getiD_Course_Offering())) {
+					map.get("ID_Course_Offering").add(course_Offering.getiD_Course_Offering());
+				}
+			}
+			map.get("Id_Profeesor").add(schedule.getProfessor().getUser().getiD_User());
+			for (Professor professor : professorDAO.getAll()) {
+				if (!professor.getUser().getiD_User().equals(schedule.getProfessor().getUser().getiD_User())) {
+					map.get("Id_Profeesor").add(professor.getUser().getiD_User());
+				}
+			}
+			map.get("Theoretical").add(schedule.getTheoretical());
+			map.get("Teaching_Day").add(schedule.getTeaching_Day() + "");
+			map.get("Start_Day").add(schedule.getStart_Day() + "");
+			map.get("End_Day").add(schedule.getEnd_Day() + "");
+			map.get("Study_place").add(schedule.getStudy_place());
+			map.get("Start_Slot").add(schedule.getStart_Slot() + "");
+			map.get("End_Slot").add(schedule.getEnd_Slot() + "");
+			break;
+		case "course":
+			map.put("ID_Course", new ArrayList<String>());
+			map.put("ID_Faculty", new ArrayList<String>());
+			map.put("Name_Course", new ArrayList<String>());
+			map.put("Course_certificate", new ArrayList<String>());
+			map.put("years", new ArrayList<String>());
+			map.put("numberS", new ArrayList<String>());
 
+			Course course = courseDAO.getByKey(key);
+			map.get("ID_Course").add(course.getiD_Course());
+			map.get("ID_Faculty").add(course.getFaculty().getiD_Faculty());
+			for (Faculty faculty : facultyDAO.getAll()) {
+				if (!faculty.getiD_Faculty().equals(course.getFaculty().getiD_Faculty())) {
+					map.get("ID_Faculty").add(faculty.getiD_Faculty());
+				}
+			}
+			map.get("Name_Course").add(course.getName_Course());
+			map.get("Course_certificate").add(course.getCourse_certificate() + "");
+			map.get("years").add(course.getYears() + "");
+			map.get("numberS").add(course.getNumberS() + "");
+			break;
+		case "course_offering":
+			map.put("ID_Course_Offering", new ArrayList<String>());
+			map.put("ID_Course", new ArrayList<String>());
+			map.put("Class_code", new ArrayList<String>());
+			map.put("Max_Size", new ArrayList<String>());
+			map.put("Current_Size", new ArrayList<String>());
+
+			Course_Offering course_Offering = course_OfferingDAO.getByKey(key);
+
+			map.get("ID_Course_Offering").add(course_Offering.getiD_Course_Offering());
+			map.get("ID_Course").add(course_Offering.getCourse().getiD_Course());
+			for (Course course1 : courseDAO.getAll()) {
+				if (!course1.getiD_Course().equals(course_Offering.getCourse().getiD_Course())) {
+					map.get("ID_Course").add(course1.getiD_Course() + "");
+				}
+			}
+			map.get("Class_code").add(course_Offering.getClass1().getClass_Code() + "");
+			for (httt.DoAnHTTT.model.Class class1 : classDAO.getAll()) {
+				if (!class1.getClass_Code().equals(course_Offering.getClass1().getClass_Code())) {
+					map.get("Class_code").add(class1.getClass_Code() + "");
+				}
+			}
+			map.get("Max_Size").add(course_Offering.getMax_Size() + "");
+			map.get("Current_Size").add(course_Offering.getCurrent_Size() + "");
+
+			break;
+		case "student":
+
+			map.put("ID_Student", new ArrayList<String>());
+			map.put("Student_Name", new ArrayList<String>());
+			map.put("ID_Faculty", new ArrayList<String>());
+			map.put("Create_date", new ArrayList<String>());
+			map.put("Class_code", new ArrayList<String>());
+			map.put("Cert_number_required", new ArrayList<String>());
+			map.put("Cert_number_accumulated", new ArrayList<String>());
+
+			Student student = studentDAO.getByKey(key);
+
+			map.get("ID_Student").add(student.getUser().getiD_User());
+			map.get("Student_Name").add(student.getStudent_Name() + "");
+			map.get("ID_Faculty").add(student.getFaculty().getiD_Faculty() + "");
+			for (Faculty faculty : facultyDAO.getAll()) {
+				if (!student.getFaculty().getiD_Faculty().equals(faculty.getiD_Faculty())) {
+					map.get("ID_Faculty").add(faculty.getiD_Faculty() + "");
+				}
+			}
+			map.get("Create_date").add(student.getCreate_date() + "");
+			map.get("Class_code").add(student.getClass1().getClass_Code());
+			for (Class class1 : classDAO.getAll()) {
+				if (!student.getClass1().getClass_Code().equals(class1.getClass_Code())) {
+					map.get("Class_code").add(class1.getClass_Code());
+				}
+			}
+			map.get("Cert_number_required").add(student.getCert_number_required() + "");
+			map.get("Cert_number_accumulated").add(student.getCert_number_accumulated() + "");
+			break;
+		case "professor":
+			map.put("ID_Professor", new ArrayList<>());
+			map.put("Professor_Name", new ArrayList<>());
+			map.put("ID_Faculty", new ArrayList<>());
+			map.put("Create_date", new ArrayList<>());
+			map.put("Degree", new ArrayList<>());
+
+			Professor professor = professorDAO.getByKey(key);
+			map.get("ID_Professor").add(professor.getUser().getiD_User());
+			map.get("Professor_Name").add(professor.getProfessor_Name() + "");
+			map.get("ID_Faculty").add(professor.getFaculty().getiD_Faculty() + "");
+			for (Faculty faculty : facultyDAO.getAll()) {
+				if (!professor.getFaculty().getiD_Faculty().equals(faculty.getiD_Faculty())) {
+					map.get("ID_Faculty").add(faculty.getiD_Faculty() + "");
+				}
+			}
+			map.get("Create_date").add(professor.getCreate_date() + "");
+			map.get("Degree").add(professor.getDegree());
+			break;
+		default:
+			break;
+
+		}
+
+		return map;
+	}
 	public static void main(String[] args) throws InterruptedException {
 		SemesterDAO semesterDAO = new SemesterDAO();
 	}
