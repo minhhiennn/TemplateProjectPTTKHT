@@ -417,7 +417,7 @@ insert into Course Values(N'214274','DT',N'Lập trình trên TB di động',2,3
 
 --
 select Course_certificate from Course where ID_Course = '213603';
-delete from Course where ID_Course = '214274';
+delete from Course where ID_Course = '213603';
 --
 -- insert into Course_Offering
 insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)

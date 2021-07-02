@@ -225,7 +225,8 @@ public class ProfessorDAO implements IDAO<Professor> {
 
 	public static void main(String[] args) {
 		ProfessorDAO professorDAO = new ProfessorDAO();
-		System.out.println(professorDAO.selectTop1ID_Professor());
+		HashMap<String, ArrayList<String>> hashMap = professorDAO.getAllProfessor();
+		System.out.println(hashMap.get(hashMap.keySet().toArray()[0]));
 	}
 
 	

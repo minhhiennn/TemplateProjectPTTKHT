@@ -136,12 +136,30 @@ public class UserDAO implements IDAO<User> {
 
 	@Override
 	public boolean delete(User key) {
-		// TODO Auto-generated method stub
+		String ID_User = key.getiD_User();
+		try {
+			pstmt = conn.prepareStatement("delete from USERS where ID_User = ?");
+			pstmt.setString(1, ID_User);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	public static void main(String[] args) {
-       UserDAO userDAO = new UserDAO();
-       User user = userDAO.getByKey("18130005");
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getByKey("18130005");
 	}
 }

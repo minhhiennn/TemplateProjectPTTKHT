@@ -14,9 +14,11 @@ import httt.DoAnHTTT.database.Course_OfferingDAO;
 import httt.DoAnHTTT.database.ProfessorDAO;
 import httt.DoAnHTTT.database.ScheduleDAO;
 import httt.DoAnHTTT.database.StudentDAO;
+import httt.DoAnHTTT.database.UserDAO;
 import httt.DoAnHTTT.model.Course;
 import httt.DoAnHTTT.model.Course_Offering;
 import httt.DoAnHTTT.model.Schedule;
+import httt.DoAnHTTT.model.User;
 
 /**
  * Servlet implementation class getTableForPDT
@@ -43,39 +45,41 @@ public class getTableForPDT extends HttpServlet {
 		String action = request.getParameter("action");
 		if (action.equals("delete")) {
 			String tableName = request.getParameter("table");
-			System.out.println(tableName);
-		    switch (tableName) {
-		    case "schedule":
-		    	ScheduleDAO scheduleDAO = new ScheduleDAO();
+			switch (tableName) {
+			case "schedule":
+				ScheduleDAO scheduleDAO = new ScheduleDAO();
 				String id_Schedule = request.getParameter("id");
-				System.out.println(id_Schedule);
 				Schedule schedule = scheduleDAO.getByKey(id_Schedule);
 				scheduleDAO.delete(schedule);
 				response.sendRedirect(referer);
 				break;
 			case "course":
 				CourseDAO courseDAO = new CourseDAO();
-				Course_OfferingDAO course_OfferingDAO2 = new Course_OfferingDAO();
 				String id_Course = request.getParameter("id");
-				course_OfferingDAO2.delete2(id_Course);
 				Course course = courseDAO.getByKey(id_Course);
 				courseDAO.delete(course);
 				response.sendRedirect(referer);
 				break;
 			case "course_offering":
 				Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-				ScheduleDAO scheduleDAO2 = new ScheduleDAO();
 				String id_Course_Offering = request.getParameter("id");
-				scheduleDAO2.delete2(id_Course_Offering);
 				Course_Offering course_Offering = course_OfferingDAO.getByKey(id_Course_Offering);
 				course_OfferingDAO.delete(course_Offering);
 				response.sendRedirect(referer);
 				break;
 			case "student":
-				StudentDAO studentDAO = new StudentDAO();
+				UserDAO userDAO = new UserDAO();
+				String id_Student = request.getParameter("id");
+				User user = new StudentDAO().getByKey(id_Student).getUser();
+				userDAO.delete(user);
+				response.sendRedirect(referer);
 				break;
 			case "professor":
-				ProfessorDAO professorDAO = new ProfessorDAO();
+				UserDAO userDAO2 = new UserDAO();
+				String id_Professor = request.getParameter("id");
+				User user2 = new ProfessorDAO().getByKey(id_Professor).getUser();
+				userDAO2.delete(user2);
+				response.sendRedirect(referer);
 				break;
 			default:
 				ScheduleDAO scheduleDAO3 = new ScheduleDAO();
@@ -83,8 +87,32 @@ public class getTableForPDT extends HttpServlet {
 				Schedule schedule2 = scheduleDAO3.getByKey(id_Schedule2);
 				scheduleDAO3.delete(schedule2);
 				response.sendRedirect(referer);
-				break;	
+				break;
 			}
+		} else if (action.equals("update")) {
+			String table = request.getParameter("table");
+			String id = request.getParameter("id");
+			String flag = "update";
+			if (table == null || table.equals("")) {
+				request.setAttribute("table", "schedule");
+			} else {
+				request.setAttribute("table", table);
+			}
+			request.setAttribute("id", id);
+			request.setAttribute("flag", flag);
+			request.getRequestDispatcher("/pdt/updateAndInsert").forward(request, response);
+		} else if (action.equals("insert")) {
+			String table = request.getParameter("table");
+			String id = request.getParameter("id");
+			String flag = "insert";
+			if (table == null || table.equals("")) {
+				request.setAttribute("table", "schedule");
+			} else {
+				request.setAttribute("table", table);
+			}
+			request.setAttribute("id", id);
+			request.setAttribute("flag", flag);
+			request.getRequestDispatcher("/pdt/updateAndInsert").forward(request, response);
 		} else {
 			String table = request.getParameter("table");
 			httpSession.setAttribute("table", table);

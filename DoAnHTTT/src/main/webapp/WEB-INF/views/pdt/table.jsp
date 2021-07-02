@@ -17,23 +17,27 @@
 		<div>
 			<select class="form-select" aria-label="Default select example"
 				onchange="location = this.value;">
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=schedule" <c:if test="${tableName.equals('schedule')}"> selected </c:if>>Schedule</option>
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=course" <c:if test="${tableName.equals('course')}"> selected </c:if>>Course</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=schedule"
+					<c:if test="${tableName.equals('schedule')}"> selected </c:if>>Schedule</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=course"
+					<c:if test="${tableName.equals('course')}"> selected </c:if>>Course</option>
 				<option
-					value="/DoAnHTTT/getTableForPDT?action=table&table=course_offering" <c:if test="${tableName.equals('course_offering')}"> selected </c:if>>Course_Offering</option>
-				<option value="/DoAnHTTT/getTableForPDT?action=table&table=student" <c:if test="${tableName.equals('student')}"> selected </c:if>>Student</option>
+					value="/DoAnHTTT/getTableForPDT?action=table&table=course_offering"
+					<c:if test="${tableName.equals('course_offering')}"> selected </c:if>>Course_Offering</option>
+				<option value="/DoAnHTTT/getTableForPDT?action=table&table=student"
+					<c:if test="${tableName.equals('student')}"> selected </c:if>>Student</option>
 				<option
-					value="/DoAnHTTT/getTableForPDT?action=table&table=professor" <c:if test="${tableName.equals('professor')}"> selected </c:if>>Professor</option>
+					value="/DoAnHTTT/getTableForPDT?action=table&table=professor"
+					<c:if test="${tableName.equals('professor')}"> selected </c:if>>Professor</option>
 			</select>
 		</div>
 		<div
 			style="display: flex; justify-content: flex-end; text-align: right; padding: 10px 19px">
-			<a href="themmoiuser.html">
-				<button
-					style="border: none; border-radius: 6px; padding: 8px; margin-right: 15px; background-color: #4e73df;">
-					<i class="fas fa-plus" style="margin-right: 3px"></i> <span>Thêm</span>
-				</button>
-			</a>
+			<button
+				onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=insert&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[0]).get(0)}'"
+				style="border: none; border-radius: 6px; padding: 8px; margin-right: 15px; background-color: #4e73df;">
+				<i class="fas fa-plus" style="margin-right: 3px"></i> <span>Thêm</span>
+			</button>
 			<button
 				style="border: none; border-radius: 6px; padding: 8px; margin-right: 15px; background-color: #e74a3b;">
 				<i class="fas fa-trash" style="margin-right: 5px"></i> <span>Xóa
@@ -80,13 +84,13 @@
 									<c:if test="${count == tableMap.size()}">
 										<td>
 											<button type="button"
-												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=delete&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[1]).get(i)}'">
+												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=delete&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[0]).get(i)}'">
 												<i class="fas fa-trash-alt"></i>
 											</button>
 										</td>
 										<th>
 											<button type="button"
-												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=update&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[1]).get(i)}'">
+												onclick="window.location.href='/DoAnHTTT/getTableForPDT?action=update&table=${tableName}&id=${tableMap.get(tableMap.keySet().toArray()[0]).get(i)}'">
 												<i class="fas fa-tools"></i>
 											</button>
 										</th>

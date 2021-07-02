@@ -179,7 +179,7 @@ public class SemesterDAO implements IDAO<Semester> {
 
 	public Map<String, ArrayList<String>> getTableMap(String tableName) {
 		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		
+
 		switch (tableName) {
 		case "schedule":
 			ScheduleDAO scheduleDAO = new ScheduleDAO();
@@ -206,11 +206,12 @@ public class SemesterDAO implements IDAO<Semester> {
 			ScheduleDAO scheduleDAO1 = new ScheduleDAO();
 			map = scheduleDAO1.getAllSchedule();
 			break;
-			
+
 		}
-		
+
 		return map;
 	}
+
 	public Map<String, ArrayList<String>> getMapForPDT(String tableName, String key) {
 		Map<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
 		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
@@ -241,10 +242,16 @@ public class SemesterDAO implements IDAO<Semester> {
 					map.get("ID_Course_Offering").add(course_Offering.getiD_Course_Offering());
 				}
 			}
-			map.get("Id_Profeesor").add(schedule.getProfessor().getUser().getiD_User());
+			if (schedule.getProfessor() == null) {
+				map.get("Id_Profeesor").add(null);
+			} else {
+				map.get("Id_Profeesor").add(schedule.getProfessor().getUser().getiD_User());
+			}
 			for (Professor professor : professorDAO.getAll()) {
-				if (!professor.getUser().getiD_User().equals(schedule.getProfessor().getUser().getiD_User())) {
-					map.get("Id_Profeesor").add(professor.getUser().getiD_User());
+				if (schedule.getProfessor() != null) {
+					if (!professor.getUser().getiD_User().equals(schedule.getProfessor().getUser().getiD_User())) {
+						map.get("Id_Profeesor").add(professor.getUser().getiD_User());
+					}
 				}
 			}
 			map.get("Theoretical").add(schedule.getTheoretical());
@@ -358,7 +365,11 @@ public class SemesterDAO implements IDAO<Semester> {
 
 		return map;
 	}
+
 	public static void main(String[] args) throws InterruptedException {
 		SemesterDAO semesterDAO = new SemesterDAO();
+		HashMap<String, ArrayList<String>> hashMap = (HashMap<String, ArrayList<String>>) semesterDAO
+				.getMapForPDT("schedule", "5");
+		System.out.println(hashMap);
 	}
 }

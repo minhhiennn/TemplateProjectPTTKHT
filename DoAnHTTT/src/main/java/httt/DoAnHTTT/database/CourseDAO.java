@@ -27,8 +27,7 @@ public class CourseDAO implements IDAO<Course> {
 	public List<Course> getAll() {
 		List<Course> courses = new ArrayList<Course>();
 		try {
-			pstmt = conn.prepareStatement("select * from Course where ID_Course = ?");
-			
+			pstmt = conn.prepareStatement("select * from Course");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String ID_Course = rs.getString("ID_Course");
