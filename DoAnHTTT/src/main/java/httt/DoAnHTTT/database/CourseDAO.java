@@ -38,7 +38,7 @@ public class CourseDAO implements IDAO<Course> {
 				int Course_certificate = rs.getInt("Course_certificate");
 				int years = rs.getInt("years");
 				int numberS = rs.getInt("numberS");
-				courses.add( new Course(ID_Course, Name_Course, faculty, Course_certificate, years, numberS));
+				courses.add(new Course(ID_Course, Name_Course, faculty, Course_certificate, years, numberS));
 
 			}
 		} catch (SQLException e) {
@@ -57,6 +57,7 @@ public class CourseDAO implements IDAO<Course> {
 		}
 		return courses;
 	}
+
 	@Override
 	public Course getByKey(String key) {
 		Course course = null;
@@ -203,13 +204,64 @@ public class CourseDAO implements IDAO<Course> {
 		return hashMap;
 	}
 
-	public static void main(String[] args) {
-		CourseDAO courseDAO = new CourseDAO();
-		HashMap<String, ArrayList<String>> hashMap = courseDAO.getAllCourse();
-		for (String string : hashMap.keySet()) {
-			System.out.println(hashMap.get(string).get(1));
+	// Lấy tên Course bằng ID_Course_Offering
+	public String getNameCourse(String ID_Course_Offering) {
+		String NameCourse = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select c.Name_Course from Course_Offering co join Course c on co.ID_Course = c.ID_Course where co.ID_Course_Offering = ?");
+			pstmt.setString(1, ID_Course_Offering);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				NameCourse = rs.getString("Name_Course");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return NameCourse;
 	}
 
-	
+	// Lấy Course_Name By Course_ID
+	public String getCourseNameByIDCourse(String ID_Course) {
+		String Course_Name = null;
+		try {
+			pstmt = conn.prepareStatement("select c.Name_Course from Course c where ID_Course = ?;");
+			pstmt.setString(1, ID_Course);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Course_Name = rs.getString("Name_Course");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return Course_Name;
+	}
+
+	public static void main(String[] args) {
+		CourseDAO courseDAO = new CourseDAO();
+		System.out.println(courseDAO.getCourseNameByIDCourse("213603"));
+	}
+
 }

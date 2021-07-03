@@ -17,5 +17,6 @@
 	<decorator name="pdt" page="MasterPageForPDT.jsp">
 		<pattern>/pdt/*</pattern>
 		<pattern>/getTableForPDT</pattern>
+		<pattern>/CloseRegistration</pattern>
 	</decorator>
 </decorators>

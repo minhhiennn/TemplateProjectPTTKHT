@@ -104,14 +104,14 @@ public class StudentDAO implements IDAO<Student> {
 	@Override
 	public boolean update(Student key) {
 		try {
-			pstmt = conn.prepareStatement("update Student where Values(?,?,?,?,?,?,?)");
-			pstmt.setString(1, key.getUser().getiD_User());
-			pstmt.setString(2, key.getStudent_Name());
-			pstmt.setString(3, key.getFaculty().getiD_Faculty());
-			pstmt.setDate(4, new java.sql.Date(key.getCreate_date().getTime()));
-			pstmt.setString(5, key.getClass1().getClass_Code());
-			pstmt.setInt(6, key.getCert_number_required());
-			pstmt.setInt(7, key.getCert_number_accumulated());
+			pstmt = conn.prepareStatement("update Student set Student_Name = ?, ID_Faculty=?,Create_date=?,Class_code=?,Cert_number_required = ?,Cert_number_accumulated = ? where ID_Student = ?;");
+			pstmt.setString(1, key.getStudent_Name());
+			pstmt.setString(2, key.getFaculty().getiD_Faculty());
+			pstmt.setDate(3, new java.sql.Date(key.getCreate_date().getTime()));
+			pstmt.setString(4, key.getClass1().getClass_Code());
+			pstmt.setInt(5, key.getCert_number_required());
+			pstmt.setInt(6, key.getCert_number_accumulated());
+			pstmt.setString(7, key.getUser().getiD_User());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

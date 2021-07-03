@@ -49,11 +49,10 @@ public class ProfessorDAO implements IDAO<Professor> {
 	}
 
 	public List<Professor> getAll() {
-		
+
 		List<Professor> professors = new ArrayList<Professor>();
 		try {
 			pstmt = conn.prepareStatement("select * from Professor");
-			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String ID_Professor = rs.getString("ID_Professor");
@@ -84,7 +83,7 @@ public class ProfessorDAO implements IDAO<Professor> {
 		}
 		return professors;
 	}
-	
+
 	@Override
 	public Professor getByKey(String key) {
 		Professor professor = null;
@@ -162,7 +161,34 @@ public class ProfessorDAO implements IDAO<Professor> {
 
 	@Override
 	public boolean update(Professor key) {
-		// TODO Auto-generated method stub
+		String ID_Professor = key.getUser().getiD_User();
+		String Professor_Name = key.getProfessor_Name();
+		String ID_Faculty = key.getFaculty().getiD_Faculty();
+		Date date = (Date) key.getCreate_date();
+		String Degree = key.getDegree();
+		try {
+			pstmt = conn.prepareStatement(
+					"update Professor set Professor_Name = ?,ID_Faculty = ?,Degree = ?,Create_date = ? where ID_Professor = ?");
+			pstmt.setString(1, Professor_Name);
+			pstmt.setString(2, ID_Faculty);
+			pstmt.setString(3, Degree);
+			pstmt.setDate(4, date);
+			pstmt.setString(5, ID_Professor);
+			int row = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -229,5 +255,4 @@ public class ProfessorDAO implements IDAO<Professor> {
 		System.out.println(hashMap.get(hashMap.keySet().toArray()[0]));
 	}
 
-	
 }

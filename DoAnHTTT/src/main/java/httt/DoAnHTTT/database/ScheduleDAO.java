@@ -118,6 +118,12 @@ public class ScheduleDAO implements IDAO<Schedule> {
 
 	@Override
 	public boolean insert(Schedule key) {
+		try {
+			pstmt = conn.prepareStatement("");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 

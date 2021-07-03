@@ -155,7 +155,11 @@ create table Course_Offering
 	-- ngày bắt đầu
 	Primary key (ID_Course_Offering)
 )
-select * from Course_Offering
+select * from Course_Offering where Current_Size < 30 and  ID_Course_Offering = '5';
+select DISTINCT co.ID_Course_Offering from Course_Offering co join Course c on co.ID_Course = c.ID_Course
+                               join Schedule sc on co.ID_Course_Offering = sc.ID_Course_Offering
+                               where sc.Id_Profeesor is null or co.Current_Size < 30
+select c.Name_Course from Course_Offering co join Course c on co.ID_Course = c.ID_Course where co.ID_Course_Offering = '5'
 -- mới sửa lại Schedule
 -- môn học có thể là thực hành hành hoặc lý thuyết 
 -- thực hành lý thuyết khác ngày khác tiết và có ngày bắt đầu với kết thúc là khác nhau
@@ -276,6 +280,7 @@ Paymoney float,
 creadit smallint,
 Primary key (ID_Semester,ID_Student)
 )
+select * from BillingSystem where ID_Student = '18130005' and ID_Semester = '2020_2';
 go 
 select * from Final_Result
 go
@@ -328,7 +333,7 @@ insert into Student Values(N'18130002',N'Nguyễn Văn B','DT','20/10/2018',N'DH
 insert into Student Values(N'18130003',N'Nguyễn Văn C','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130004',N'Nguyễn Văn D','DT','20/10/2018',N'DH18DTA',136,0)
 insert into Student Values(N'18130006',N'Nguyễn Văn E','DT','20/10/2018',N'DH18DTA',136,0)
-update Student set Create_date = '20/10/2018' where ID_Student = '18130006';
+update Student set Student_Name = 'x', ID_Faculty='x',Create_date='x',Class_code='x',Cert_number_required = 'x',Cert_number_accumulated = 'x' where ID_Student = '18130006';
 --
 select * from Student;
 delete from Student where ID_Student = '18130009';
@@ -348,7 +353,8 @@ insert into Professor Values(N'300',N'Van ANh','NH','20/10/2000',N'Tiến Sĩ');
 --
 select * from Professor;
 delete from Professor where ID_Professor in ('301','302');
-select top 1 ID_Professor from Professor order by ID_Professor DESC; 
+select top 1 ID_Professor from Professor order by ID_Professor DESC;
+update Professor set Professor_Name = 'x',ID_Faculty = 'x',Degree='x',Create_date='x' where ID_Professor = 'x'; 
 --
 -- insert into Semester
 insert into Semester Values(N'2018_1','1/9/2018','31/1/2019',2018,1)
@@ -359,7 +365,7 @@ insert into Semester Values(N'2020_1','1/9/2020','31/1/2021',2020,1)
 insert into Semester Values(N'2020_2','1/3/2021','30/6/2021',2020,2)
 insert into Semester Values(N'2021_1','1/9/2021','31/1/2022',2021,1)
 insert into Semester Values(N'2021_2','1/3/2022','30/6/2022',2021,2)
-
+update Semester set endDate = '30/07/2021' where ID_Semester = '2020_2';
 -- insert into TimeForCourseRegister
 insert into TimeForCourseRegister Values(N'2018_1','6/1/2019','12/1/2019')
 insert into TimeForCourseRegister Values(N'2018_2','3/5/2019','12/5/2019')
@@ -369,7 +375,8 @@ insert into TimeForCourseRegister Values(N'2020_1','6/1/2021','12/1/2021')
 insert into TimeForCourseRegister Values(N'2020_2','3/5/2021','12/5/2021')
 insert into TimeForCourseRegister Values(N'2021_1','6/1/2022','12/1/2022')
 insert into TimeForCourseRegister Values(N'2021_2','3/5/2022','12/5/2022')
-update TimeForCourseRegister set startDate='3/5/2021' ,endDate = '04/12/2021' where ID_Semester = '2020_2';
+select * from TimeForCourseRegister tf where GETDATE() between tf.startDate and tf.endDate
+update TimeForCourseRegister set startDate='3/5/2021' ,endDate = '30/07/2021' where ID_Semester = '2020_2';
 select * from TimeForCourseRegister
 -- insert into course
 insert into Course Values(N'213603','DT',N'Anh văn 1',4,1,1);
@@ -417,6 +424,7 @@ insert into Course Values(N'214274','DT',N'Lập trình trên TB di động',2,3
 
 --
 select Course_certificate from Course where ID_Course = '213603';
+select c.Name_Course from Course c where ID_Course = '213603';
 delete from Course where ID_Course = '213603';
 --
 -- insert into Course_Offering
@@ -466,7 +474,7 @@ insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
 select * from Course_Offering co where co.ID_Course = '214274';
 delete from Course_Offering where ID_Course_Offering = '39';
 --insert into Course_Offering Values(N'21',N'202622','DH18DTA',80,100)
-UPDATE dbo.Course_Offering SET ID_Course = '200103', Class_code = 'DH18DTA', Max_Size = 80,Current_Size = 79 WHERE ID_Course_Offering = '10';
+UPDATE dbo.Course_Offering SET Current_Size = 40 WHERE ID_Course_Offering = '38';
 -- insert into Schedule
 -- lười chèn vc
 insert into Schedule values(N'1',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
@@ -516,7 +524,7 @@ insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'
 
 delete from Schedule where ID_Schedule in ('1a','1b','1c');
 
-update Schedule set Id_Profeesor = null where ID_Schedule = '42';
+update Schedule set Id_Profeesor = '224' where ID_Schedule = '8';
 update Schedule set Id_Profeesor = null where ID_Schedule = '1';
 
 select * from Schedule;
@@ -563,7 +571,14 @@ insert into Student_ScheduleR values('2020_2',N'38',N'18130005')
 insert into Student_ScheduleR values('2020_2',N'39',N'18130005')
 insert into Student_ScheduleR values('2020_2',N'41',N'18130005')
 insert into Student_ScheduleR values('2020_2',N'42',N'18130005')
+delete from Student_ScheduleR
 select * from Student_ScheduleR;
+select DISTINCT strr.ID_Student from Student_ScheduleR strr where ID_Semester = '2020_2';
+select DISTINCT c.ID_Course from Student_ScheduleR strr join Schedule sc on strr.ID_Schedule = sc.ID_Schedule
+                                         join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+                                         join Course c on co.ID_Course = c.ID_Course
+where strr.ID_Student = '18130005' and strr.ID_Semester = '2020_2'
+                                         
 --
 insert into Professor_Schedule values('2019_2',N'28',N'224')
 insert into Professor_Schedule values('2019_2',N'29',N'224')
@@ -584,8 +599,8 @@ select pr.ID_Schedule from Professor_Schedule pr
 select COUNT(*) as dem from Professor_Schedule pr where pr.ID_Professor = '224' and pr.ID_Semester = '2020_2';
 delete from Professor_Schedule where ID_Semester = '2020_2' and ID_Schedule='1' and ID_Professor='224';
 -- insert into front_Sub
+delete from front_Sub;
 insert into front_Sub values(N'214331',N'214321')
-
 insert into front_Sub values(N'214441',N'214331')
 
 -- insert into Sub_Pass
@@ -662,13 +677,11 @@ select sc.ID_Schedule from Course_Offering co join Course c on c.ID_Course = co.
 where  
 c.ID_Faculty =  case when c.ID_Faculty is null then  c.ID_Faculty else (select ID_Faculty from Student where ID_Student = @ID_User)  end and
 c.years =  case when c.years is null then  c.years else (select (YEAR(GETDATE())-YEAR(Create_date)) from Student where ID_Student = @ID_User) end and
-c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate ))  end and
+c.numberS =  case when c.numberS is null then  c.numberS else (select numberS from Semester where ID_Semester in  (select ID_Semester from Semester where GETDATE() between startDate and endDate))  end and
 c.ID_Course = case when (select ID_CourseB from front_Sub where ID_CourseB = c.ID_Course) is null then  c.ID_Course
 when [dbo].subPassed (c.ID_Course,@ID_User)  is null then null else [dbo].subPassed (c.ID_Course,@ID_User)  end
 go
 select * from SubAvailableST('18130005');
-
-
 go
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
 

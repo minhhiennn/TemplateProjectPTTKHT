@@ -67,7 +67,7 @@
 							<li><a href="/DoAnHTTT/student/CourseRegister">Courses register</a></li>
 							<li><a href="/DoAnHTTT/TimeTableServlet">TimeTable</a></li>
 							<li><a href="/DoAnHTTT/student/single-course">Examination Schedule</a></li>
-							<li><a href="/DoAnHTTT/student/instructors">View School Fee</a></li>
+							<li><a href="/DoAnHTTT/student/Billing">View School Fee</a></li>
 							<li><a href="/DoAnHTTT/student/blog">Student Mark</a></li>
 							<li><a href="/DoAnHTTT/student/contact">Course Program</a></li>
 						</ul>

@@ -255,6 +255,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return result;
 	}
+
 	public int countSubjectInTimeTableReal(String id_Semester, String id_Student) {
 		int result = 0;
 		try {
@@ -478,19 +479,97 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 		}
 		return false;
 	}
-    // Get All Student_ScheduleDao
-	public ArrayList<Student_Schedule> getAllStudentSchedule(){
-		ArrayList<Student_Schedule> list = new ArrayList<Student_Schedule>();
+
+	// Xóa tất cả ở bảng schedule
+	public void deleteAllSchedule() {
 		try {
-			pstmt = conn.prepareStatement("");
+			pstmt = conn.prepareStatement("delete from Student_Schedule");
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Lấy ra ds học sinh đã đăng ký theo kỳ
+	public ArrayList<String> getDSHocSinhDKTheoKy() {
+		ArrayList<String> list = new ArrayList<String>();
+		String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT strr.ID_Student from Student_ScheduleR strr where ID_Semester = ?");
+			pstmt.setString(1, ID_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Student = rs.getString("ID_Student");
+				list.add(ID_Student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
+
+	// Lấy ds ID_Course by ID_Student and ID_Semester
+	public ArrayList<String> getIDCourse(String ID_Student) {
+		ArrayList<String> list = new ArrayList<String>();
+		String ID_Semester = new SemesterDAO().getID_SemesterByGetDate();
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT c.ID_Course from Student_ScheduleR strr join Schedule sc on strr.ID_Schedule = sc.ID_Schedule\r\n"
+							+ "                                         join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering\r\n"
+							+ "                                         join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "where strr.ID_Student = ? and strr.ID_Semester = ?");
+			pstmt.setString(1, ID_Student);
+			pstmt.setString(2, ID_Semester);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course = rs.getString("ID_Course");
+				list.add(ID_Course);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		System.out.println(student_ScheduleDAO.countSubjectInTimeTableFake("2020_2", "18130006"));
+		ArrayList<String> list = student_ScheduleDAO.getIDCourse("18130006");
+		for (String string : list) {
+			System.out.println(string);
+		}
 	}
 }

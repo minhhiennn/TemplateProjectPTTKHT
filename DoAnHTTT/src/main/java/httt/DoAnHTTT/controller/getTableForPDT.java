@@ -158,7 +158,6 @@ public class getTableForPDT extends HttpServlet {
 						formatter.parse(End_Day), Study_place, Start_Slot, End_Slot);
 				if (typeSubmit.equals("insert")) {
 					// insert nay chua co
-					System.out.println(schedule);
 					boolean bool = scheduleDAO.insert(schedule);
 					System.out.println(bool);
 					// insert nay la boolean neu ra false thi set err la trung khoa chinh
@@ -231,6 +230,8 @@ public class getTableForPDT extends HttpServlet {
 						facultyDAO.getByKey(ID_Faculty1), new SimpleDateFormat("yyyy-MM-dd").parse(Create_date), classDAO.getByKey(Class_code1),
 						Cert_number_required, Cert_number_accumulated);
 				if (typeSubmit.equals("insert")) {
+					User user = new User(ID_Student, "st", ID_Student+"@st.hcmuaf.edu.vn", "123456");
+					userDAO.insert(user);
 					studentDAO.insert(student);
 				} else {
 					studentDAO.update(student);
@@ -253,6 +254,8 @@ public class getTableForPDT extends HttpServlet {
 				Professor professor = new Professor(userDAO.getByKey(ID_Professor), Professor_Name,
 						facultyDAO.getByKey(ID_Faculty2), new SimpleDateFormat("yyyy-MM-dd").parse(Create_date1), Degree);
 				if (typeSubmit.equals("insert")) {
+					User user = new User(ID_Professor, "pr", ID_Professor+"@st.hcmuaf.edu.vn", "123456");
+					userDAO.insert(user);
 					professorDAO.insert(professor);
 				} else {
 					professorDAO.update(professor);
@@ -263,9 +266,7 @@ public class getTableForPDT extends HttpServlet {
 			break;
 		default:
 			break;
-
 		}
 		response.sendRedirect("/DoAnHTTT/pdt/table");
 	}
-
 }

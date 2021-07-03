@@ -24,11 +24,12 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 	public Course_OfferingDAO() {
 		conn = Connect.getConnection();
 	}
+
 	public List<Course_Offering> getAll() {
 		List<Course_Offering> list = new ArrayList<Course_Offering>();
 		try {
 			pstmt = conn.prepareStatement("select * from Course_Offering");
-			
+
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String ID_Course_Offering = rs.getString("ID_Course_Offering");
@@ -41,8 +42,6 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 				int Max_Size = rs.getInt("Max_Size");
 				int Current_Size = rs.getInt("Current_Size");
 				list.add(new Course_Offering(ID_Course_Offering, course, class1, Max_Size, Current_Size));
-				
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,6 +59,7 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		}
 		return list;
 	}
+
 	@Override
 	public Course_Offering getByKey(String key) {
 		Course_Offering course_Offering = null;
@@ -191,11 +191,10 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		return false;
 	}
 
-	// Delete course_Offering vs id_Course
-	public void delete2(String ID_Course) {
+	public boolean delete2(String ID_Course_Offering) {
 		try {
-			pstmt = conn.prepareStatement("delete from Course_Offering where ID_Course = ?");
-			pstmt.setString(1, ID_Course);
+			pstmt = conn.prepareStatement("delete from Course_Offering where ID_Course_Offering = ?");
+			pstmt.setString(1, ID_Course_Offering);
 			int row = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -211,6 +210,7 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 				e.printStackTrace();
 			}
 		}
+		return false;
 	}
 
 	// Get ALL Course_Offering
@@ -253,10 +253,130 @@ public class Course_OfferingDAO implements IDAO<Course_Offering> {
 		return hashMap;
 	}
 
-	public static void main(String[] args) {
-		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-		System.out.println(course_OfferingDAO.getIDCourseOfferingByIdCourse("214274"));
+	// check xem có đủ 30 người đăng ký hay ko
+	public boolean checkCurrentSize(String ID_Course_Offering) {
+		boolean bool = false;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from Course_Offering where Current_Size < 30 and  ID_Course_Offering = ?");
+			pstmt.setString(1, ID_Course_Offering);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bool = true;
+				break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bool;
 	}
 
-	
+	// check xem có giáo viên đăng ký môn đó hay ko
+	public boolean checkProfessor(String ID_Course_Offering) {
+		boolean bool = true;
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT sc.Id_Profeesor from Course_Offering co join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "                               join Schedule sc on co.ID_Course_Offering = sc.ID_Course_Offering\r\n"
+							+ "                               where co.ID_Course_Offering = ?;\r\n" + "");
+			pstmt.setString(1, ID_Course_Offering);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				if (rs.getString("Id_Profeesor") == null) {
+					bool = false;
+					break;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bool;
+	}
+
+	// Lấy id Professor
+	public String getIDProfessor(String ID_Course_Offering) {
+		String ID_Professor = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT sc.Id_Profeesor from Course_Offering co join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "                               join Schedule sc on co.ID_Course_Offering = sc.ID_Course_Offering\r\n"
+							+ "                               where co.ID_Course_Offering = ?;\r\n" + "");
+			pstmt.setString(1, ID_Course_Offering);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ID_Professor = rs.getString("Id_Profeesor");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ID_Professor;
+	}
+
+	// Lấy list ID_Course_Offering ko đủ tiêu chuẩn để chuẩn bị delete
+	public ArrayList<String> getListIDCourseOfferingToDelete() {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			pstmt = conn.prepareStatement(
+					"select DISTINCT co.ID_Course_Offering from Course_Offering co join Course c on co.ID_Course = c.ID_Course\r\n"
+							+ "                               join Schedule sc on co.ID_Course_Offering = sc.ID_Course_Offering\r\n"
+							+ "                               where sc.Id_Profeesor is null or co.Current_Size < 30");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Course_Offering = rs.getString(1);
+				list.add(ID_Course_Offering);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	public static void main(String[] args) {
+		Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
+	}
+
 }

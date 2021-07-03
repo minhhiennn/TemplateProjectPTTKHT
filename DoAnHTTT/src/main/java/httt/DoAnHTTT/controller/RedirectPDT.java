@@ -28,4 +28,9 @@ public class RedirectPDT {
 		ModelAndView mav = new ModelAndView("pdt/updateAndInsert");
 		return mav;
 	}
+	@RequestMapping(value = "/pdt/closeRegistration", method = RequestMethod.GET)
+	public ModelAndView PDTcloseRegistrationView() {
+		ModelAndView mav = new ModelAndView("pdt/closeRegistration");
+		return mav;
+	}
 }
