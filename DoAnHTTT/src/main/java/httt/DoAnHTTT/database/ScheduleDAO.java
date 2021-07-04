@@ -234,8 +234,39 @@ public class ScheduleDAO implements IDAO<Schedule> {
 		return hashMap;
 	}
 
+	// lấy list id_Schedule by id_CourseOffering
+	public ArrayList<String> getListIDSchedule(String ID_CourseOffering) {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			pstmt = conn.prepareStatement("select ID_Schedule from Schedule where ID_Course_Offering = ?");
+			pstmt.setString(1, ID_CourseOffering);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String ID_Schedule = rs.getString(1);
+				list.add(ID_Schedule);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 	public static void main(String[] args) {
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
-		HashMap<String, ArrayList<String>> hashmap = scheduleDAO.getAllSchedule();
+		ArrayList<String> list = scheduleDAO.getListIDSchedule("39");
+		for (String string : list) {
+			System.out.println(string);
+		}
 	}
 }

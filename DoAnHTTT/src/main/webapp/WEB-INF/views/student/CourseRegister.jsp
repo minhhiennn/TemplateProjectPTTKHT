@@ -9,9 +9,10 @@
 	class="httt.DoAnHTTT.database.SemesterDAO" />
 <c:set var="currentUser" value='${sessionScope["currentUser"]}'></c:set>
 <c:set var="idU" value='${currentUser.iD_User}'></c:set>
+<c:set var="list" value="${scheduleItems.getSubAvailableST(idU)}"></c:set>
+<c:set var="list2" value="${scheduleItems.getTimeTableItem(idU)}"></c:set>
 <c:set var="err" value='${requestScope["err"]}' />
 <c:set var="id_Semester" value='${semester.getID_SemesterByGetDate()}'></c:set>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,40 +87,155 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:set var="count" value="0" scope="page" />
-										<c:forEach var="item"
-											items="${scheduleItems.getSubAvailableST(idU)}">
+										<c:forEach var="i" begin="0" end="${list.size() - 1}">
 											<c:set var="disable" value="" scope="page" />
 											<c:set var="check" value="" scope="page"></c:set>
 											<c:if
-												test="${item.getCourse_Offering().getMax_Size() == item.getCourse_Offering().getCurrent_Size()}">
+												test="${list.get(i).getCourse_Offering().getMax_Size() == list.get(i).getCourse_Offering().getCurrent_Size()}">
 												<c:set var="disable" value="disabled" scope="page" />
 											</c:if>
 											<c:if
-												test="${scheduleItems.checkSubExistInTimeTable(idU,item.getiD_Schedule()) == true }">
+												test="${scheduleItems.checkSubExistInTimeTable(idU,list.get(i).getiD_Schedule()) == true }">
 												<c:set var="check" value="checked" scope="page"></c:set>
 												<c:set var="disable" value="disabled" scope="page" />
 											</c:if>
 											<tr>
-												<td><input type="checkbox" id="myCheck${count}"
-													onclick="test(this)"
-													value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"
-													${disable} ${check}></td>
-												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
-												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
-												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
-												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
-												<td>${item.getCourse_Offering().getMax_Size()}</td>
-												<td>${item.getCourse_Offering().getMax_Size() - item.getCourse_Offering().getCurrent_Size()}</td>
-												<td>${item.getTheoretical()}</td>
-												<td>${item.getTeaching_Day()}</td>
-												<td>${item.getStart_Slot()}</td>
-												<td>${item.getEnd_Slot() - item.getStart_Slot()}</td>
-												<td>${item.getStudy_place()}</td>
-												<td>${item.getProfessor().getProfessor_Name()}</td>
+												<c:choose>
+													<c:when test="${i==0}">
+														<c:choose>
+															<c:when
+																test="${list.get(i).getCourse_Offering().getiD_Course_Offering().equals(list.get(i+1).getCourse_Offering().getiD_Course_Offering())}">
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle"><input
+																	type="checkbox" onclick="test(this)"
+																	value="${list.get(i).getCourse_Offering().getiD_Course_Offering()}"
+																	${disable} ${check}></td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getMax_Size()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getMax_Size() - list.get(i).getCourse_Offering().getCurrent_Size()}</td>
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:when>
+															<c:otherwise>
+																<td><input type="checkbox" onclick="test(this)"
+																	value="${list.get(i).getCourse_Offering().getiD_Course_Offering()}"
+																	${disable} ${check}></td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size() - list.get(i).getCourse_Offering().getCurrent_Size()}</td>
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+													<c:when test="${i <= list.size()-2 && i >= 1}">
+														<c:choose>
+															<c:when
+																test="${list.get(i).getCourse_Offering().getiD_Course_Offering().equals(list.get(i+1).getCourse_Offering().getiD_Course_Offering())}">
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle"><input
+																	type="checkbox" onclick="test(this)"
+																	value="${list.get(i).getCourse_Offering().getiD_Course_Offering()}"
+																	${disable} ${check}></td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getMax_Size()}</td>
+																<td rowspan="2"
+																	style="text-align: center; vertical-align: middle">${list.get(i).getCourse_Offering().getMax_Size() - list.get(i).getCourse_Offering().getCurrent_Size()}</td>
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:when>
+															<c:when
+																test="${list.get(i).getCourse_Offering().getiD_Course_Offering().equals(list.get(i-1).getCourse_Offering().getiD_Course_Offering())}">
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:when>
+															<c:otherwise>
+																<td><input type="checkbox" onclick="test(this)"
+																	value="${list.get(i).getCourse_Offering().getiD_Course_Offering()}"
+																	${disable} ${check}></td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size() - list.get(i).getCourse_Offering().getCurrent_Size()}</td>
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+													<c:when test="${i == list.size()-1}">
+														<c:choose>
+															<c:when
+																test="${list.get(i).getCourse_Offering().getiD_Course_Offering().equals(list.get(i-1).getCourse_Offering().getiD_Course_Offering())}">
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:when>
+															<c:otherwise>
+																<td><input type="checkbox" onclick="test(this)"
+																	value="${list.get(i).getCourse_Offering().getiD_Course_Offering()}"
+																	${disable} ${check}></td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size()}</td>
+																<td>${list.get(i).getCourse_Offering().getMax_Size() - list.get(i).getCourse_Offering().getCurrent_Size()}</td>
+																<td>${list.get(i).getTheoretical()}</td>
+																<td>${list.get(i).getTeaching_Day()}</td>
+																<td>${list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getEnd_Slot() - list.get(i).getStart_Slot()}</td>
+																<td>${list.get(i).getStudy_place()}</td>
+																<td>${list.get(i).getProfessor().getProfessor_Name()}</td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+												</c:choose>
 											</tr>
-											<c:set var="count" value="${count + 1}" scope="page" />
-
 										</c:forEach>
 									</tbody>
 									<tfoot>
@@ -153,25 +269,115 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:set var="count2" value="0" scope="page" />
-										<c:forEach var="item"
-											items="${scheduleItems.getTimeTableItem(idU)}">
+										<c:forEach var="i" begin="0" end="${list2.size() - 1}">
 											<tr>
-												<td>${item.getCourse_Offering().getCourse().getiD_Course()}</td>
-												<td>${item.getCourse_Offering().getCourse().getName_Course()}</td>
-												<td>${item.getCourse_Offering().getCourse().getCourse_certificate()}</td>
-												<td>${item.getCourse_Offering().getClass1().getClass_Code()}</td>
-												<td>${item.getTheoretical()}</td>
-												<td><c:choose>
-														<c:when
-															test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,item.getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
-														<c:otherwise>Đã lưu vào CSDL</c:otherwise>
-													</c:choose></td>
-												<td><input type="checkbox" id="myDelete${count2}"
-													onclick="test2(this)"
-													value="${item.getiD_Schedule()}-${item.getCourse_Offering().getCourse().getiD_Course()}"></td>
+												<c:choose>
+													<c:when test="${i == 0}">
+														<c:choose>
+															<c:when
+																test="${list2.get(i).getCourse_Offering().getiD_Course_Offering().equals(list2.get(i+1).getCourse_Offering().getiD_Course_Offering())}">
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+																<td rowspan="2" style="vertical-align: middle"><input
+																	type="checkbox" onclick="test2(this)"
+																	value="${list2.get(i).getCourse_Offering().getiD_Course_Offering()}"></td>
+															</c:when>
+															<c:otherwise>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list2.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+																<td><input type="checkbox" onclick="test2(this)"
+																	value="${list2.get(i).getCourse_Offering().getiD_Course_Offering()}"></td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+													<c:when test="${i <= list2.size()-2 && i >= 1}">
+														<c:choose>
+															<c:when
+																test="${list2.get(i).getCourse_Offering().getiD_Course_Offering().equals(list2.get(i+1).getCourse_Offering().getiD_Course_Offering())}">
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td rowspan="2" style="vertical-align: middle">${list2.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+																<td rowspan="2" style="vertical-align: middle"><input
+																	type="checkbox" onclick="test2(this)"
+																	value="${list2.get(i).getCourse_Offering().getiD_Course_Offering()}""></td>
+															</c:when>
+															<c:when
+																test="${list2.get(i).getCourse_Offering().getiD_Course_Offering().equals(list2.get(i-1).getCourse_Offering().getiD_Course_Offering())}">
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+															</c:when>
+															<c:otherwise>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list2.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+																<td><input type="checkbox" onclick="test2(this)"
+																	value="${list2.get(i).getCourse_Offering().getiD_Course_Offering()}"></td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+													<c:when test="${i == list2.size()-1}">
+														<c:choose>
+															<c:when
+																test="${list2.get(i).getCourse_Offering().getiD_Course_Offering().equals(list2.get(i-1).getCourse_Offering().getiD_Course_Offering())}">
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+															</c:when>
+															<c:otherwise>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getiD_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getName_Course()}</td>
+																<td>${list2.get(i).getCourse_Offering().getCourse().getCourse_certificate()}</td>
+																<td>${list2.get(i).getCourse_Offering().getClass1().getClass_Code()}</td>
+																<td>${list2.get(i).getTheoretical()}</td>
+																<td><c:choose>
+																		<c:when
+																			test="${scheduleItems.checkExitsInRealTimeTable(id_Semester,idU,list2.get(i).getiD_Schedule()) == false}">Chưa Lưu Vào CSDL</c:when>
+																		<c:otherwise>Đã lưu vào CSDL</c:otherwise>
+																	</c:choose></td>
+																<td><input type="checkbox" onclick="test2(this)"
+																	value="${list2.get(i).getCourse_Offering().getiD_Course_Offering()}"></td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+												</c:choose>
 											</tr>
-											<c:set var="count2" value="${count2 + 1}" scope="page" />
 										</c:forEach>
 									</tbody>
 									<tfoot>
@@ -195,59 +401,19 @@
 	<script type="text/javascript">
 		function test(ele) {
 			if (ele.checked == true) {
-				let listId_Schedule = "";
-				let stringSplit = ele.value.split('-');
-				let id_Schedule = stringSplit[0];
-				listId_Schedule += id_Schedule;
-				let id_Course = stringSplit[1];
-				let id = ele.id;
-				let count = ${count};
-				for (let i = 0; i < count; i++) {
-					let x = "myCheck" + i;
-					if (x != id) {
-						let x1 = document.getElementById(x);
-						let x1_id_Schedule = x1.value.split('-')[0];
-						let x1_id_Course = x1.value.split('-')[1];
-						if (id_Course == x1_id_Course) {
-							listId_Schedule = listId_Schedule + "-"
-									+ x1_id_Schedule;
-							break;
-						}
-					}
-				}
-				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="
-						+ listId_Schedule + "&id_Course=" + id_Course + "&action=Add");
+				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?ID_CourseOffering="
+						+ ele.value + "&action=Add");
 			}
 		}
 		function test2(ele) {
 			if (ele.checked == true) {
-				let listId_Schedule = "";
-				let stringSplit = ele.value.split('-');
-				let id_Schedule = stringSplit[0];
-				listId_Schedule += id_Schedule;
-				let id_Course = stringSplit[1];
-				let id = ele.id;
-				let count = ${count2};
-				for (let i = 0; i < count; i++) {
-					let x = "myDelete" + i;
-					if (x != id) {
-						let x1 = document.getElementById(x);
-						let x1_id_Schedule = x1.value.split('-')[0];
-						let x1_id_Course = x1.value.split('-')[1];
-						if (id_Course == x1_id_Course) {
-							listId_Schedule = listId_Schedule + "-"
-									+ x1_id_Schedule;
-							break;
-						}
-					}
-				}
-				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?list_ID_Schedule="
-						+ listId_Schedule + "&id_Course=" + id_Course + "&action=Delete");
+				window.location.href = ("/DoAnHTTT/CourseRegisterServlet?ID_CourseOffering="
+						+ ele.value + "&action=Delete");
 			}
 		}
-	    function test3(){
-	    	window.location.href = ("/DoAnHTTT/CourseRegisterServlet?action=AddToReal");
-	    }
+		function test3() {
+			window.location.href = ("/DoAnHTTT/CourseRegisterServlet?action=AddToReal");
+		}
 	</script>
 </body>
 </html>

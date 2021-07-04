@@ -281,6 +281,7 @@ creadit smallint,
 Primary key (ID_Semester,ID_Student)
 )
 select * from BillingSystem where ID_Student = '18130005' and ID_Semester = '2020_2';
+delete from BillingSystem;
 go 
 select * from Final_Result
 go
@@ -526,7 +527,7 @@ delete from Schedule where ID_Schedule in ('1a','1b','1c');
 
 update Schedule set Id_Profeesor = '224' where ID_Schedule = '8';
 update Schedule set Id_Profeesor = null where ID_Schedule = '1';
-
+select ID_Schedule from Schedule where ID_Course_Offering = '38';
 select * from Schedule;
 delete from Schedule where ID_Schedule = '44';
 -- insert into Student_Schedule
@@ -554,6 +555,7 @@ insert into Student_Schedule values('2020_2',N'39',N'18130005')
 insert into Student_Schedule values('2020_2',N'40',N'18130005')
 insert into Student_Schedule values('2021_1',N'40',N'18130005')
 insert into Student_Schedule values('2021_1',N'41',N'18130005')
+select * from Student_Schedule
 select TOP 1 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select TOP 3 st.ID_Semester from Student_Schedule st where st.ID_Student = '18130006' group by st.ID_Semester order by st.ID_Semester desc
 select st.ID_Semester from Student_Schedule st where st.ID_Semester='2020_2' and st.ID_Student='18130006';
@@ -636,16 +638,16 @@ select se.ID_Semester from semester_Result se where ID_Student='18130005' order 
 	
 go
 -- thời khóa biểu có học sinh , thời khóa biểu của giáo viên chỉ cần gọi schdule
-CREATE FUNCTION TimeTableSt (@ID_User varchar(50))
+alter FUNCTION TimeTableSt (@ID_User varchar(50))
 RETURNS TABLE 
 as
 RETURN  
-select sd.* from Schedule sd join Course_Offering co on sd.ID_Course_Offering = co.ID_Course_Offering
+select sd.ID_Schedule,sd.ID_Course_Offering from Schedule sd join Course_Offering co on sd.ID_Course_Offering = co.ID_Course_Offering
 									 join Student_Schedule stc on stc.ID_Schedule = sd.ID_Schedule 
 			where stc.ID_Student = @ID_User and stc.ID_Semester in (select ID_Semester from Semester where GETDATE() between startDate and endDate )
 go
 
-select * from TimeTableSt('18130005');
+select sd.* from TimeTableSt('18130005') sd order by sd.ID_Course_Offering;
 
 go
 create FUNCTION subPassed (@ID_CourseB nvarchar(50),@ID_User nvarchar(50))

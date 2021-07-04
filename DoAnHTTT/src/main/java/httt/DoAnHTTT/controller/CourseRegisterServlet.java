@@ -44,32 +44,30 @@ public class CourseRegisterServlet extends HttpServlet {
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
 		StudentDAO studentDAO = new StudentDAO();
 		if (action.equals("Add")) {
-			String list_ID_Schedule = req.getParameter("list_ID_Schedule");
-			String[] stringSplit = list_ID_Schedule.split("-");
-			String id_Course = req.getParameter("id_Course");
+			String id_CourseOffering = req.getParameter("ID_CourseOffering");
+			ArrayList<String> listIDSchedule = scheduleDAO.getListIDSchedule(id_CourseOffering);
 			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
-			if (stringSplit.length == 1) {
-				if (student_ScheduleDAO.checkDayST(stringSplit[0], ID_Student)) {
-
+			if (listIDSchedule.size() == 1) {
+				if (student_ScheduleDAO.checkDayST(listIDSchedule.get(0), ID_Student)) {
 					student_ScheduleDAO.insert(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-							scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
+							scheduleDAO.getByKey(listIDSchedule.get(0)), studentDAO.getByKey(ID_Student)));
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {
 					req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
 					req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 				}
-			} else if (stringSplit.length == 2) {
+			} else if (listIDSchedule.size() == 2) {
 				ArrayList<Student_Schedule> list = new ArrayList<Student_Schedule>();
-				for (int i = 0; i < stringSplit.length; i++) {
-					if (student_ScheduleDAO.checkDayST(stringSplit[i], ID_Student)) {
-						System.out.println(stringSplit[i]);
+				for (int i = 0; i < listIDSchedule.size(); i++) {
+					if (student_ScheduleDAO.checkDayST(listIDSchedule.get(i), ID_Student)) {
+						System.out.println(listIDSchedule.get(i));
 						list.add(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+								scheduleDAO.getByKey(listIDSchedule.get(i)), studentDAO.getByKey(ID_Student)));
 					} else {
 						req.setAttribute("err", "Đã bị trùng ngày hoặc trùng giờ");
 						req.getRequestDispatcher("/student/CourseRegister").forward(req, resp);
 						return;
-					}		
+					}
 				}
 				for (Student_Schedule student_Schedule : list) {
 					student_ScheduleDAO.insert(student_Schedule);
@@ -77,40 +75,37 @@ public class CourseRegisterServlet extends HttpServlet {
 				resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 			}
 		} else if (action.equals("Delete")) {
-			String list_ID_Schedule = req.getParameter("list_ID_Schedule");
-			String[] stringSplit = list_ID_Schedule.split("-");
-			String id_Course = req.getParameter("id_Course");
+			String id_CourseOffering = req.getParameter("ID_CourseOffering");
+			ArrayList<String> listIDSchedule = scheduleDAO.getListIDSchedule(id_CourseOffering);
 			String ID_Semester = semesterDAO.getID_SemesterByGetDate();
-			if (stringSplit.length == 1) {
+			if (listIDSchedule.size() == 1) {
 				student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-						scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
-				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+						scheduleDAO.getByKey(listIDSchedule.get(0)), studentDAO.getByKey(ID_Student)));
+				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, listIDSchedule.get(0))) {
 					Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-					String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
-					Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
+					Course_Offering course_Offering = course_OfferingDAO.getByKey(id_CourseOffering);
 					course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
 					course_OfferingDAO.update(course_Offering);
 					student_ScheduleDAO.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-							scheduleDAO.getByKey(stringSplit[0]), studentDAO.getByKey(ID_Student)));
+							scheduleDAO.getByKey(listIDSchedule.get(0)), studentDAO.getByKey(ID_Student)));
 
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				}
-			} else if (stringSplit.length == 2) {
-				for (int i = 0; i < stringSplit.length; i++) {
+			} else if (listIDSchedule.size() == 2) {
+				for (int i = 0; i < listIDSchedule.size(); i++) {
 					student_ScheduleDAO.delete(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-							scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+							scheduleDAO.getByKey(listIDSchedule.get(i)), studentDAO.getByKey(ID_Student)));
 				}
-				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, stringSplit[0])) {
+				if (student_ScheduleDAO.checkExitsInRealTimeTable(ID_Semester, ID_Student, listIDSchedule.get(0))) {
 					Course_OfferingDAO course_OfferingDAO = new Course_OfferingDAO();
-					String ID_CourseOffering = course_OfferingDAO.getIDCourseOfferingByIdCourse(id_Course);
-					Course_Offering course_Offering = course_OfferingDAO.getByKey(ID_CourseOffering);
+					Course_Offering course_Offering = course_OfferingDAO.getByKey(id_CourseOffering);
 					course_Offering.setCurrent_Size(course_Offering.getCurrent_Size() - 1);
 					course_OfferingDAO.update(course_Offering);
-					for (int i = 0; i < stringSplit.length; i++) {
+					for (int i = 0; i < listIDSchedule.size(); i++) {
 						student_ScheduleDAO.deleteInRealTable(new Student_Schedule(semesterDAO.getByKey(ID_Semester),
-								scheduleDAO.getByKey(stringSplit[i]), studentDAO.getByKey(ID_Student)));
+								scheduleDAO.getByKey(listIDSchedule.get(i)), studentDAO.getByKey(ID_Student)));
 					}
 					resp.sendRedirect("/DoAnHTTT/student/CourseRegister");
 				} else {

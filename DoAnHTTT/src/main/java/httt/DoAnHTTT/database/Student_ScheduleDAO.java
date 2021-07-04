@@ -27,7 +27,7 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 	public ArrayList<Schedule> getTimeTableItem(String user_id) {
 		ArrayList<Schedule> arrList = new ArrayList<Schedule>();
 		try {
-			pstmt = conn.prepareStatement("select * from TimeTableSt(?)");
+			pstmt = conn.prepareStatement("select sd.* from TimeTableSt(?) sd order by sd.ID_Course_Offering");
 			pstmt.setString(1, user_id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -567,9 +567,9 @@ public class Student_ScheduleDAO implements IDAO<Student_Schedule> {
 
 	public static void main(String[] args) {
 		Student_ScheduleDAO student_ScheduleDAO = new Student_ScheduleDAO();
-		ArrayList<String> list = student_ScheduleDAO.getIDCourse("18130006");
-		for (String string : list) {
-			System.out.println(string);
+		ArrayList<Schedule> list = student_ScheduleDAO.getTimeTableItem("18130005");
+		for (Schedule schedule : list) {
+			System.out.println(schedule.getCourse_Offering().getiD_Course_Offering());
 		}
 	}
 }
