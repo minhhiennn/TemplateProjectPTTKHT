@@ -19,8 +19,7 @@ create table USER_KIND
 --dữ liệu bảng USER_KIND
 INSERT INTO USER_KIND VALUES ('st', N'Student')
 INSERT INTO USER_KIND VALUES ('pr', N'Professor')
-
-
+INSERT INTO USER_KIND VALUES ('ad', N'admin')
 
 -- Bảng này cần vcl
 create table USERS
@@ -293,6 +292,9 @@ insert into USERS Values(N'18130002','st',N'18130002@st.hcmuaf.edu.vn',N'123456'
 insert into USERS Values(N'18130003','st',N'18130003@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'18130004','st',N'18130004@st.hcmuaf.edu.vn',N'123456')
 insert into USERS Values(N'18130006','st',N'18130006@st.hcmuaf.edu.vn',N'123456')
+-- phòng đào tạo
+insert into USERS Values('pdt','ad','pdt','123456')
+update USERS set ID_User = 'pdt' where ID_User = '1';
 
 --
 select * from USERS;

@@ -41,15 +41,13 @@ public class UserServlet extends HttpServlet {
 			if (iAction.equals("Login")) {
 				id_UserKind = login(request, response);
 			}
-
 		}
 		if (id_UserKind.equals("st")) {
 			response.sendRedirect(referer);
 		} else if (id_UserKind.equals("pr")) {
 			response.sendRedirect("/DoAnHTTT/admin/index");
-		} else {
-			
-			response.sendRedirect(referer);
+		} else if(id_UserKind.equals("ad")) {
+			response.sendRedirect("/DoAnHTTT/pdt/index");
 		}
 	}
 
